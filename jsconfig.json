@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "checkJs": false,
+        "skipLibCheck": false,
+        "strict": false,
+        "resolveJsonModule": true,
+        "isolatedModules": true
+    }
+}
+
