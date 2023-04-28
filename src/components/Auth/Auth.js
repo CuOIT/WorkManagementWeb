@@ -67,7 +67,7 @@ const Auth = () => {
         
           <div className="title_text">
             <h1 className='title_login'>Login Form</h1>
-            <h1 className='title_signup'>Signup Form</h1>
+            <h1 className='title_signup'>SignUp Form</h1>
           </div>
           <div className="form_container">
             <div className="slide_control">
