@@ -1,6 +1,7 @@
 import React from "react"
 import "./Auth.css"
-
+import {fetchInstant} from "./../../config"
+import {METHOD} from "./../../constants"
 const Login_showing = (event)=>{
   const title = document.querySelectorAll(".title div");
   const form = document.querySelectorAll(".Form4 form");
@@ -21,26 +22,34 @@ const Signup_showing = (event)=>{
 
 const Login = (event)=>{
   event.preventDefault();
-  const {account, password} = event.target;
+  const {email, password} = event.target;
   const payload  = {
-    account:  account.value,
+    email:  email.value,
     password: password.value
   }
+  fetchInstant("/user/login",METHOD.POST,payload).then(res=>{
+    console.log(res);
+    //Xu ly FE o day
+  })
   console.log(payload);
 }
 
 const Signup = (event)=>{
   event.preventDefault();
-  const {account, password, confirm , name, email, birthday} = event.target;
+  const {email, password, confirm , name, phone, birthday} = event.target;
   const payload = {
-    account: account.value,
+    email: email.value,
     password: password.value,
     confirm_password: confirm.value,
     name: name.value,
-    email:  email.value,
+    phone:  phone.value,
     birthday: birthday.value
   }
   console.log(payload);
+  fetchInstant("/user/signup",METHOD.POST,payload).then(res=>{
+    console.log(res);
+    //Xu ly FE o day
+  })
 }
 
 const main = () => {
@@ -67,7 +76,7 @@ const main = () => {
             <div className="Form4">
               <form action="" className="form_login" onSubmit={Login}>
                 <div className="field">
-                  <input type="text" id="account" placeholder="Account" required />
+                  <input type="text" id="email" placeholder="Email" required />
                 </div>
                 <div className="field">
                   <input type="password" id="password" placeholder="Password" required />
@@ -85,7 +94,7 @@ const main = () => {
 
               <form action="" className="form_signup" onSubmit={Signup}>
                 <div className="field">
-                  <input type="text" id="account" placeholder="Account" required/>
+                  <input type="text" id="email" placeholder="Email" required/>
                 </div>
                 <div className="field">
                   <input type="password" id="password" placeholder="Password" required/>
@@ -97,7 +106,7 @@ const main = () => {
                   <input type="text" id="name" placeholder="Name" required/>
                 </div>
                 <div className="field">
-                  <input type="text" id="email" placeholder="Email" required/>
+                  <input type="text" id="phone" placeholder="Phone" required/>
                 </div>
                 <div className="field">
                   <input type="date" id="birthday" required/>
