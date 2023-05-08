@@ -1,0 +1,108 @@
+*{
+  box-sizing: border-box;
+}
+
+#navbar_container{
+  height: 50px;
+  background-color:#3076ef;
+  display: flex;
+  flex-direction: row;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.navbar_item{
+  background-color: #3076ef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.icon{
+  
+}
+.icon img{
+  height: 100%;
+  width: 35px;
+  height: 35px;
+  border-radius: 100px;
+}
+.home{
+  margin-left: 20px;
+}
+.home p{
+  color: white;
+  font-weight: 600;
+    font-family: SegoeUI-SemiBold-final,Segoe UI Semibold,SegoeUI-Regular-final,Segoe UI,"Segoe UI Web (West European)",Segoe,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,Tahoma,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+}
+.search{
+ 
+  width: 400px;
+}
+.search input{
+  width: 100%;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  border-radius: 3px;
+  border: none;
+}
+.help{
+
+}
+.help img{
+  width: 24px;
+  height: 24px;
+  border-radius: 100px;
+}
+.announce img{
+  width: 24px;
+  height: 24px;
+  border-radius: 100px;
+}
+.sign_in button{
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 5px;
+  font-weight: 450;
+}
+.sign_up button{
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 5px;
+  font-weight: 450;
+}
+.navbar_left, .navbar_middle, .navbar_right{
+  display: flex;
+  
+}
+.navbar_left{
+  flex-basis: 15%;
+}
+.navbar_middle{
+  flex-basis: 40%;
+}
+.navbar_right{
+  flex-basis: 45%;
+  justify-content: right;
+}
+.navbar_right .sign_up{
+  margin-left: 15px;
+}
+.navbar_right .sign_in{
+  margin-left: 15px;
+  
+}
+.navbar_right .announce{
+  margin-left:10px;
+}
+.sign_in button{
+  color: green;
+}
+.sign_up button{
+  color: green;
+}

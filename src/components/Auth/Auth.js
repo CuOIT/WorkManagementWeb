@@ -1,5 +1,7 @@
 import React from 'react'
 import './Auth.css'
+
+var count = 5;
 const handle_slide_login = (event)=>{
   event.preventDefault();
   const form_login_element = document.getElementsByClassName("form_login")[0];
@@ -28,8 +30,7 @@ const handle_slide_signup = (event)=>{
   const label_login = slide_control_element.getElementsByTagName("label")[0];
   const label_signup = slide_control_element.getElementsByTagName("label")[1];
   form_login_element.style.display = "none";
-  form_signup_element.style.display = "block";
-  
+  form_signup_element.style.display = "block";  
   title_login_element.style.display = "none";
   title_signup_element.style.display = "block";
   label_signup.style.backgroundColor = "rgb(190, 176, 44)";
