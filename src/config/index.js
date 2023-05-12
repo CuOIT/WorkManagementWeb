@@ -14,6 +14,7 @@ export const fetchInstant = (url, method, payload, params, configHeader) => {
    *
    */
   const baseURL = process.env.REACT_APP_BASE_URL;
+  console.log(process.env);
   let urlParse = baseURL + url;
   let METHOD = baseMETHOD.GET;
   let bodyJSON = {};

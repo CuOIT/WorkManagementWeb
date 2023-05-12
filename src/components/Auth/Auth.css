@@ -41,32 +41,7 @@
 
 .slide{
   display: flex;
-  margin-bottom: 30px;
-}
-
-.slide label{ 
-  padding: 15px 60px;
-  background-color:  rgb(190, 176, 44);
-  color: white;
-  font-size: 20px;
-}
-
-.slide_login{
-  border-top-left-radius: 24px;
-  border-bottom-left-radius: 24px;
-  border-right: 1px solid white;
-}
-.slide_signup{
-  border-top-right-radius: 24px;
-  border-bottom-right-radius: 24px;
-}
-
-.slide_login:hover, .slide_signup:hover{
-  color: aquamarine;
-  cursor: pointer;
-}
-
-#account{
+  height: 50px;
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 20px;
