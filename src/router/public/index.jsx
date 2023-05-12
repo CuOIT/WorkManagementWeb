@@ -2,6 +2,8 @@
 
 import LoginForm from "../../components/Auth/Auth";
 import NotFound from "../../components/NotFound";
+import HomeForm from "../../components/Home/Home";
+
 export const PublicRouter = [
   {
     path: "/",
@@ -11,4 +13,8 @@ export const PublicRouter = [
     path: "*",
     element: NotFound,
   },
+  {
+    path: "/home",
+    element: HomeForm,
+  }
 ];

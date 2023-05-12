@@ -23,9 +23,10 @@ body {
       rgba(245, 246, 252, 0.52),
         rgba(205,102,0,0.3)
     ),
-    url();
+    url(../src/components/Auth/Background.png);
   background-size: cover;
   background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 code {
