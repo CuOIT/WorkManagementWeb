@@ -39,17 +39,17 @@ const handle_slide_signup = (event)=>{
   label_signup.style.color = "white"
 }
 const handle_login = (event)=>{
-  event.preventDefault();
+ // event.preventDefault();
   
   const {user_phone,user_password} = event.target;
   const payload  = {
     phone: user_phone.value,
     password: user_password.value
   }
-  console.log(payload);
+  return true;
 }
 const handle_signup = (event)=>{
-  event.preventDefault();
+  //event.preventDefault();
   const {user_phone, user_password,user_confirm_password,user_name,user_email,user_birthday} = event.target;
   const payload = {
     phone: user_phone.value,
@@ -58,7 +58,8 @@ const handle_signup = (event)=>{
     email: user_email.value,
     birthday: user_birthday.value
   }
-  console.log(payload);
+  
+  return true;
 }
 
 const Auth = () => {
@@ -82,7 +83,7 @@ const Auth = () => {
               </label>
             </div>
             <div className="form_inner">
-            <form action="" className='form_login' onSubmit={handle_login}>
+            <form action="/trangchu" className='form_login' >
               <div className="field">
                 <input type="text" id='user_phone' placeholder='Phone' required />
               </div>
@@ -90,16 +91,19 @@ const Auth = () => {
                 <input type="password" id='user_password' placeholder='Password' required />
               </div>
               <div className="pass_link">
-                <a href="facebook.com">Forgot password?</a>
+                <a href="/trangchu">Forgot password?</a>
               </div>
               <div className="field_btn">
-                <input type="submit" value = "Log In" id = "Login_btn" />
+                
+                  <button className='login_btn'>Log In</button>
+                  {/* <input type="submit" value = "Log In" id = "Login_btn" /> */}
+                
               </div>
               <div className="signup_link">
                 <p>Not a member?<a href='facebook.com' onClick={handle_slide_signup}>&nbsp;Signup now</a></p>
               </div>
             </form>
-            <form action="" className='form_signup' onSubmit={handle_signup}>
+            <form action="/trangchu" className='form_signup' onSubmit={handle_signup}>
               <div className="field">
                 <input type="text" id='user_phone' placeholder='Phone' required/>
               </div>
@@ -119,7 +123,8 @@ const Auth = () => {
                 <input type="date" id='user_birthday' placeholder='Birthday' required/>
               </div>
               <div className="field_btn">
-                <input type="submit" value = "Sign Up" id = "signup_btn" />
+                
+                <button type='submit'>Sign Up</button>
               </div>
               
             </form>

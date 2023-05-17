@@ -103,7 +103,7 @@
   display: flex;
   margin-bottom: 50px;
 }
-.field_btn input{
+.field_btn button{
 
   width: 100%;
   box-sizing: border-box;

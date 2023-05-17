@@ -1,0 +1,234 @@
+.workspace_screen{
+  
+  align-items: center;
+  margin-top:30px;
+}
+.div_workspace_name{
+  padding-bottom: 10px;
+  padding-top:10px;
+  border-radius: 5px;
+  background-color: rgb(217, 238, 231);
+  margin-bottom: 10px;
+  
+}
+.workspace_item{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.workspace_name{
+  padding-left:20px;
+  
+}
+.work_name{
+  padding-left: 30px;
+}
+.work_item{
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 20px;
+  border-bottom: solid 1px rgb(191, 187, 187);
+  padding-top: 10px;
+}
+.button_add_task{
+  /* background-color: rgb(223, 247, 244); */
+  background-color: white;
+  font-size: 16px;
+  color: rgb(91, 90, 90);
+  
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.button_add_task span{
+  color:red;
+  margin-right: 30px;
+}
+.add_task{
+  margin-top:10px;
+  margin-bottom: 10px;
+}
+.work_item, .add_task{
+  margin-left: 20px;
+}
+.div_button_add_task:hover{
+  color: red;
+  cursor: pointer;
+}
+.div_button_add_task:hover .icon_add{
+  background-color: red;
+  color: white;
+}
+.icon_add{
+  padding-left: 4px;
+  padding-right: 4px;
+  border-radius: 100px;
+}
+.form_add_task{
+  border: solid 1px rgb(150, 145, 145);
+  border-radius: 10px;
+}
+.form_add_task input{
+  border: none;
+}
+.form_add_task input:focus{
+  border: none;
+  outline: none;
+}
+.set_infor{
+  display: flex;
+  flex-direction: row;
+}
+/* input[type=date]:required:invalid::-webkit-datetime-edit {
+  color: transparent;
+}
+input[type=date]:focus::-webkit-datetime-edit {
+  color: black !important;
+} */
+.due_date input{
+
+  font-size: 15px;
+}
+.due_date{
+  display: flex;
+  flex-direction: row;
+  margin-right: 20px;
+  align-items: center;
+}
+.due_date input{
+  background-color: rgb(132, 247, 247);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+}
+
+.priority{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: aquamarine;
+  padding-right: 5px;
+  padding-left: 5px;
+  border-radius: 5px;
+}
+.form_footer{
+  display: flex;
+  justify-content: right;
+}
+.form_header{
+  margin-top: 20px;
+  margin-left: 15px;
+}
+.input_name{
+  margin-bottom: 8px;
+}
+.input_description{
+  margin-bottom: 8px;
+}
+::-webkit-input-placeholder {
+  font-size: 15px;
+}
+.set_infor p{
+  margin-left: 10px;
+}
+.form_footer{
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+.form_footer button{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+}
+.form_footer .add_work{
+  margin-left: 10px;
+  
+}
+.add_work button{
+  background-color: red;
+  color:white;
+}
+.Cancel button{
+  color:red;
+  background-color: aliceblue;
+  font-weight: 500;
+}
+.form_add_task{
+  position: fixed;
+  width: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  background-color: white;
+}
+.form_footer .Cancel button:hover{
+  cursor: pointer;
+}
+.form_footer .add_work button:hover{
+  cursor: pointer;
+}
+.work_item_listen{
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+}
+.work_item_listen img{
+  width: 24px;
+  height: 24px;
+}
+.work_item_listen .work_item_edit{
+  padding-right: 40px;
+  display: flex;
+  align-items: baseline;
+}
+.work_item_listen .work_item_delete{
+  display: flex;
+  align-items: baseline;
+  padding-right: 40px;
+}
+.work_item_listen .work_item_edit:hover{
+  cursor: pointer;
+}
+.work_item_listen .work_item_delete:hover{
+  cursor: pointer;
+}
+.work_item_listen .work_item_comment:hover{
+  cursor: pointer;
+  
+}
+/* .form_add_task form{
+  position: relative;
+  
+} */
+#dropdown-select{
+  position: fixed;
+  width: 140px;
+  top: 41%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  background-color: rgb(142, 132, 132);
+  padding-left: 20px;
+  padding-top: 15px;
+  padding-right: 10px;
+  padding-bottom: 15px;
+  border-radius: 10px;
+  background-color: white;
+  
+  border: solid 1px rgba(65, 63, 63, 0.2);
+}
+#dropdown-select input{
+  margin-right: 20px;
+}
+.set_infor .priority:hover{
+  cursor: pointer;
+}
+#dropdown-select input:hover{
+  cursor: pointer;
+}
+#dropdown-select label:hover{
+  cursor: pointer;
+}

@@ -1,4 +1,6 @@
-.content{
-  height: 1000px;
-  background-color: white;
+.homepage_sidebar_content{
+  height: 2000px;
+  background-color: rgba(232, 229, 203, 0.886);
+  display: grid;
+  grid-template-columns: 1fr 4.3fr;
 }

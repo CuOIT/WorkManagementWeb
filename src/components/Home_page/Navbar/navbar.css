@@ -106,3 +106,9 @@
 .sign_up button{
   color: green;
 }
+input :active{
+  border: none;
+}
+.navbar_container .icon{
+  width: 40px;
+}
