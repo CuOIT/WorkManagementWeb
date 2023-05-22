@@ -23,7 +23,7 @@
 
 .view_header{
     padding-top: 5px;
-    padding-bottom: 25px;
+    padding-bottom: 17px;
     border-bottom: 2px solid #f3f3f3;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .task_list{
-    padding: 20px;
+    padding: 12px 20px ;
     border-bottom: 2px solid #f3f3f3;
 }
 
@@ -211,6 +211,10 @@
     appearance: none;
 }
 
+.task_edit_action div{
+    width: 140px;
+}
+
 .task_edit_action div svg{
     margin-top: 5px;
 }
@@ -222,8 +226,14 @@
 }
 
 .priority{
-    margin-right: 30vh;
+    margin-right: 18vh;
     position: relative;
+}
+
+.task_edit_action input{
+    font-size: 13px;
+    text-align: center;
+    margin-left: 5px;
 }
 
 .task_edit_action button{
@@ -265,7 +275,7 @@ b
     height: fit-content;
     position: absolute;
     top: 40px;
-    left: -6px;
+    left: 0px;
     width: 100px;
     border: 1px solid rgba(10, 28, 19, 0.591);
     background-color: white;
@@ -309,3 +319,6 @@ b
     color: black;
 }
 
+.task_time{
+    margin-left: 4vh;
+}
