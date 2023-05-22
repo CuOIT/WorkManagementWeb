@@ -1,0 +1,41 @@
+.container{
+  margin-left: 25px;
+  margin-top: 30px;
+  margin-right: 25px;
+}
+.sidebar_container .icon{
+  width: 16px;
+  height: 16px;
+}
+.container .item{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  border-radius: 5px;
+}
+.container .item .div_title{
+  margin-left: 24px;
+  
+}
+.container .menu{
+  margin-bottom: 40px;
+  padding-left: 5px;
+}
+.item:hover{
+  background-color: rgb(145, 236, 235);
+  cursor: pointer;
+}
+.container .menu img:hover{
+  cursor: pointer;
+}
+Span{
+  text-decoration: none;
+  color: black;
+  
+}
+a{
+  text-decoration: none;
+}

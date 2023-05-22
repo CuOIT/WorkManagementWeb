@@ -3,14 +3,10 @@
     box-sizing: border-box;
 }
 
-
 .form{
-    width: 100vh;
+    width: 100%;
     height: 100%;
     background-color: white;
-    margin: auto;
-    margin-top: 100px;
-    margin-bottom: 300px;
     box-shadow: rgba(152,242,152, 0.5) 0px 2px 10px 0px;
     padding: 10px 15px;
     border-radius: 24px;
@@ -81,6 +77,10 @@
     background-color: skyblue;
 }
 
+#pri-4{
+    background-color: gainsboro;
+}
+
 #priority-1{
     border: 3px solid red;
 }
@@ -94,7 +94,7 @@
 }
 
 #priority-4{
-    border: 3px solid ;
+    border: 3px solid;
 }
 
 
@@ -160,8 +160,8 @@
     padding: 10px;
     border: 1px solid rgb(0, 0, 0);
     box-shadow: rgba(152, 165, 242, 0.5) 0 0 10px 5px;
-    border-radius: 24px;
-    width: 70%;
+    border-radius: 16px;
+    width: 570px;
     height: fit-content;
     margin: auto;
 }
@@ -195,24 +195,20 @@
 
 .task_edit_action div{
     margin-top: 10px;
-    margin-left: 5px;
     padding: 5px;
     border: 1px solid rgb(179, 155, 155);
     border-radius: 5px;
     display: flex;
-    width: 119px;
+    width: 100px;
 }
 
-.due_date{
-    width: 130px;
+.task_edit_action input{
+    width: 110px;
     border-radius: 5px;
     border: 1px solid rgb(179, 155, 155);
     margin-top: 10px;
     appearance: none;
-}
-
-.task_edit_action div{
-    width: 140px;
+    margin-right: 3px;
 }
 
 .task_edit_action div svg{
@@ -225,9 +221,10 @@
     margin-top: 4px;
 }
 
-.priority{
-    margin-right: 18vh;
+.priority1{
+    margin-right: 13vh;
     position: relative;
+    margin-left: 3px;
 }
 
 .task_edit_action input{
@@ -239,7 +236,6 @@
 .task_edit_action button{
     padding: 5px;
     margin-top: 10px;
-    right: 20px;
     margin-left: 10px;
     border-radius: 5px;
     color: white;
@@ -305,11 +301,23 @@ b
     color: red;
 }
 
+.pri1 span {
+    color: red;
+}
+
 .pri2{
     color: orange;
 }
 
+.pri2 span{
+    color: orange;
+}
+
 .pri3{
+    color: rgb(36,111,224);
+}
+
+.pri3 span{
     color: rgb(36,111,224);
 }
 

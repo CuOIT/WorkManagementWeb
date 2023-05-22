@@ -2,9 +2,7 @@
 
 import LoginForm from "../../components/Auth/Auth";
 import NotFound from "../../components/NotFound";
-import HomeForm from "../../components/Home/Home";
-import Homepage from "../../components/Home/HomeUser";
-
+import HomePage from "../../components/Home_page/index"
 
 export const PublicRouter = [
   {
@@ -16,11 +14,7 @@ export const PublicRouter = [
     element: NotFound,
   },
   {
-    path: "/home",
-    element: HomeForm,
-  },
-  {
-    path: "/page",
-    element: Homepage,
-  },
+    path:"/trangchu/*",
+    element:HomePage,
+  }
 ];

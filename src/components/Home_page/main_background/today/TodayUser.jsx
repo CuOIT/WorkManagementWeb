@@ -1,6 +1,6 @@
 import React from "react"
 import {useEffect, useState} from "react"
-import "./Home.css"
+import "./today.css"
 import axios from "axios";
 
 const Home = () => {
