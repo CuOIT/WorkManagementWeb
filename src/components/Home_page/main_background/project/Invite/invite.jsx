@@ -1,8 +1,8 @@
 import React , {useState, useEffect} from 'react'
-import './project.css'
+import './invite.css'
 import axios from 'axios'
 
-const Project = () => {
+const Invite = () => {
   const [value, setValue] = useState([])
 
   useEffect(() =>{
@@ -88,4 +88,4 @@ const Project = () => {
   )
 }
 
-export default Project
+export default Invite

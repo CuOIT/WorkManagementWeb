@@ -64,7 +64,7 @@ const Home = () => {
             end: end_time,
             isDone: done
         }
-        axios.post("http://localhost8080/api/to-do", {
+        axios.post("http://localhost:8080/api/to-do", {
             id: item.id,
             name: item.name,
             start_time: item.start,

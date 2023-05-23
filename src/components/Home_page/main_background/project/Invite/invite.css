@@ -70,7 +70,7 @@
 
 .form_invite .body .partner:hover{
     background-color: gray;
-
+    cursor: default;
 }
 
 .form_invite .body .partner .avatar{
