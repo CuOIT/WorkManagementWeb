@@ -11,24 +11,35 @@ const Assignment = () => {
     const [listofWorkspace,setListWorkspace] = useState([])
     const [listofWork,setListWork] = useState([])
     const [showPriority,setShowPriority] = useState(false)
+    const [showButtonEdit,setShowButtonEdit] = useState(false)
     const [workSpaceId, setWorkSpaceId] = useState(0);
+    const [workId, setworkId] = useState(0);
     const [formAddWork,setformAddWork] = useState(false);
     const [PriorityRes, setPriorityRes] = useState(1);
+    const [listofId,setListOfId] = useState([]);
+    const input_name_element = document.querySelector('.input_name input');
+    const input_description_element = document.querySelector('.input_description input');
+    const due_date_element = document.querySelector('.due_date input');
+    const l = 100;
+    const arr = Array(l).fill(false);
+    var count = -1;
     useEffect(()=>{
         axios.get("http://localhost:8080/api/workspace")
             .then((response)=>{
                 setListWorkspace(response.data)
+                
             })
         axios.get("http://localhost:8080/api/work")
             .then((response)=>{
                 setListWork(response.data)
             })
+        
     }, [])
     function openFormAddTask(a){
       setformAddWork(!formAddWork)
       setWorkSpaceId(a);
       setShowPriority(false)
-      
+      setShowButtonEdit(false)
     }
     function checkPriority(){
       const Priority1 = document.getElementById('priority_1');
@@ -57,13 +68,101 @@ const Assignment = () => {
       setShowPriority(!showPriority);
       
     }
+    function handleDelete(work_id){
+      const newListWork = [];
+      for(let i=0;i<listofWork.length;i++){
+        if(listofWork[i].id!==work_id){
+          newListWork.push(listofWork[i]);
+        }
+      }
+      setListWork(newListWork);
+      
+      axios.delete(`http://localhost:8080/api/work/${work_id}`)
+      .then((response)=>{
+        alert("delete success");
+      })
+      .catch((error)=>{
+        alert("fail")
+      });
+      
+    }
+    function handleEdit(work_id){
+      setformAddWork(true);
+      setShowButtonEdit(true);
+      setworkId(work_id)
+      for(let i=0;i<listofWork.length;i++){
+        if(listofWork[i].id ===work_id){
+          document.querySelector('.input_name input').value = listofWork[i].name;
+          document.querySelector('.input_description input').value = listofWork[i].description;
+          document.querySelector('.due_date input').value = listofWork[i].due_date.slice(0, 16);
+          
+        }
+      }
+      
+    }
+    function handle_show_work(a){
+      const workSpace_element = document.getElementById(a);
+      
+      if(arr[a]){
+        arr[a] = false;
+        workSpace_element.style.display = "none";
+      }
+      else{
+        arr[a] = true;
+        workSpace_element.style.display = "block"
+      }
+     // workSpace_element.style.display = arr[a].toString();
+      
+    }
+    function saveEdit(work_id){
+      const newListWork = listofWork;
+      
+      let name,description,due_date,workspace_id,isDone;
+      for(let i=0;i<listofWork.length;i++){
+        if(listofWork[i].id === work_id){
+          console.log("mai dinh cong")
+           
+          newListWork[i].name = input_name_element.value;
+          name = input_name_element.value;
+          newListWork[i].description = input_description_element.value;
+          description = input_description_element.value;
+          newListWork[i].due_date = due_date_element.value;
+          due_date = due_date_element.value;
+          newListWork[i].workspace_id = listofWork[i].workspace_id;
+          workspace_id = listofWork[i].workspace_id;
+          newListWork[i].isDone = listofWork[i].isDone;
+          isDone = listofWork[i].isDone;
+          
+          break;
+        }
+      }
+        
+        setListWork(newListWork);
+        
+        setformAddWork(false)
+        const updateWork = {
+          name: name,
+          // description: newListWork[cnt].description,
+          due_date: due_date,
+          isDone: isDone,
+          // description: newListWork[cnt].description,
+          workspace_id:workspace_id
+        }
+        console.log(updateWork);
+        axios.put(`http://localhost:8080/api/work/${work_id}`,updateWork)
+          .then((response)=>{
+            console.log("update success");
+          })
+          .catch((error)=>{
+            console.log("error edit")
+          })
+      
+    }
     const onSubmit = (event)=>{
       event.preventDefault();
       checkPriority();
-      console.log(PriorityRes);
-      closeFormPriority();
-      const {name, description,dueDate} = event.target;
-     
+      setShowPriority(false)
+      const {name, description,dueDate} = event.target;     
       axios.post("http://localhost:8080/api/work", {
         name: name.value,
         description:description.value,
@@ -72,7 +171,6 @@ const Assignment = () => {
     })
       
       .then((response) => {
-        alert("hello world")
         console.log("IT WORKED");
     });
    // window.location.href = "http://localhost:3000/trangchu/assignment"
@@ -92,32 +190,33 @@ const Assignment = () => {
     document.querySelector('.input_description input').value = "";
     document.querySelector('.due_date input').value = "";
     openFormPriority(false)
-    }
+  }
   return (
   <div className='container_workspace'>
     <div className='workspace_screen'>
       {
         listofWorkspace.map((value1,key)=>{
             return (
-                <div key={value1.id} id={value1.id} className='workspace_item'>
-                  <div className='div_workspace_name'><p className='workspace_name'>{value1.name}</p></div>
-                  <div className='div_work_item'>{listofWork.map((value2,key)=>{
+                <div   className='workspace_item'>
+                  <div onClick={()=>handle_show_work(value1.id)} className='div_workspace_name' ><p className='workspace_name'>{value1.name}</p></div>
+                  <div id={value1.id} className='div_work_item' style={{display:"none"}}>{listofWork.map((value2,key)=>{
                     if(value2.workspace_id === value1.id)
                       return (
-                        <div key={value2.id} id = {value2.id} className='work_item'>
+                        //neu có sai thì tại xóa value.id
+                        <div  id = 'a' className='work_item'> 
                           <div><input type='checkbox'></input></div>
                           <div><p className='work_name'>{value2.name}</p></div>
                           <div className='work_item_listen'>
-                            <div className='work_item_edit'>
+                            <div className='work_item_edit' onClick={()=>{handleEdit(value2.id)}}>
                               <img src = {logo_edit2}></img>
                             </div>
-                            <div className='work_item_delete'>
+                            <div className='work_item_delete' onClick={()=>{handleDelete(value2.id)}}>
                               <img src = {logo_delete}></img>
                             </div>
                             <div className='work_item_comment'>
                               <img src = {logo_comment}></img>
                             </div>
-                            <div className='work_item_delete'></div>
+                            
                           </div>
                         </div>
                         )
@@ -142,17 +241,17 @@ const Assignment = () => {
       <form onSubmit={onSubmit} method='post'>
         <div className='form_header'>
           <div className='input_name'>
-            <input name='name' type='text' placeholder='Task name'></input>
+            <input required name='name' type='text' placeholder='Task name'></input>
           </div>
           <div className='input_description'>
-            <input name='description' type='text' placeholder='Description'></input>
+            <input required name='description' type='text' placeholder='Description'></input>
           </div>
           <div className='set_infor'>
             <div  className='due_date'>
 
             {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="no_due_date"><path fill="currentColor" d="M12 2a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2h8zm0 1H4a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V4a1 1 0 00-1-1zm-1.25 7a.75.75 0 110 1.5.75.75 0 010-1.5zm.75-5a.5.5 0 110 1h-7a.5.5 0 010-1h7z"></path></svg>
                               <p>Due date</p> */}
-              <input name='dueDate' type='datetime-local' />
+              <input required name='dueDate' type='datetime-local' />
             </div>
             <div className='priority' onClick={openFormPriority}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="Gw1i-E3" data-icon-name="priority-icon" data-priority="4"><path fillRule="evenodd" clipRule="evenodd" d="M2 3a.5.5 0 01.276-.447C3.025 2.179 4.096 2 5.5 2c.901 0 1.485.135 2.658.526C9.235 2.885 9.735 3 10.5 3c1.263 0 2.192-.155 2.776-.447A.5.5 0 0114 3v6.5a.5.5 0 01-.276.447c-.749.375-1.82.553-3.224.553-.901 0-1.485-.135-2.658-.526C6.765 9.615 6.265 9.5 5.5 9.5c-1.08 0-1.915.113-2.5.329V13.5a.5.5 0 01-1 0V3zm1 5.779v-5.45C3.585 3.113 4.42 3 5.5 3c.765 0 1.265.115 2.342.474C9.015 3.865 9.599 4 10.5 4c1.002 0 1.834-.09 2.5-.279v5.45c-.585.216-1.42.329-2.5.329-.765 0-1.265-.115-2.342-.474C6.985 8.635 6.401 8.5 5.5 8.5c-1.001 0-1.834.09-2.5.279z" fill="currentColor"></path></svg>
@@ -164,8 +263,11 @@ const Assignment = () => {
           <div className='Cancel'>
             <button type='reset' onClick={openFormAddTask}>Cancel</button>
           </div>
-          <div className='add_work'>
+          <div className='add_work' style = {{display:showButtonEdit?"none":"block"}}>
             <button type='submit'>Add Work</button>
+          </div>
+          <div className='save_edit_work' style={{display: showButtonEdit? "block":"none"}} onClick={()=>{saveEdit(workId)}}>
+            <button type="button">Save</button>
           </div>
         </div>
         </form>

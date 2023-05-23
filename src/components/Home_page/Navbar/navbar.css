@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: row;
   padding-left: 20px;
-  padding-right: 20px;
+  padding-right: 22px;
 }
 .navbar_item{
   background-color: #3076ef;
@@ -82,6 +82,10 @@
 }
 .navbar_left{
   flex-basis: 15%;
+  justify-content: left;
+}
+.navbar_left .icon{
+  margin: 0;
 }
 .navbar_middle{
   flex-basis: 40%;
@@ -98,7 +102,7 @@
   
 }
 .navbar_right .announce{
-  margin-left:10px;
+  margin-left:20px;
 }
 .sign_in button{
   color: green;
@@ -111,4 +115,10 @@ input :active{
 }
 .navbar_container .icon{
   width: 40px;
+}
+.menu_navbar img{
+  width: 32px;
+}
+.navbar_item{
+  margin-left: 20px;
 }

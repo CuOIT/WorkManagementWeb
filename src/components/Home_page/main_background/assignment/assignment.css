@@ -232,3 +232,14 @@ input[type=date]:focus::-webkit-datetime-edit {
 #dropdown-select label:hover{
   cursor: pointer;
 }
+.save_edit_work button{
+  background-color: red;
+  color: white;
+}
+.save_edit_work{
+  padding-left: 10px;
+
+}
+.save_edit_work button:hover{
+  cursor: pointer;
+}
