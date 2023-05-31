@@ -3,11 +3,22 @@ import './invite.css'
 import axios from 'axios'
 
 const Invite = () => {
-  const [value, setValue] = useState([])
+  const [value, setValue] = useState('')
+  const [member, setMember] = useState([])
 
   useEffect(() =>{
     // Lấy toàn bộ thành viên trong Project để hiển thị
-    axios.get("")
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:8080/api/project?project_id={project_id}'
+        )
+        setMember(response.data.data)
+      } catch (error) {
+        console.error('Error fetching tasks:', error)
+      }
+    }
+    fetchData()
   })
 
 
@@ -42,15 +53,27 @@ const Invite = () => {
                       <span>Invite</span>
                   </button>
               </div>
+              <ul>
+                {member?.map((item, index) =>{
+                    return(
+                        <li key={index} className="partner">
+                            <div className="avatar">
+                              <img src="https://avatars.doist.com?fullName=Pemond&amp;email=vipthieugia200%40gmail.com&amp;size=50&amp;bg=ffffff" alt="Pemond"/>
+                            </div>
 
-              {value.map((item, id) =>{
-                  return(
-                    <div>
-                      abc
-                    </div>
-                  )
-              })}
-
+                            <div className="field_infor">
+                              <div className="Name">
+                                {item.id}
+                              </div>
+                              <div className="mail">
+                                Someone@gmail.com
+                              </div>
+                            </div>
+                        </li>
+                    )
+                })}
+              </ul>
+  
               <div className="partner">
                   <div className="avatar">
                     <img src="https://avatars.doist.com?fullName=Pemond&amp;email=vipthieugia200%40gmail.com&amp;size=50&amp;bg=ffffff" alt="Pemond"/>
