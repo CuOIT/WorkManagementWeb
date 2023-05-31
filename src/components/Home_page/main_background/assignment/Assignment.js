@@ -7,6 +7,7 @@ import logo_edit from '../../image/edit.png'
 import logo_delete from '../../image/delete.png'
 import logo_edit2 from '../../image/edit-text.png'
 import logo_comment from '../../image/comment.png'
+import logo_add_workspace from '../../image/add.png'
 const Assignment = () => {
     const [listofWorkspace,setListWorkspace] = useState([])
     const [listofWork,setListWork] = useState([])
@@ -24,9 +25,9 @@ const Assignment = () => {
     const arr = Array(l).fill(false);
     var count = -1;
     useEffect(()=>{
-        axios.get("http://localhost:8080/api/workspace")
+        axios.get(`http://localhost:8080/api/workspace?user_id=1`)
             .then((response)=>{
-                setListWorkspace(response.data)
+                setListWorkspace(response.data.data)
                 
             })
         axios.get("http://localhost:8080/api/work")
@@ -76,15 +77,22 @@ const Assignment = () => {
         }
       }
       setListWork(newListWork);
-      
-      axios.delete(`http://localhost:8080/api/work/:${work_id}`)
+      const id = work_id
+      axios.delete(`http://localhost:8080/api/work/${work_id}`)
       .then((response)=>{
         alert("delete success");
+        console.log(response)
       })
       .catch((error)=>{
-        alert("fail")
+        alert("fail really fail")
       });
       
+    }
+    function handleEdit_workspace(workspace_id){
+      console.log("edit workspace");
+    }
+    function handleDelete_workspace(workspace_id){
+
     }
     function handleEdit(work_id){
       setformAddWork(true);
@@ -148,10 +156,10 @@ const Assignment = () => {
           // description: newListWork[cnt].description,
           workspace_id:workspace_id
         }
-        console.log(updateWork);
+        
         axios.put(`http://localhost:8080/api/work/:${work_id}`,updateWork)
           .then((response)=>{
-            console.log("update success");
+            console.log(response);
           })
           .catch((error)=>{
             console.log("error edit")
@@ -171,7 +179,7 @@ const Assignment = () => {
     })
       
       .then((response) => {
-        console.log("IT WORKED");
+        console.log(response);
     });
    // window.location.href = "http://localhost:3000/trangchu/assignment"
    const newWork = {
@@ -191,14 +199,59 @@ const Assignment = () => {
     document.querySelector('.due_date input').value = "";
     // openFormPriority(false)
   }
+  const onSubmit_workspace = (event)=>{
+    event.preventDefault();
+    const {name} = event.target;
+    axios.post("http://localhost:8080/api/workspace", {
+        name: name.value,
+        user_id: 1,
+    })
+      
+      .then((response) => {
+        console.log(response);
+    });
+    const new_workspace = {
+      name: name.value,
+      user_id: 1
+    }
+    const newlistOfWorkspace = [...listofWorkspace,new_workspace];
+    setListWorkspace(newlistOfWorkspace);
+  }
   return (
   <div className='container_workspace'>
+    <div className='icon_add_workspace'>
+      <div> <img src={logo_add_workspace}></img></div>
+      
+      <div className='form_add_workspace'>
+        <form onSubmit={onSubmit_workspace} method='post'>
+          <div className='input_name_workspace'>
+            <input required name='name' type='text' placeholder='enter the name of workspace'/>
+          </div>
+          <div className='button_add_workspace'>
+            <button>Add workspace</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <div className='workspace_screen'>
       {
         listofWorkspace.map((value1,key)=>{
             return (
                 <div   className='workspace_item'>
-                  <div onClick={()=>handle_show_work(value1.id)} className='div_workspace_name' ><p className='workspace_name'>{value1.name}</p></div>
+                  <div onClick={()=>handle_show_work(value1.id)} className='div_workspace_name' >
+                    <div className='div_p_workspace_name'>
+                      <p className='workspace_name'>{value1.name}</p>
+                    </div>
+                    <div className='workspace_item_listen'>
+                      <div className='workspace_item_edit' onClick={()=>{handleEdit_workspace(value1.id)}}>
+                        <img src = {logo_edit2}></img>
+                      </div>
+                      <div className='workspace_item_delete' onClick={()=>{handleDelete_workspace(value1.id)}}>
+                        <img src = {logo_delete}></img>
+                      </div>
+                    </div>
+                    
+                  </div>
                   <div id={value1.id} className='div_work_item' style={{display:"none"}}>{listofWork.map((value2,key)=>{
                     if(value2.workspace_id === value1.id)
                       return (
