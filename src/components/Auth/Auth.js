@@ -1,141 +1,174 @@
-import React from 'react'
-import './Auth.css'
-
-var count = 5;
-const handle_slide_login = (event)=>{
-  event.preventDefault();
-  const form_login_element = document.getElementsByClassName("form_login")[0];
-  const form_signup_element = document.getElementsByClassName("form_signup")[0];
-  const title_login_element = document.getElementsByClassName("title_login")[0];
-  const title_signup_element = document.getElementsByClassName("title_signup")[0];
-  const slide_control_element = document.getElementsByClassName("slide_control")[0];
-  const label_login = slide_control_element.getElementsByTagName("label")[0];
-  const label_signup = slide_control_element.getElementsByTagName("label")[1];
-  form_login_element.style.display = "block";
-  form_signup_element.style.display = "none";
-  title_login_element.style.display = "block";
-  title_signup_element.style.display = "none";
-  label_login.style.backgroundColor = "rgb(190, 176, 44)";
-  label_signup.style.backgroundColor = "white";
-  label_signup.style.color = "black";
-  label_login.style.color = "white";
-}
-const handle_slide_signup = (event)=>{
-  event.preventDefault();
-  const form_login_element = document.getElementsByClassName("form_login")[0];
-  const form_signup_element = document.getElementsByClassName("form_signup")[0];
-  const title_login_element = document.getElementsByClassName("title_login")[0];
-  const title_signup_element = document.getElementsByClassName("title_signup")[0];
-  const slide_control_element = document.getElementsByClassName("slide_control")[0];
-  const label_login = slide_control_element.getElementsByTagName("label")[0];
-  const label_signup = slide_control_element.getElementsByTagName("label")[1];
-  form_login_element.style.display = "none";
-  form_signup_element.style.display = "block";  
-  title_login_element.style.display = "none";
-  title_signup_element.style.display = "block";
-  label_signup.style.backgroundColor = "rgb(190, 176, 44)";
-  label_login.style.backgroundColor = "white";
-  label_login.style.color = "black";
-  label_signup.style.color = "white"
-}
-const handle_login = (event)=>{
- // event.preventDefault();
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { fetchInstant } from "../../config";
+import { METHOD } from "../../constants";
+// import { fetchInstant } from "@/config";
+// import { METHOD } from "@/constants";
+import "./Auth.css";
+const LoginForm = () => {
+  const [activeTab, setActiveTab] = useState("login");
+  const handleTabChange = (event) => {
+    setActiveTab(event.target.id);
+  };
   
-  const {user_phone,user_password} = event.target;
-  const payload  = {
-    phone: user_phone.value,
-    password: user_password.value
-  }
-  return true;
-}
-const handle_signup = (event)=>{
-  //event.preventDefault();
-  const {user_phone, user_password,user_confirm_password,user_name,user_email,user_birthday} = event.target;
-  const payload = {
-    phone: user_phone.value,
-    password: user_password.value,
-    name: user_name.value,
-    email: user_email.value,
-    birthday: user_birthday.value
-  }
-  
-  return true;
-}
+  useEffect(() => {
+    const loginText = document.querySelector(".title.login");
+    const loginForm = document.querySelector("form.login");
+    const loginBtn = document.querySelector(".slide.login");
+    const signupBtn = document.querySelector(".slide.signup");
+    const signupLink = document.querySelector("form .signup-link a");
+    signupBtn.onclick = () => {
+      loginForm.style.marginLeft = "-50%";
+      loginText.style.marginLeft = "-50%";
+     
+    };
+    loginBtn.onclick = () => {
+      loginForm.style.marginLeft = "0%";
+      loginText.style.marginLeft = "0%";
+    };
+    signupLink.onclick = () => {
+      signupBtn.click();
+      return false;
+    };
+  }, []);
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const { phone, password } = event.target;
+    const payload = {
+      phone: phone.value,
+      user_password: password.value,
+      // role,
+    };
+    fetchInstant("/api/login", METHOD.POST, payload).then((res) => {          
+      if (res.code===0){
+      } else {}                    
+    });
+  };
 
-const Auth = () => {
+  const handleSignUp = (event) => {
+    event.preventDefault();
+    const { phone, password, confirmPassword, name, email, birthday } =
+      event.target;
+    const payload = {
+      phone: phone.value,
+      user_password: password.value,
+      role: 3,
+      user_name: name.value,
+      email: email.value,
+      birthday: birthday.value,
+    };
+    fetchInstant("/api/create-new-user", METHOD.POST, payload).then((res) => {
+      console.log(res.message);
+      if (res.code===0){
+      } else {}  
+    });
+  };
+
   return (
-    <div className='Auth'>
+    
+    <div className="login-dad">
       <div className="wrapper">
-        
-          <div className="title_text">
-            <h1 className='title_login'>Login Form</h1>
-            <h1 className='title_signup'>SignUp Form</h1>
+        <div className="title-text">
+          <div className="title login">Login Form</div>
+          <div className="title signup">Signup Form</div>
+        </div>
+        <div className="form-container">
+          <div className="slide-controls">
+          <input type="radio" id="login" name="slide" checked={activeTab === "login"}  onChange={handleTabChange}/>
+            <input type="radio" id="signup" name="slide" checked={activeTab === "signup"}  onChange={handleTabChange}/>
+            <label htmlFor="login" className="slide login">
+              Login
+            </label>
+              <label htmlFor="signup" className="slide signup">
+              Signup
+            </label>
+            <div className="slider-tab"></div>
           </div>
-          <div className="form_container">
-            <div className="slide_control">
-              <input type="radio" id='login' name='slide' />
-              <input type="radio" id='signup' name='slide' />
-              <label htmlFor="login" className="slide login" onClick={handle_slide_login}>
-                Login
-              </label>
-              <label htmlFor="signup" className='slide signup' onClick={handle_slide_signup}>
-                SignUp
-              </label>
-            </div>
-            <div className="form_inner">
-            <form action="/trangchu" className='form_login' >
+          <div className="form-inner">
+            <form className="login" onSubmit={handleLogin} >
               <div className="field">
-                <input type="text" id='user_phone' placeholder='Phone' required />
+                <input
+                  name="phone"
+                  id="usernameSignIn"
+                  type="text"
+                  placeholder="Phone"
+                  required
+                />
               </div>
               <div className="field">
-                <input type="password" id='user_password' placeholder='Password' required />
+                <input
+                  name="password"
+                  id="passwordSignIn"
+                  type="password"
+                  placeholder="Password"
+                  required
+                />
               </div>
-              <div className="pass_link">
-                <a href="/trangchu">Forgot password?</a>
+              <div className="pass-link">
+                <a href="#">Forgot password?</a>
               </div>
-              <div className="field_btn">
-                
-                  <button className='login_btn'>Log In</button>
-                  {/* <input type="submit" value = "Log In" id = "Login_btn" /> */}
-                
+              <div className="field btn">
+                <div className="btn-layer"></div>
+                <input id="loginBtn" type="submit" value="Log In" />
               </div>
-              <div className="signup_link">
-                <p>Not a member?<a href='facebook.com' onClick={handle_slide_signup}>&nbsp;Signup now</a></p>
+              <div className="signup-link">
+                Not a member? <a href="">Signup now</a>
               </div>
             </form>
-            <form action="/trangchu" className='form_signup' onSubmit={handle_signup}>
+            <form className="signup" onSubmit={handleSignUp}>
               <div className="field">
-                <input type="text" id='user_phone' placeholder='Phone' required/>
+                <input id="phone" type="text" placeholder="Phone" required />
               </div>
               <div className="field">
-                <input type="password" id='user_password' placeholder='Password' required/>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="Password"
+                  required
+                />
               </div>
               <div className="field">
-                <input type="password" id='user_confirm_password' placeholder='Confirm Password' required/>
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="Confirm password"
+                  required
+                />
               </div>
               <div className="field">
-                <input type="text" id='user_name' placeholder='Name' required/>
+                <input id="name" type="text" placeholder="Name" required />
               </div>
               <div className="field">
-                <input type="text" id='user_email' placeholder='Email' required/>
+                <input id="email" type="text" placeholder="Email" required />
               </div>
-              <div className="field">
-                <input type="date" id='user_birthday' placeholder='Birthday' required/>
-              </div>
-              <div className="field_btn">
+              <div className="field"> 
+               
+               <form>
                 
-                <button type='submit'>Sign Up</button>
+               </form>
+                </div>             
+              <div className="field">
+                <input
+                  id="birthday"
+                  type="date"
+                  placeholder="Birthday"
+                  required
+                />
               </div>
-              
+              <div className="field btn">
+                <div className="btn-layer"></div>
+                <input type="submit" value="Signup" />
+              </div>
+              <div>
+      
+    </div>
             </form>
-            </div>
-            
-          
-        </div>  
-         
+          </div>
+        </div>
       </div>
     </div>
+
   )
 }
 
-export default Auth
+export default LoginForm

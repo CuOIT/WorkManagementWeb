@@ -16,21 +16,5 @@ export const PublicRouter = [
   {
     path:"/trangchu/*",
     element:HomePage,
-  },
-  // {
-  //   path:"/trangchu/today/*",
-  //   element:HomePage,
-  // },
-  // {
-  //   path:"/trangchu/plan/*",
-  //   element:HomePage,
-  // },
-  // {
-  //   path:"/trangchu/assignment/*",
-  //   element:HomePage,
-  // },
-  // {
-  //   path:"/trangchu/project/*",
-  //   element:HomePage,
-  // }
+  }
 ];

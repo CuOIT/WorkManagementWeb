@@ -15,7 +15,7 @@ const Assignment = () => {
     const [workSpaceId, setWorkSpaceId] = useState(0);
     const [workId, setworkId] = useState(0);
     const [formAddWork,setformAddWork] = useState(false);
-    const [PriorityRes, setPriorityRes] = useState(1);
+    // const [PriorityRes, setPriorityRes] = useState(1);
     const [listofId,setListOfId] = useState([]);
     const input_name_element = document.querySelector('.input_name input');
     const input_description_element = document.querySelector('.input_description input');
@@ -41,33 +41,33 @@ const Assignment = () => {
       setShowPriority(false)
       setShowButtonEdit(false)
     }
-    function checkPriority(){
-      const Priority1 = document.getElementById('priority_1');
-      const Priority2 = document.getElementById('priority_2');
-      const Priority3 = document.getElementById('priority_3');
-      const Priority4 = document.getElementById('priority_4');
-      if(Priority1.checked){
-        setPriorityRes(1);
-      }
-      else if(Priority2.checked){
-        setPriorityRes(2);
-      }
-      else if(Priority3.checked){
-        setPriorityRes(3);
-      }
-      else{
-        setPriorityRes(4);
-      }
-    }
-    function closeFormPriority(){
-      setShowPriority(false)
-      console.log(1)
-    }
-    function openFormPriority(event){
-      ///event.stopPropagation()
-      setShowPriority(!showPriority);
+    // function checkPriority(){
+    //   const Priority1 = document.getElementById('priority_1');
+    //   const Priority2 = document.getElementById('priority_2');
+    //   const Priority3 = document.getElementById('priority_3');
+    //   const Priority4 = document.getElementById('priority_4');
+    //   if(Priority1.checked){
+    //     setPriorityRes(1);
+    //   }
+    //   else if(Priority2.checked){
+    //     setPriorityRes(2);
+    //   }
+    //   else if(Priority3.checked){
+    //     setPriorityRes(3);
+    //   }
+    //   else{
+    //     setPriorityRes(4);
+    //   }
+    // }
+    // function closeFormPriority(){
+    //   setShowPriority(false)
+    //   console.log(1)
+    // }
+    // function openFormPriority(event){
+    //   ///event.stopPropagation()
+    //   setShowPriority(!showPriority);
       
-    }
+    // }
     function handleDelete(work_id){
       const newListWork = [];
       for(let i=0;i<listofWork.length;i++){
@@ -77,7 +77,7 @@ const Assignment = () => {
       }
       setListWork(newListWork);
       
-      axios.delete(`http://localhost:8080/api/work/${work_id}`)
+      axios.delete(`http://localhost:8080/api/work/:${work_id}`)
       .then((response)=>{
         alert("delete success");
       })
@@ -149,7 +149,7 @@ const Assignment = () => {
           workspace_id:workspace_id
         }
         console.log(updateWork);
-        axios.put(`http://localhost:8080/api/work/${work_id}`,updateWork)
+        axios.put(`http://localhost:8080/api/work/:${work_id}`,updateWork)
           .then((response)=>{
             console.log("update success");
           })
@@ -160,8 +160,8 @@ const Assignment = () => {
     }
     const onSubmit = (event)=>{
       event.preventDefault();
-      checkPriority();
-      setShowPriority(false)
+      // checkPriority();
+      // setShowPriority(false)
       const {name, description,dueDate} = event.target;     
       axios.post("http://localhost:8080/api/work", {
         name: name.value,
@@ -189,7 +189,7 @@ const Assignment = () => {
     document.querySelector('.input_name input').value = "";
     document.querySelector('.input_description input').value = "";
     document.querySelector('.due_date input').value = "";
-    openFormPriority(false)
+    // openFormPriority(false)
   }
   return (
   <div className='container_workspace'>
@@ -204,7 +204,11 @@ const Assignment = () => {
                       return (
                         //neu có sai thì tại xóa value.id
                         <div  id = 'a' className='work_item'> 
-                          <div><input type='checkbox'></input></div>
+                          <div>
+                            <button className="task_checkbox"  >
+                              <svg width="24" height="18" aria-checked="false"><path fill="currentColor" d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"></path></svg>
+                            </button>
+                          </div>
                           <div><p className='work_name'>{value2.name}</p></div>
                           <div className='work_item_listen'>
                             <div className='work_item_edit' onClick={()=>{handleEdit(value2.id)}}>
@@ -253,10 +257,10 @@ const Assignment = () => {
                               <p>Due date</p> */}
               <input required name='dueDate' type='datetime-local' />
             </div>
-            <div className='priority' onClick={openFormPriority}>
+            {/* <div className='priority' onClick={openFormPriority}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="Gw1i-E3" data-icon-name="priority-icon" data-priority="4"><path fillRule="evenodd" clipRule="evenodd" d="M2 3a.5.5 0 01.276-.447C3.025 2.179 4.096 2 5.5 2c.901 0 1.485.135 2.658.526C9.235 2.885 9.735 3 10.5 3c1.263 0 2.192-.155 2.776-.447A.5.5 0 0114 3v6.5a.5.5 0 01-.276.447c-.749.375-1.82.553-3.224.553-.901 0-1.485-.135-2.658-.526C6.765 9.615 6.265 9.5 5.5 9.5c-1.08 0-1.915.113-2.5.329V13.5a.5.5 0 01-1 0V3zm1 5.779v-5.45C3.585 3.113 4.42 3 5.5 3c.765 0 1.265.115 2.342.474C9.015 3.865 9.599 4 10.5 4c1.002 0 1.834-.09 2.5-.279v5.45c-.585.216-1.42.329-2.5.329-.765 0-1.265-.115-2.342-.474C6.985 8.635 6.401 8.5 5.5 8.5c-1.001 0-1.834.09-2.5.279z" fill="currentColor"></path></svg>
                               <p>Priority</p>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className='form_footer'>
@@ -272,7 +276,7 @@ const Assignment = () => {
         </div>
         </form>
       </div>
-      <div id='dropdown-select'style={{ display: showPriority ? "block" : "none" }}>
+      {/* <div id='dropdown-select'style={{ display: showPriority ? "block" : "none" }}>
         <form>
           <div className='priority1'>
             <input id='priority_1'  name="priority" type="radio" value="1" />
@@ -295,7 +299,7 @@ const Assignment = () => {
           
           
         </form>
-      </div>
+      </div> */}
   </div>
   )
 }

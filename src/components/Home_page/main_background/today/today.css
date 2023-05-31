@@ -1,0 +1,332 @@
+*{
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.form{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    box-shadow: rgba(152,242,152, 0.5) 0px 2px 10px 0px;
+    padding: 10px 15px;
+    border-radius: 24px;
+}
+
+.header{
+    width: 100%;
+    height: 100px;
+}
+
+.view_header{
+    padding-top: 5px;
+    padding-bottom: 17px;
+    border-bottom: 2px solid #f3f3f3;
+}
+
+.date{
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.date h2{
+    color: #34ace0;
+}
+
+.date small{
+    font-style: italic;
+    font-size: 14px; 
+}
+
+.content{
+    width: 100%;
+    height: fit-content;
+}
+
+.todolist {
+    list-style-type: none;
+    font-size: 13px;
+    display: block;
+}
+
+.task_list{
+    padding: 12px 20px ;
+    border-bottom: 2px solid #f3f3f3;
+}
+
+.form_task{
+    display: flex;
+}
+
+.task_checkbox{
+    padding: 0px;  
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+}
+
+#pri-1{
+    background-color: red;
+}
+
+#pri-2{
+    background-color: orange;
+}
+
+#pri-3{
+    background-color: skyblue;
+}
+
+#pri-4{
+    background-color: gainsboro;
+}
+
+#priority-1{
+    border: 3px solid red;
+}
+
+#priority-2{
+    border: 3px solid orange;
+}
+
+#priority-3{
+    border: 3px solid rgb(36,111,224);
+}
+
+#priority-4{
+    border: 3px solid;
+}
+
+
+.task_checkbox:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.tasklist_content{
+    width: 100%;
+    margin-top: 4px;
+}
+
+.add_task button{
+    background-color: white;
+    display: flex;
+    padding: 5px 20px;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.add_task button:hover{
+  color: red;
+  cursor: pointer;
+  transform: scale(1.1);
+  border-radius: 16px;
+}
+
+.icon_add{
+    margin-top: 1px;
+    margin-right: 10px;
+    border-radius: 50%;
+    opacity: 0.4;
+}
+
+.add_task p{
+    margin-top: -1px;
+    opacity: 0.4;
+}
+
+.task_action{
+  display: flex;
+
+}
+
+#action{
+  margin-left: 5px;
+  background-color: white;
+  display: none;
+}
+
+.task_list:hover #action{
+  display: block;
+  cursor: pointer;
+}
+
+#action:hover{
+  background-color: gray;
+}
+
+.form_add, .form_edit{
+    display: none;
+    padding: 10px;
+    border: 1px solid rgb(0, 0, 0);
+    box-shadow: rgba(152, 165, 242, 0.5) 0 0 10px 5px;
+    border-radius: 16px;
+    width: 570px;
+    height: fit-content;
+    margin: auto;
+}
+
+.task_edit{
+    text-align: left;
+}
+
+.task_edit_input input{
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+.task_content {
+    padding: 5px;
+}
+
+.task_content input{
+    font-weight: 700;
+}
+
+.task_discription{
+    padding: 5px;
+    border-bottom: 1px solid slategray;
+}
+
+.task_edit_action{
+    display: flex;
+}
+
+.task_edit_action div{
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px solid rgb(179, 155, 155);
+    border-radius: 5px;
+    display: flex;
+    width: 100px;
+}
+
+.task_edit_action input{
+    width: 110px;
+    border-radius: 5px;
+    border: 1px solid rgb(179, 155, 155);
+    margin-top: 10px;
+    appearance: none;
+    margin-right: 3px;
+}
+
+.task_edit_action div svg{
+    margin-top: 5px;
+}
+
+.task_edit_action div p{
+    margin-left: 5px;
+    color: #535c68;
+    margin-top: 4px;
+}
+
+.priority1{
+    margin-right: 13vh;
+    position: relative;
+    margin-left: 3px;
+}
+
+.task_edit_action input{
+    font-size: 13px;
+    text-align: center;
+    margin-left: 5px;
+}
+
+.task_edit_action button{
+    padding: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.task_edit_action div:hover{
+    cursor: pointer;
+    background-color: beige;
+}
+
+.cancel{
+    background-color: orange;
+}
+b
+.cancel svg{
+    margin-top: 1.5px;
+}
+
+.add_submit{
+    background-color: pink;
+}
+
+.add_submit svg{
+    margin-top: 1.5px;
+}
+
+.task_edit_action button:hover{
+    background-color: red;
+    cursor: pointer;
+}
+
+.select_priority{
+    height: fit-content;
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    width: 100px;
+    border: 1px solid rgba(10, 28, 19, 0.591);
+    background-color: white;
+    border-radius: 16px;
+}
+
+.select_priority li {
+    list-style: none;
+    padding: 2px;
+    text-align: center;
+    display: flex;
+}
+
+.select_priority li:hover{
+    cursor: pointer;
+    background-color: gray;
+}
+
+
+.select_priority li p{
+    margin-top: 6px;
+}
+
+.pri1{
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    color: red;
+}
+
+.pri1 span {
+    color: red;
+}
+
+.pri2{
+    color: orange;
+}
+
+.pri2 span{
+    color: orange;
+}
+
+.pri3{
+    color: rgb(36,111,224);
+}
+
+.pri3 span{
+    color: rgb(36,111,224);
+}
+
+.pri4{
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    color: black;
+}
+
+.task_time{
+    margin-left: 4vh;
+}

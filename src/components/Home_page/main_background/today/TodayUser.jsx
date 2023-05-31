@@ -1,5 +1,7 @@
-import React, {useEffect, useState} from "react"
+import React from "react"
+import {useEffect, useState} from "react"
 import "./today.css"
+import axios from "axios";
 
 const Home = () => {
     const [task, setTask] = useState('')
@@ -7,16 +9,19 @@ const Home = () => {
     const [start_time, setStart] = useState('')
     const [end_time, setEnd] = useState('')
     const [done, setDone] = useState(false)
-    const [tasks, setTasks] = useState(() => {
-        const storageTasks = JSON.parse(localStorage.getItem('tasks'))
-        return storageTasks ?? []
-    })
+    const [tasks, setTasks] = useState([])
 
     useEffect(() => {
+        const user_id = 1
         const today = new Date()
         const todayString = today.toLocaleDateString()
         document.getElementById('today').innerHTML = todayString
         document.getElementById('data-day').setAttribute('data-day', todayString)
+        // axios.get(`http://localhost:8080/api/to-do?user_id=${user_id}&date=${todayString}`)
+        //     .then((response) => {
+        //         setTasks(response.data)
+        //     })
+        
     }, []);
     
     const handleCancel = () => {
@@ -39,12 +44,8 @@ const Home = () => {
         add.style.display = "none"
     }
 
-    const handleSubmit = () => {
-        if(!task){
-            alert('Task name is not empty!')
-            return 
-        }
-
+    const handleSubmit = (event) => {
+        event.preventDefault()
         const s = start_time.split(":")
         const e = end_time.split(":")
         const startTime = new Date()
@@ -55,7 +56,6 @@ const Home = () => {
             alert('Start_time is not greater than end_time')
             return 
         }
-
         const item ={
             id: Math.floor(Math.random() * 100),
             name : task,
@@ -64,17 +64,27 @@ const Home = () => {
             end: end_time,
             isDone: done
         }
-
-        setTasks(tasks =>{ 
-            const newTasks = [...tasks, item] 
-            newTasks.sort((a,b) => (a.priority >= b.priority) ? 1 : -1)
-            //save to local storage
-            const jsonTasks = JSON.stringify(newTasks)
-            localStorage.setItem('tasks', jsonTasks)
-            handleCancel()
-            return newTasks
+        axios.post("http://localhost8080/api/to-do", {
+            id: item.id,
+            name: item.name,
+            start_time: item.start,
+            end_time: item.end,
+            date: new Date().toLocaleDateString(),
+            level: item.priority,
+            isDone: item.isDone,
+            user_id: 1
         })
+            .then(res => {
+                console.log(res);
+            })
+
+        console.log("adu")
+        const newTasks = [...tasks, item]
+        newTasks.sort((a,b) => (a.priority >= b.priority) ? 1 : -1)
+        setTasks(newTasks)
+        handleCancel()
     }
+    
 
     const [taskName,setTaskName] = useState('')
     const [taskPriority,setTaskPri] = useState('')
@@ -122,42 +132,26 @@ const Home = () => {
             return 
         }
 
-        setTasks(tasks =>{ 
             const newTasks = [...tasks]
             newTasks[index].name = taskName
             newTasks[index].start = taskStart
             newTasks[index].end = taskEnd
             newTasks[index].priority = taskPriority
-            newTasks.sort((a,b) => (a.priority >= b.priority) ? 1 : -1)
             //save to local storage
-            const jsonTasks = JSON.stringify(newTasks)
-            localStorage.setItem('tasks', jsonTasks)
+            axios.put(`http://localhost:8080/api/to-do/:${index}`, newTasks[index])
             Cancel(index)
-            return newTasks
-        })
     }
 
 
 
     const handleDone = (index) => {
-        setTasks(tasks => {
-            const newTasks = [...tasks]
-            newTasks[index].isDone = true
-            const jsonTasks = JSON.stringify(newTasks)
-            localStorage.setItem("tasks", jsonTasks)
-            return newTasks;
+        axios.put(`http://localhost:8080/api/to-do/:${index}`,{
+            isDone: true
         })
     }
 
     const handleDelete = (index) => {
-        setTasks(tasks => {
-            const newTasks = [...tasks]
-            newTasks.splice(index, 1)
-            
-            const jsonTasks = JSON.stringify(newTasks)
-            localStorage.setItem("tasks", jsonTasks)
-            return newTasks;
-        })
+        axios.delete(`http://localhost:8080/api/to-do/:${index}`)
     }
 
     const [showing, setShowing] = useState(false)
@@ -213,9 +207,9 @@ const Home = () => {
                                                 </div>  
                                             </div>
                                             <div className="task_edit_action">
-                                                <input type="time" value={taskStart} onChange={e => setTaskStart(e.target.value)} />
-                                                <input type="time" value={taskEnd} onChange={e => setTaskEnd(e.target.value)}/>
-                                                <div className="priority1" id={`pri-${taskPriority}`} onClick={handlePri}>
+                                                <input type="time" value={taskStart} onChange={e => setTaskStart(e.target.value)} className="due_date" />
+                                                <input type="time" value={taskEnd} onChange={e => setTaskEnd(e.target.value)} className="due_date"/>
+                                                <div className="priority" id={`pri-${taskPriority}`} onClick={handlePri}>
                                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="Gw1i-E3" data-icon-name="priority-icon" data-priority="4"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 3a.5.5 0 01.276-.447C3.025 2.179 4.096 2 5.5 2c.901 0 1.485.135 2.658.526C9.235 2.885 9.735 3 10.5 3c1.263 0 2.192-.155 2.776-.447A.5.5 0 0114 3v6.5a.5.5 0 01-.276.447c-.749.375-1.82.553-3.224.553-.901 0-1.485-.135-2.658-.526C6.765 9.615 6.265 9.5 5.5 9.5c-1.08 0-1.915.113-2.5.329V13.5a.5.5 0 01-1 0V3zm1 5.779v-5.45C3.585 3.113 4.42 3 5.5 3c.765 0 1.265.115 2.342.474C9.015 3.865 9.599 4 10.5 4c1.002 0 1.834-.09 2.5-.279v5.45c-.585.216-1.42.329-2.5.329-.765 0-1.265-.115-2.342-.474C6.985 8.635 6.401 8.5 5.5 8.5c-1.001 0-1.834.09-2.5.279z" fill="currentColor"></path></svg>
                                                     <p>Priority {taskPriority}</p>
                                                     <ul className="select_priority" style={{ display: showing ? 'block' : 'none' }}>
@@ -261,7 +255,7 @@ const Home = () => {
                                 </button>
                             </li>
 
-                            <div className="form_add">
+                            <form className="form_add" onSubmit={handleSubmit}>
                                 <div className="task_edit">
                                     <div className="task_edit_input">
                                         <div className="task_content">
@@ -270,10 +264,9 @@ const Home = () => {
                                     </div>
 
                                     <div className="task_edit_action">
-                            
-                                        <input type="time" value={start_time} onChange={e => setStart(e.target.value)}/>
-                                        <input type="time" value={end_time} onChange={e => setEnd(e.target.value)}/>
-                                        <div className="priority1" id={`pri-${priority}`} onClick={handlePri}>
+                                        <input type="time" value={start_time} onChange={e => setStart(e.target.value)} className="due_date" />
+                                        <input type="time" value={end_time} onChange={e => setEnd(e.target.value)} className="due_date"/>
+                                        <div className="priority" id={`pri-${priority}`} onClick={handlePri}>
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="Gw1i-E3" data-icon-name="priority-icon" data-priority="4"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 3a.5.5 0 01.276-.447C3.025 2.179 4.096 2 5.5 2c.901 0 1.485.135 2.658.526C9.235 2.885 9.735 3 10.5 3c1.263 0 2.192-.155 2.776-.447A.5.5 0 0114 3v6.5a.5.5 0 01-.276.447c-.749.375-1.82.553-3.224.553-.901 0-1.485-.135-2.658-.526C6.765 9.615 6.265 9.5 5.5 9.5c-1.08 0-1.915.113-2.5.329V13.5a.5.5 0 01-1 0V3zm1 5.779v-5.45C3.585 3.113 4.42 3 5.5 3c.765 0 1.265.115 2.342.474C9.015 3.865 9.599 4 10.5 4c1.002 0 1.834-.09 2.5-.279v5.45c-.585.216-1.42.329-2.5.329-.765 0-1.265-.115-2.342-.474C6.985 8.635 6.401 8.5 5.5 8.5c-1.001 0-1.834.09-2.5.279z" fill="currentColor"></path></svg>
                                             <p>Priority {priority}</p>
                                             <ul className="select_priority" style={{ display: showing ? 'block' : 'none' }}>
@@ -299,16 +292,12 @@ const Home = () => {
                                         <button type="button" className="cancel" onClick={handleCancel}>
                                             <svg viewBox="0 0 24 24" class="icon_close" width="24" height="24"><path fill="currentColor" fill-rule="nonzero" d="M5.146 5.146a.5.5 0 0 1 .708 0L12 11.293l6.146-6.147a.5.5 0 0 1 .638-.057l.07.057a.5.5 0 0 1 0 .708L12.707 12l6.147 6.146a.5.5 0 0 1 .057.638l-.057.07a.5.5 0 0 1-.708 0L12 12.707l-6.146 6.147a.5.5 0 0 1-.638.057l-.07-.057a.5.5 0 0 1 0-.708L11.293 12 5.146 5.854a.5.5 0 0 1-.057-.638z"></path></svg>
                                         </button>
-
-
-                                        <button type="button" className="add_submit" onClick={handleSubmit}>
+                                        <button type="button" className="add_submit" type="submit">
                                             <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.18 6.396C7 6.642 7 7.054 7 7.878V11l6.715.674c.38.038.38.614 0 .652L7 13v3.122c0 .824 0 1.236.18 1.482.157.214.4.356.669.39.308.041.687-.15 1.444-.531l8.183-4.122c.861-.434 1.292-.651 1.432-.942a.915.915 0 000-.798c-.14-.29-.57-.508-1.433-.942l-8.18-4.122c-.758-.381-1.137-.572-1.445-.532a.986.986 0 00-.67.391z" fill="currentColor"></path></svg>
                                         </button>
-
                                     </div>
                                 </div>
-
-                            </div>
+                            </form>
                             
                         </ul>
                     </div>
