@@ -16,6 +16,7 @@ const Assignment = () => {
     const [workSpaceId, setWorkSpaceId] = useState(0);
     const [workId, setworkId] = useState(0);
     const [formAddWork,setformAddWork] = useState(false);
+    const [formChangeWorkspace, setFormChangeWorkspace] = useState(false);
     // const [PriorityRes, setPriorityRes] = useState(1);
     const [listofId,setListOfId] = useState([]);
     const input_name_element = document.querySelector('.input_name input');
@@ -42,33 +43,7 @@ const Assignment = () => {
       setShowPriority(false)
       setShowButtonEdit(false)
     }
-    // function checkPriority(){
-    //   const Priority1 = document.getElementById('priority_1');
-    //   const Priority2 = document.getElementById('priority_2');
-    //   const Priority3 = document.getElementById('priority_3');
-    //   const Priority4 = document.getElementById('priority_4');
-    //   if(Priority1.checked){
-    //     setPriorityRes(1);
-    //   }
-    //   else if(Priority2.checked){
-    //     setPriorityRes(2);
-    //   }
-    //   else if(Priority3.checked){
-    //     setPriorityRes(3);
-    //   }
-    //   else{
-    //     setPriorityRes(4);
-    //   }
-    // }
-    // function closeFormPriority(){
-    //   setShowPriority(false)
-    //   console.log(1)
-    // }
-    // function openFormPriority(event){
-    //   ///event.stopPropagation()
-    //   setShowPriority(!showPriority);
-      
-    // }
+   
     function handleDelete(work_id){
       const newListWork = [];
       for(let i=0;i<listofWork.length;i++){
@@ -89,10 +64,34 @@ const Assignment = () => {
       
     }
     function handleEdit_workspace(workspace_id){
-      console.log("edit workspace");
+      setWorkSpaceId(workspace_id);
+      setFormChangeWorkspace(!formChangeWorkspace);
+      const input_element = document.querySelector(".input_rename_workspace");
+      for(let i = 0;i<listofWorkspace.length;i++){
+        if(listofWorkspace[i].id ===workspace_id){
+          input_element.value = listofWorkspace[i].name;
+        }
+      }
+    }
+    function cancel_rename_workspace(){
+     
+      setFormChangeWorkspace(!formChangeWorkspace)
     }
     function handleDelete_workspace(workspace_id){
-
+      const newlistOfWorkspace = [];
+      for(let i=0;i<listofWorkspace.length;i++){
+        if(listofWorkspace[i].id !== workspace_id){
+          newlistOfWorkspace.push(listofWorkspace[i]);
+        }
+      }
+      setListWorkspace(newlistOfWorkspace);
+      axios.delete(`http://localhost:8080/api/workspace/${workspace_id}`)
+      .then((response)=>{
+        console.log(response);
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
     }
     function handleEdit(work_id){
       setformAddWork(true);
@@ -122,6 +121,32 @@ const Assignment = () => {
      // workSpace_element.style.display = arr[a].toString();
       
     }
+    function saveEditWorkspace(workspace_id){
+      
+      const newlistofworkspace = listofWorkspace;
+      const name = document.querySelector(".input_rename_workspace").value;
+      for(let i = 0;i<listofWorkspace.length;i++){
+        if(listofWorkspace[i].id == workspace_id){
+          newlistofworkspace[i].name = name;
+        }
+      }
+      
+     
+      setListWorkspace(newlistofworkspace);
+      const updateWorkspace = {
+        id: workspace_id,
+        name: name,
+        
+      }
+      setFormChangeWorkspace(!formChangeWorkspace)
+      axios.put(`http://localhost:8080/api/workspace/${workspace_id}`,updateWorkspace)
+          .then((response)=>{
+            console.log(response);
+          })
+          .catch((error)=>{
+            console.log("error edit")
+          })
+    }
     function saveEdit(work_id){
       const newListWork = listofWork;
       
@@ -149,15 +174,18 @@ const Assignment = () => {
         
         setformAddWork(false)
         const updateWork = {
+          id: work_id,
           name: name,
           // description: newListWork[cnt].description,
           due_date: due_date,
           isDone: isDone,
+          
           // description: newListWork[cnt].description,
-          workspace_id:workspace_id
+          workspace_id:workspace_id,
+         
         }
         
-        axios.put(`http://localhost:8080/api/work/:${work_id}`,updateWork)
+        axios.put(`http://localhost:8080/api/work/${work_id}`,updateWork)
           .then((response)=>{
             console.log(response);
           })
@@ -233,6 +261,7 @@ const Assignment = () => {
         </form>
       </div>
     </div>
+    
     <div className='workspace_screen'>
       {
         listofWorkspace.map((value1,key)=>{
@@ -241,6 +270,7 @@ const Assignment = () => {
                   <div onClick={()=>handle_show_work(value1.id)} className='div_workspace_name' >
                     <div className='div_p_workspace_name'>
                       <p className='workspace_name'>{value1.name}</p>
+                      
                     </div>
                     <div className='workspace_item_listen'>
                       <div className='workspace_item_edit' onClick={()=>{handleEdit_workspace(value1.id)}}>
@@ -329,30 +359,25 @@ const Assignment = () => {
         </div>
         </form>
       </div>
-      {/* <div id='dropdown-select'style={{ display: showPriority ? "block" : "none" }}>
-        <form>
-          <div className='priority1'>
-            <input id='priority_1'  name="priority" type="radio" value="1" />
-            <label for = 'priority_1'>Priority 1</label>
-          </div>
-          <div className='priority2'>
-            <input id='priority_2' name="priority" type="radio" value="2" />
-            <label for = 'priority_2'>Priority 2</label>
-          </div>
-          <div className='priority3'>
-            <input id='priority_3' name="priority" type="radio" value="3" />
-            <label for = 'priority_3'>Priority 3</label>
-          </div>
-          <div className='priority4'>
-            <input id='priority_4' name="priority" type="radio" value="4" />
-            <label for = "priority_4">Priority 4</label>
-          </div>
-          
-          
-          
-          
-        </form>
-      </div> */}
+      <div style={{display: formChangeWorkspace?"block": "none"}} className='form_change_workspace'>
+          <form method='post'>
+            <div className='title_rename'>
+              <p>Rename workspace</p>
+            </div>
+            <div className='rename_workspace'>
+              <input className='input_rename_workspace' />
+            </div>
+            <div className='button_workspace_rename'>
+              <div className='save_rename_workspace'>
+                <button type='button' onClick={()=>saveEditWorkspace(workSpaceId)} className='button_rename_workspace'>Rename</button>
+              </div>
+              <div className='cancel_rename_workspace'>
+               <button type='reset' onClick={cancel_rename_workspace}>Cancel</button>
+              </div>
+            </div>
+            
+          </form>
+      </div>
   </div>
   )
 }
