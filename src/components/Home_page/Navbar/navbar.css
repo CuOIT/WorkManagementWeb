@@ -126,9 +126,9 @@ input :active{
   top: 50px;
   height: fit-content;
   width: 400px;
-  background-color: bisque;
+  background-color: wheat;
   border: 1px solid black;
-  border-radius: 16px;
+  border-radius: 5px;
 }
 
 ul > li{

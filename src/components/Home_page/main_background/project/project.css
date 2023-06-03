@@ -1,89 +1,32 @@
-.form_invite{
-    height: fit-content;
-    width: fit-content;
-    border: 2px solid rgb(8, 202, 198);
-    box-shadow: 0px 15px 20px rgba(44, 19, 169, 0.337);
-    padding: 10px;
-    margin: auto;
-    align-items: center;
-    border-radius: 16px;
-}
-
-.header_invite{
+.project_container{
+    padding:30px;
+    background-color: aliceblue;
+  }
+  .project_item{
     display: flex;
-    padding: 5px;
-    border-bottom: 1px solid cadetblue;
-}
-
-.header_invite h3{
-    font-size: 16px;
-    margin-right: 18vh;
-}
-
-.header_invite button{
-    background-color: white;
-    border-bottom: white;
-}
-
-.header_invite button:hover{
-    border-radius: 5px;
-    background-color: gray;
-    cursor: pointer;
-}
-
-.form_invite .body{
-    margin-top: 10px;
-    margin-left: 5px;
-}
-
-.form_invite .body .action{
-    padding: 5px 0;
-}
-
-.form_invite .body .action input{
-    width: 26vh;
-    border-radius: 5px;
-    border: 2px solid gray;
-    font-size: 14px;
-    padding: 5px;
-    margin-right: 1vh ;
-}
-
-.form_invite .body .action button{
-    background-color: pink;
-    padding: 5px 15px;
-    border-radius: 5px;
-    box-shadow: rgba(86, 72, 99, 0.2) 0 10px 10px 0;
-}
-
-.form_invite .body .action button:hover{
-    cursor: pointer;
-    background-color: red;
-}
-
-.form_invite .body .partner{
+    background-color: rgb(249, 100, 100);
+    margin-bottom: 20px;
+    padding: 18px;
+    border-radius: 10px;
+    color: white;
+    align-items: baseline;
+  }
+  .name_project_item{
+    font-size: 18px;
+    font-weight: 500; 
+    color: rgb(27, 212, 17);
     display: flex;
-    margin-top: 10px;
-    padding: 5px;
-    border: 1px solid white;
-}
-
-.form_invite .body .partner:hover{
-    background-color: gray;
-
-}
-
-.form_invite .body .partner .avatar{
-    border-radius: 50%;
-}
-
-.form_invite .body .partner .avatar img{
-    width: 40px;
-    height: 40px;
-    margin : 2px 10px 0 10px;
-}
-
-.form_invite .body .partner .field_infor div{
-    font-size: 14px;
-    opacity: 0.5;
-}
+    align-items: baseline;
+  }
+  .check_box_project{ 
+    display: flex; 
+    align-items: baseline;
+  
+  }
+  .date_project{
+    
+  }
+  .project_infor{
+    margin-left: 40px;
+    
+  }
