@@ -1,32 +1,32 @@
 .project_container{
-    padding:30px;
-    background-color: aliceblue;
-  }
-  .project_item{
-    display: flex;
-    background-color: rgb(249, 100, 100);
-    margin-bottom: 20px;
-    padding: 18px;
-    border-radius: 10px;
-    color: white;
-    align-items: baseline;
-  }
-  .name_project_item{
-    font-size: 18px;
-    font-weight: 500; 
-    color: rgb(27, 212, 17);
-    display: flex;
-    align-items: baseline;
-  }
-  .check_box_project{ 
-    display: flex; 
-    align-items: baseline;
+  padding:30px;
+  background-color: aliceblue;
+}
+.project_item{
+  display: flex;
+  background-color: rgb(249, 100, 100);
+  margin-bottom: 20px;
+  padding: 18px;
+  border-radius: 10px;
+  color: white;
+  align-items: baseline;
+}
+.name_project_item{
+  font-size: 18px;
+  font-weight: 500; 
+  color: rgb(27, 212, 17);
+  display: flex;
+  align-items: baseline;
+}
+.check_box_project{ 
+  display: flex; 
+  align-items: baseline;
+
+}
+.date_project{
   
-  }
-  .date_project{
-    
-  }
-  .project_infor{
-    margin-left: 40px;
-    
-  }
+}
+.project_infor{
+  margin-left: 40px;
+  
+}

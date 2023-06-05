@@ -4,9 +4,9 @@ import axios from 'axios';
 const Project = () => {
   const [listOfProject,setlistOfProject] = useState([]);
   useEffect(()=>{
-    axios.get("http://localhost:8080/api/project")
+    axios.get(`http://localhost:8080/api/project?user_id=1`)
       .then((response)=>{
-        setlistOfProject(response.data)
+        setlistOfProject(response.data.data)
         console.log(listOfProject)
       })
   },[])
