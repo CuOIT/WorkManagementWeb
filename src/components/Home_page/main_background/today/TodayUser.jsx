@@ -33,7 +33,7 @@ const Home = () => {
               console.error('Error fetching tasks:', error)
             }
           }
-          fetchData()
+        fetchData()
 
     }, []);
     
