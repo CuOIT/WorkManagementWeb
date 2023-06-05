@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: row;
   padding-left: 20px;
-  padding-right: 22px;
+  padding-right: 20px;
 }
 .navbar_item{
   background-color: #3076ef;
@@ -82,10 +82,6 @@
 }
 .navbar_left{
   flex-basis: 15%;
-  justify-content: left;
-}
-.navbar_left .icon{
-  margin: 0;
 }
 .navbar_middle{
   flex-basis: 40%;
@@ -102,7 +98,7 @@
   
 }
 .navbar_right .announce{
-  margin-left:20px;
+  margin-left:10px;
 }
 .sign_in button{
   color: green;
@@ -116,9 +112,66 @@ input :active{
 .navbar_container .icon{
   width: 40px;
 }
-.menu_navbar img{
-  width: 32px;
+
+.announce .navbar_item{
+  position: relative;
 }
-.navbar_item{
-  margin-left: 20px;
+
+.navbar_item:hover{
+  cursor: pointer;
+}
+
+.announce_container{
+  position: absolute;
+  top: 50px;
+  height: fit-content;
+  width: 400px;
+  background-color: wheat;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+ul > li{
+  list-style: none;
+}
+
+.announce_container ul li{
+  display: flex;
+  padding: 5px;
+  border-bottom: 2px solid white;
+}
+
+.announce_container ul li .avatar img{
+  padding: 5px;
+  width: 50px;
+  height: 50px;
+}
+
+.announce_container ul li .content{
+  width: 350px;
+  margin: 5px 10px;
+}
+
+.announce_container ul li .action{
+  display: flex;
+}
+
+.announce_container ul li .action button{
+  margin-left: 2px;
+  margin-top: 1vh;
+  border-radius: 50%;
+  padding: 5px;
+  height: fit-content;
+}
+.announce_container ul li .action button:hover{
+  cursor: pointer;
+  background-color: red;
+}
+
+.announce_container ul li .action .accept{
+  background-color: greenyellow;
+}
+
+.announce_container ul li .action .refuse{
+  background-color: orange;
 }

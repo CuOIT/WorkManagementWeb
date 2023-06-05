@@ -25,7 +25,7 @@ const Sidebar = () => {
               <img className='icon' src={logo_today} alt="" />
             </div>
             <div className="div_title">
-              <span>To Day</span>
+              <span>Today</span>
             </div>
           </div>
         </Link>
@@ -35,24 +35,12 @@ const Sidebar = () => {
               <img className='icon' src={logo_work} alt="" />
             </div>
             <div className="div_title">
-              <span>Assignment</span>
+              <span>WorkSpace</span>
             </div>
           </div>
         </Link>
-        <Link to='/trangchu/plan'>
-        
-          <div className="plan item">
-            <div className="div_icon">
-              <img className='icon' src={logo_plan} alt="" />
-            </div>
-            <div className="div_title">
-              <span>Plan</span>
-            </div>
-          </div>
-        </Link>
-        <Link to='/trangchu/project'> 
 
-        
+        <Link to='/trangchu/project'> 
           <div className="project item">
             <div className="div_icon">
               <img className='icon' src={logo_project} alt="" />
