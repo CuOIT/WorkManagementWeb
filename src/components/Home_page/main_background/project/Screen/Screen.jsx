@@ -87,7 +87,7 @@ const Edit_Screen = (id) => {
                 <svg width="24" height="18"></svg>
               </button>
               <div className="content1">
-                <div className="task_content">
+                <div className="task_content1">
                   <input value='Pemond' placeholder="Taskname" required />
                 </div>
                 <div className="task_description">

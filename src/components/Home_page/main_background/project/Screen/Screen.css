@@ -9,6 +9,7 @@
   height: fit-content;
   padding-bottom: 10px;
   width: fit-content;
+  background-color: white;
 }
 
 .edit_screen .body{
@@ -46,6 +47,7 @@
 .edit_screen .body .taskname{
   display: flex;
   border-bottom: 1px solid wheat;
+  width: 100%;
 }
 
 .edit_screen .body .taskname button{
@@ -66,7 +68,8 @@
   outline: none;
 }
 
-.edit_screen .body .taskname .content1 .task_content input{
+.edit_screen .body .taskname .content1 .task_content1 input{
+  font-weight: 700;
   font-size: 16px;
 }
 
@@ -83,7 +86,7 @@
 }
 
 .content .name{
-  width: 486.57px;
+  width: 100%;
 }
 
 .content .comment .action{
@@ -176,6 +179,7 @@
 }
 
 .add_cmt input{
+  padding-left: 1rem;
   width: 80vh;
   border-radius: 24px;
   margin-left: 10px;
@@ -225,5 +229,5 @@
 
 .edit_screen .body .side div div {
   text-align: center;
-
 }
+
