@@ -28,12 +28,14 @@ const Assignment = () => {
     useEffect(()=>{
         axios.get(`http://localhost:8080/api/workspace?user_id=1`)
             .then((response)=>{
+               
                 setListWorkspace(response.data.data)
                 
             })
-        axios.get("http://localhost:8080/api/work")
+        axios.get("http://localhost:8080/api/work?workspace_id=1")
             .then((response)=>{
-                setListWork(response.data)
+                
+                setListWork(response.data.data)
             })
         
     }, [])
