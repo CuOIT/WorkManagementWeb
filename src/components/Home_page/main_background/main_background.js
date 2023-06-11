@@ -18,7 +18,7 @@ const main_background = () => {
           <Route path='assignment' element={<AssignmentScreen />} />
           
           <Route path='plan' element={<PlanScreen />} />
-          <Route path='project' element={<ProjectScreen />} />
+          <Route path='project/:project_id' element={<ProjectScreen />} />
        
       </Routes>
     </div>
