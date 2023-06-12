@@ -1,0 +1,20 @@
+{
+    "folders": [
+		{
+			"path": "../../../../BE"
+		},
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../Template/FE/FE_CNPM"
+		}
+	],
+    "settings": {
+        "liveServer.settings.multiRootWorkspaceName": "lớp",
+        "launch": {
+            "configurations": [],
+            "compounds": []
+        }
+    }
+}
