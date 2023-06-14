@@ -1,14 +1,14 @@
 import axios from "axios";
 
 const axiosAuth = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: process.env.REACT_APP_BASE_URL,
 });
 const axiosData = (accessToken) =>
     axios.create({
-        baseURL: "http://localhost:8080",
+        baseURL: process.env.REACT_APP_BASE_URL, //process.env.baseURL
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
     });
-
+//
 export { axiosAuth, axiosData };

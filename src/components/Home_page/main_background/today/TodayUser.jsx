@@ -5,11 +5,13 @@ import axios from "axios";
 import { axiosData } from "../../../../services/axiosInstance";
 import { useSelector } from "react-redux";
 import { selectAccessToken, selectUserData } from "./../../../../redux/reducer/userReducer";
+import { verifyExpiredToken } from "../../../../services/verifyAccessToken";
 const TodoList = () => {
     const accessTokenStore = useSelector(selectAccessToken);
     const userStore = useSelector(selectUserData);
     const [date, setDate] = useState("");
     const [currentTodo, setCurrentTodo] = useState(null);
+    const [newTodo, setNewTodo] = useState(null);
     const [todos, setTodos] = useState([]);
 
     useEffect(() => {
@@ -35,48 +37,49 @@ const TodoList = () => {
         fetchData();
     }, []);
 
-    const handleCancel = () => {
-        const form = document.querySelector(".form_add")
-        const add = document.querySelector(".add_task")
-        form.style.display = "none"
-        add.style.display = "block"
-        // setTask('')
-        // setPri(4);
-        // setShowing(false)
-        // setStart('')
-        // setEnd('')
-        // setDone(false)
-    }
+    const handleCancelCreateTodo = () => {
+        console.log({ currentTodo });
+        const form = document.querySelector(".form_add");
+        const add = document.querySelector(".add_task");
+        form.style.display = "none";
+        add.style.display = "block";
+        setNewTodo(null);
+    };
+
+    const handleAddTodo = () => {
+        const form = document.querySelector(".form_add");
+        const add = document.querySelector(".add_task");
+        form.style.display = "block";
+        add.style.display = "none";
+    };
 
     const handleSubmitCreateTodo = async (event) => {
         event.preventDefault();
-        const s = currentTodo.start_time?.split(":");
-        const e = currentTodo.end_time?.split(":");
-        let start_time = null;
-        if (s) {
-            const start_time = new Date();
-            start_time.setHours(s[0], s[1]);
-        }
-        let end_time = null;
-        if (e) {
-            const end_time = new Date();
-            end_time.setHours(e[0], e[1]);
-        }
-        if (start_time > end_time) {
+        // const s = newTodo.start_time?.split(":");
+        // const e = newTodo.end_time?.split(":");
+        // let start_time = null;
+        // // if (s) {
+        // //     start_time = new Date();
+        // //     start_time.setHours(s[0], s[1]);
+        // // }
+        // let end_time = null;
+        // // if (e) {
+        // //     end_time = new Date();
+        // //     end_time.setHours(e[0], e[1]);
+        // // }
+        if (newTodo?.start_time > newTodo?.end_time) {
             alert("Start_time is not greater than end_time");
             return;
         }
-        const newTodo = {
-            name: currentTodo.name,
-            date: date,
-            level: currentTodo.priority,
-            start_time,
-            end_time,
-            completed: false,
+        const updatedNewTodo = {
+            ...newTodo,
+            date,
+            level: newTodo.priority,
             user_id: userStore.user_id,
         };
+        console.log(updatedNewTodo);
         try {
-            const res = await axiosData(accessTokenStore).post("/api/to-do", newTodo);
+            const res = await axiosData(accessTokenStore).post("/api/to-do", updatedNewTodo);
             if (res.data.success === "true") {
                 const updatedTodos = [...todos, newTodo];
                 updatedTodos.sort((a, b) => a.level - b.level);
@@ -85,7 +88,7 @@ const TodoList = () => {
         } catch (err) {
             console.log(err);
         }
-        handleCancel();
+        handleCancelCreateTodo();
     };
 
     const handleEditTodo = (id) => {
@@ -96,6 +99,7 @@ const TodoList = () => {
         form_time.style.display = "none";
         form_edit.style.display = "block";
         const todo = todos.find((item) => item.id === id);
+        console.log({ todo });
         setCurrentTodo(todo);
     };
 
@@ -160,6 +164,8 @@ const TodoList = () => {
 
     const handleCompleted = async (todo) => {
         try {
+            const decodedToken = verifyExpiredToken(accessTokenStore);
+
             const updatedTodo = { ...todo, completed: !todo.completed };
             const res = await axiosData(accessTokenStore).put(`/api/to-do/${todo.id}`, updatedTodo);
             if (res.data.success === "true") {
@@ -260,7 +266,7 @@ const TodoList = () => {
                                     </div>
                                     <div className="task_time" id={`time-${item.id}`}>
                                         <small>
-                                            {item.start_time} - {item.end_time}
+                                            {item.start_time || "xx : xx"} - {item.end_time || "xx : xx"}
                                         </small>
                                     </div>
 
@@ -284,22 +290,23 @@ const TodoList = () => {
                                             <div className="task_edit_action">
                                                 <input
                                                     type="time"
-                                                    value={currentTodo?.start_time}
-                                                    onChange={(e) =>
+                                                    value={currentTodo?.start_time || ""}
+                                                    onChange={(e) => {
+                                                        console.log(currentTodo?.start_time);
                                                         setCurrentTodo({
                                                             ...currentTodo,
-                                                            start_time: e.target.value,
-                                                        })
-                                                    }
+                                                            start_time: e.target.value.substring(11, 19),
+                                                        });
+                                                    }}
                                                     className="due_date"
                                                 />
                                                 <input
                                                     type="time"
-                                                    value={currentTodo?.end_time}
+                                                    value={currentTodo?.end_time || ""}
                                                     onChange={(e) =>
                                                         setCurrentTodo({
                                                             ...currentTodo,
-                                                            end_time: e.target.value,
+                                                            end_time: e.target.value.substring(11, 19),
                                                         })
                                                     }
                                                     className="due_date"
@@ -495,11 +502,12 @@ const TodoList = () => {
                             <div className="task_edit">
                                 <div className="task_edit_input">
                                     <div className="task_content">
+                                        {console.log({ newTodo })}
                                         <input
-                                            value={currentTodo?.name}
+                                            value={newTodo?.name || ""}
                                             onChange={(e) =>
-                                                setCurrentTodo({
-                                                    ...currentTodo,
+                                                setNewTodo({
+                                                    ...newTodo,
                                                     name: e.target.value,
                                                 })
                                             }
@@ -512,27 +520,27 @@ const TodoList = () => {
                                 <div className="task_edit_action">
                                     <input
                                         type="time"
-                                        value={currentTodo?.start_time}
-                                        onChange={(e) =>
-                                            setCurrentTodo({
-                                                ...currentTodo,
+                                        value={newTodo?.start_time}
+                                        onChange={(e) => {
+                                            setNewTodo({
+                                                ...newTodo,
                                                 start_time: e.target.value,
-                                            })
-                                        }
+                                            });
+                                        }}
                                         className="due_date"
                                     />
                                     <input
                                         type="time"
-                                        value={currentTodo?.end_time}
+                                        value={newTodo?.end_time || ""}
                                         onChange={(e) =>
-                                            setCurrentTodo({
-                                                ...currentTodo,
+                                            setNewTodo({
+                                                ...newTodo,
                                                 end_time: e.target.value,
                                             })
                                         }
                                         className="due_date"
                                     />
-                                    <div className="priority1" id={`pri-${currentTodo?.priority || 4}`} onClick={handlePri}>
+                                    <div className="priority1" id={`pri-${newTodo?.priority || 4}`} onClick={handlePri}>
                                         <svg
                                             width="16"
                                             height="16"
@@ -550,7 +558,7 @@ const TodoList = () => {
                                                 fill="currentColor"
                                             ></path>
                                         </svg>
-                                        <p>Priority {currentTodo?.priority}</p>
+                                        <p>Priority {newTodo?.priority || ""}</p>
                                         <ul
                                             className="select_priority"
                                             style={{
@@ -560,8 +568,8 @@ const TodoList = () => {
                                             <li
                                                 className="pri1"
                                                 onClick={() =>
-                                                    setCurrentTodo({
-                                                        ...currentTodo,
+                                                    setNewTodo({
+                                                        ...newTodo,
                                                         priority: 1,
                                                     })
                                                 }
@@ -590,8 +598,8 @@ const TodoList = () => {
                                             <li
                                                 className="pri2"
                                                 onClick={() =>
-                                                    setCurrentTodo({
-                                                        ...currentTodo,
+                                                    setNewTodo({
+                                                        ...newTodo,
                                                         priority: 2,
                                                     })
                                                 }
@@ -620,8 +628,8 @@ const TodoList = () => {
                                             <li
                                                 className="pri3"
                                                 onClick={() =>
-                                                    setCurrentTodo({
-                                                        ...currentTodo,
+                                                    setNewTodo({
+                                                        ...newTodo,
                                                         priority: 3,
                                                     })
                                                 }
@@ -650,8 +658,8 @@ const TodoList = () => {
                                             <li
                                                 className="pri4"
                                                 onClick={() =>
-                                                    setCurrentTodo({
-                                                        ...currentTodo,
+                                                    setNewTodo({
+                                                        ...newTodo,
                                                         priority: 4,
                                                     })
                                                 }
@@ -680,7 +688,7 @@ const TodoList = () => {
                                         </ul>
                                     </div>
 
-                                    <button type="button" className="cancel" onClick={handleCancel}>
+                                    <button type="button" className="cancel" onClick={handleCancelCreateTodo}>
                                         <svg viewBox="0 0 24 24" className="icon_close" width="24" height="24">
                                             <path
                                                 fill="currentColor"

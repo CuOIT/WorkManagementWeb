@@ -57,20 +57,18 @@ const LoginForm = () => {
                     accessToken: res.data.accessToken,
                 };
                 dispatch(login(payload));
-                navigate("/trangchu");
+                navigate("/");
             })
             .catch((error) => {
                 console.log(error);
-                const errorMessage =
-                    error?.response.data.message || "Error occured";
+                const errorMessage = error?.response.data.message || "Error occured";
                 toast.error(errorMessage);
             });
     };
 
     const handleSignUp = (event) => {
         event.preventDefault();
-        const { phone, password, confirmPassword, name, email, birthday } =
-            event.target;
+        const { phone, password, confirmPassword, name, email, birthday } = event.target;
         const payload = {
             phone: phone.value,
             user_password: password.value,
@@ -79,14 +77,12 @@ const LoginForm = () => {
             email: email.value,
             birthday: birthday.value,
         };
-        fetchInstant("/api/create-new-user", METHOD.POST, payload).then(
-            (res) => {
-                console.log(res);
-                if (res.code === 0) {
-                } else {
-                }
+        fetchInstant("/api/create-new-user", METHOD.POST, payload).then((res) => {
+            console.log(res);
+            if (res.code === 0) {
+            } else {
             }
-        );
+        });
     };
 
     return (
@@ -99,20 +95,8 @@ const LoginForm = () => {
                 </div>
                 <div className="form-container">
                     <div className="slide-controls">
-                        <input
-                            type="radio"
-                            id="login"
-                            name="slide"
-                            checked={activeTab === "login"}
-                            onChange={handleTabChange}
-                        />
-                        <input
-                            type="radio"
-                            id="signup"
-                            name="slide"
-                            checked={activeTab === "signup"}
-                            onChange={handleTabChange}
-                        />
+                        <input type="radio" id="login" name="slide" checked={activeTab === "login"} onChange={handleTabChange} />
+                        <input type="radio" id="signup" name="slide" checked={activeTab === "signup"} onChange={handleTabChange} />
                         <label htmlFor="login" className="slide login">
                             Login
                         </label>
@@ -124,33 +108,17 @@ const LoginForm = () => {
                     <div className="form-inner">
                         <form className="login" onSubmit={handleLogin}>
                             <div className="field">
-                                <input
-                                    name="email"
-                                    id="usernameSignIn"
-                                    type="text"
-                                    placeholder="Email"
-                                    required
-                                />
+                                <input name="email" id="usernameSignIn" type="text" placeholder="Email" required />
                             </div>
                             <div className="field">
-                                <input
-                                    name="password"
-                                    id="passwordSignIn"
-                                    type="password"
-                                    placeholder="Password"
-                                    required
-                                />
+                                <input name="password" id="passwordSignIn" type="password" placeholder="Password" required />
                             </div>
                             <div className="pass-link">
                                 <a href="#">Forgot password?</a>
                             </div>
                             <div className="field btn">
                                 <div className="btn-layer"></div>
-                                <input
-                                    id="loginBtn"
-                                    type="submit"
-                                    value="Log In"
-                                />
+                                <input id="loginBtn" type="submit" value="Log In" />
                             </div>
                             <div className="signup-link">
                                 Not a member? <a href="">Signup now</a>
@@ -158,33 +126,15 @@ const LoginForm = () => {
                         </form>
                         <form className="signup" onSubmit={handleSignUp}>
                             <div className="field">
-                                <input
-                                    id="email"
-                                    type="text"
-                                    placeholder="Email"
-                                    required
-                                />
+                                <input id="email" type="text" placeholder="Email" required />
                             </div>
                             <div className="field">
-                                <input
-                                    id="password"
-                                    type="password"
-                                    placeholder="Password"
-                                    required
-                                />
+                                <input id="password" type="password" placeholder="Password" required />
                             </div>
                             <div className="field">
-                                <input
-                                    id="confirmPassword"
-                                    type="password"
-                                    placeholder="Confirm password"
-                                    required
-                                />
+                                <input id="confirmPassword" type="password" placeholder="Confirm password" required />
                             </div>
-                            <div
-                                className="field"
-                                style={{ whiteSpace: "nowrap" }}
-                            >
+                            <div className="field" style={{ whiteSpace: "nowrap" }}>
                                 <div
                                     style={{
                                         display: "inline-block",
@@ -208,37 +158,17 @@ const LoginForm = () => {
                                         height: "100%",
                                     }}
                                 >
-                                    <input
-                                        id="first_name"
-                                        type="text"
-                                        placeholder="First Name"
-                                        required
-                                    />
+                                    <input id="first_name" type="text" placeholder="First Name" required />
                                 </div>
                             </div>
                             <div className="field">
-                                <input
-                                    id="phone"
-                                    type="text"
-                                    placeholder="Phone"
-                                    required
-                                />
+                                <input id="phone" type="text" placeholder="Phone" required />
                             </div>
                             <div className="field">
-                                <input
-                                    id="user_name"
-                                    type="text"
-                                    placeholder="User_name"
-                                    required
-                                />
+                                <input id="user_name" type="text" placeholder="User_name" required />
                             </div>
                             <div className="field">
-                                <input
-                                    id="birthday"
-                                    type="date"
-                                    placeholder="Birthday"
-                                    required
-                                />
+                                <input id="birthday" type="date" placeholder="Birthday" required />
                             </div>
                             <div className="field btn">
                                 <div className="btn-layer"></div>
