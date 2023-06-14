@@ -11,6 +11,8 @@ import icon_exit from "../../image/cross.png"
 import icon_comment from "../../image/comment.png"
 import icon_moon from "../../image/new-moon.png"
 import icon_calendar from "../../image/calendar.png"
+
+
 const Project = () => {
   const [listOfTask,setlistOfTask] = useState([]);
   const { project_id } = useParams();
@@ -21,12 +23,10 @@ const Project = () => {
   const [nameTask,setNameTask] = useState("");
   const [descriptionTask, setDescriptionTask] = useState("")
   const [dueDate,setdueDate] = useState("");
-  useEffect(()=>{
-    
+  useEffect(()=>{   
     axios.get(`http://localhost:8080/api/project/get-tasks?project_id=${project_id}`)
       .then((response)=>{
         setlistOfTask(response.data.data)
-        
       })
       axios.get(`http://localhost:8080/api/project/?project_id=${project_id}`)
       .then((response)=>{
@@ -39,6 +39,7 @@ const Project = () => {
   const hide_show_addTask = ()=>{
     setdisplayAddTask(!displayAddTask);
   }
+
   const submit_addTask = (event)=>{
     event.preventDefault();
     const {name,description,dueDate,assigned_to} = event.target;
@@ -131,10 +132,10 @@ const Project = () => {
       </div>
       <div className='project_container'>
         {
-          listOfTask.map((value,key)=>{
+          listOfTask.map((value, index)=>{
             return(
              
-                <div onClick={()=>show_selected_task(value.id, value.name, value.description,value.due_date)} className='project_item' id={value.id}>
+                <div key={index} onClick={()=>show_selected_task(value.id, value.name, value.description,value.due_date)} className='project_item' id={value.id}>
                     <div className='check_box_project'>
                     <button className="task_checkbox"  >
                                                 <svg width="24" height="18" aria-checked="false"><path fill="currentColor" d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"></path></svg>
@@ -150,9 +151,7 @@ const Project = () => {
                       <div className='date_project'>
                         <p>{value.due_date}</p>
                       </div>
-
-                    </div>
-                    
+                    </div>   
                 </div>
               
             )

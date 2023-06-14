@@ -3,8 +3,6 @@ import './Screen.css'
 import axios from 'axios'
 
 const Edit_Screen = (id) => {
-
-
   const [comment, setComment] = useState('')
   const [comments, setComments] = useState([])
   useEffect(() => {
