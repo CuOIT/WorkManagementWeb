@@ -15,12 +15,9 @@ const Navbar = () => {
 
     const handleAccept = async (index) => {
         try {
-            axios.put(
-                `http://localhost:8080/api/project/response-invitation/${index}`,
-                {
-                    response: true,
-                }
-            );
+            axios.put(`http://localhost:8080/api/project/response-invitation/${index}`, {
+                response: true,
+            });
         } catch (e) {
             console.error(e);
         }
@@ -29,12 +26,9 @@ const Navbar = () => {
 
     const handleRefuse = async (index) => {
         try {
-            axios.put(
-                `http://localhost:8080/api/project/response-invitation/${index}`,
-                {
-                    response: false,
-                }
-            );
+            axios.put(`http://localhost:8080/api/project/response-invitation/${index}`, {
+                response: false,
+            });
         } catch (e) {
             console.error(e);
         }
@@ -44,9 +38,7 @@ const Navbar = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(
-                    `http://localhost:8080/api/project/invite?receiver_id=1`
-                );
+                const response = await axios.get(`http://localhost:8080/api/project/invite?receiver_id=1`);
                 setInvite(response.data.data.invitations);
             } catch (err) {
                 console.error(err);
@@ -77,18 +69,12 @@ const Navbar = () => {
                         alt=""
                     />
                 </div>
-                <div
-                    className="announce navbar_item"
-                    onClick={() => handleClick()}
-                >
+                <div className="announce navbar_item" onClick={() => handleClick()}>
                     <img
                         src="https://static.vecteezy.com/system/resources/previews/006/086/198/original/notification-icon-for-web-vector.jpg"
                         alt=""
                     />
-                    <div
-                        className="announce_container"
-                        style={{ display: show ? "block" : "none" }}
-                    >
+                    <div className="announce_container" style={{ display: show ? "block" : "none" }}>
                         <ul>
                             {invite?.map((item, index) => {
                                 return (
@@ -101,40 +87,20 @@ const Navbar = () => {
                                         </div>
                                         <div className="content">
                                             <p>
-                                                {item.inviter} just send you
-                                                invite to join {item.project_id}
+                                                {item.inviter} just send you invite to join {item.project_id}
                                             </p>
                                         </div>
                                         <div className="action">
-                                            <button
-                                                className="accept"
-                                                onClick={() =>
-                                                    handleAccept(item.id)
-                                                }
-                                            >
-                                                <svg
-                                                    width="24"
-                                                    height="18"
-                                                    aria-checked="false"
-                                                >
+                                            <button className="accept" onClick={() => handleAccept(item.id)}>
+                                                <svg width="24" height="18" aria-checked="false">
                                                     <path
                                                         fill="currentColor"
                                                         d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"
                                                     ></path>
                                                 </svg>
                                             </button>
-                                            <button
-                                                className="refuse"
-                                                onClick={() =>
-                                                    handleRefuse(item.id)
-                                                }
-                                            >
-                                                <svg
-                                                    viewBox="0 0 24 24"
-                                                    className="icon_close"
-                                                    width="24"
-                                                    height="15"
-                                                >
+                                            <button className="refuse" onClick={() => handleRefuse(item.id)}>
+                                                <svg viewBox="0 0 24 24" className="icon_close" width="24" height="15">
                                                     <path
                                                         fill="currentColor"
                                                         fillRule="nonzero"
@@ -155,10 +121,7 @@ const Navbar = () => {
                                     />
                                 </div>
                                 <div className="content">
-                                    <p>
-                                        Pemond just send you invite to join the
-                                        project
-                                    </p>
+                                    <p>Pemond just send you invite to join the project</p>
                                 </div>
                                 <div
                                     className="action"
@@ -166,31 +129,16 @@ const Navbar = () => {
                                         display: showing ? "none" : "flex",
                                     }}
                                 >
-                                    <button
-                                        className="accept"
-                                        onClick={() => handleAccept()}
-                                    >
-                                        <svg
-                                            width="24"
-                                            height="18"
-                                            aria-checked="false"
-                                        >
+                                    <button className="accept" onClick={() => handleAccept()}>
+                                        <svg width="24" height="18" aria-checked="false">
                                             <path
                                                 fill="currentColor"
                                                 d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"
                                             ></path>
                                         </svg>
                                     </button>
-                                    <button
-                                        className="refuse"
-                                        onClick={() => handleRefuse()}
-                                    >
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            className="icon_close"
-                                            width="24"
-                                            height="15"
-                                        >
+                                    <button className="refuse" onClick={() => handleRefuse()}>
+                                        <svg viewBox="0 0 24 24" className="icon_close" width="24" height="15">
                                             <path
                                                 fill="currentColor"
                                                 fillRule="nonzero"
@@ -209,10 +157,7 @@ const Navbar = () => {
                                     />
                                 </div>
                                 <div className="content">
-                                    <p>
-                                        Pemond just send you invite to join the
-                                        project
-                                    </p>
+                                    <p>Pemond just send you invite to join the project</p>
                                 </div>
                                 <div
                                     className="action"
@@ -220,31 +165,16 @@ const Navbar = () => {
                                         display: showing ? "none" : "flex",
                                     }}
                                 >
-                                    <button
-                                        className="accept"
-                                        onClick={() => handleAccept()}
-                                    >
-                                        <svg
-                                            width="24"
-                                            height="18"
-                                            aria-checked="false"
-                                        >
+                                    <button className="accept" onClick={() => handleAccept()}>
+                                        <svg width="24" height="18" aria-checked="false">
                                             <path
                                                 fill="currentColor"
                                                 d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"
                                             ></path>
                                         </svg>
                                     </button>
-                                    <button
-                                        className="refuse"
-                                        onClick={() => handleRefuse()}
-                                    >
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            className="icon_close"
-                                            width="24"
-                                            height="15"
-                                        >
+                                    <button className="refuse" onClick={() => handleRefuse()}>
+                                        <svg viewBox="0 0 24 24" className="icon_close" width="24" height="15">
                                             <path
                                                 fill="currentColor"
                                                 fillRule="nonzero"
@@ -263,10 +193,7 @@ const Navbar = () => {
                                     />
                                 </div>
                                 <div className="content">
-                                    <p>
-                                        Pemond just send you invite to join the
-                                        project
-                                    </p>
+                                    <p>Pemond just send you invite to join the project</p>
                                 </div>
                                 <div
                                     className="action"
@@ -274,31 +201,16 @@ const Navbar = () => {
                                         display: showing ? "none" : "flex",
                                     }}
                                 >
-                                    <button
-                                        className="accept"
-                                        onClick={() => handleAccept()}
-                                    >
-                                        <svg
-                                            width="24"
-                                            height="18"
-                                            aria-checked="false"
-                                        >
+                                    <button className="accept" onClick={() => handleAccept()}>
+                                        <svg width="24" height="18" aria-checked="false">
                                             <path
                                                 fill="currentColor"
                                                 d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"
                                             ></path>
                                         </svg>
                                     </button>
-                                    <button
-                                        className="refuse"
-                                        onClick={() => handleRefuse()}
-                                    >
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            className="icon_close"
-                                            width="24"
-                                            height="15"
-                                        >
+                                    <button className="refuse" onClick={() => handleRefuse()}>
+                                        <svg viewBox="0 0 24 24" className="icon_close" width="24" height="15">
                                             <path
                                                 fill="currentColor"
                                                 fillRule="nonzero"
@@ -316,10 +228,7 @@ const Navbar = () => {
                                     />
                                 </div>
                                 <div className="content">
-                                    <p>
-                                        Pemond just send you invite to join the
-                                        project
-                                    </p>
+                                    <p>Pemond just send you invite to join the project</p>
                                 </div>
                                 <div
                                     className="action"
@@ -327,31 +236,16 @@ const Navbar = () => {
                                         display: showing ? "none" : "flex",
                                     }}
                                 >
-                                    <button
-                                        className="accept"
-                                        onClick={() => handleAccept()}
-                                    >
-                                        <svg
-                                            width="24"
-                                            height="18"
-                                            aria-checked="false"
-                                        >
+                                    <button className="accept" onClick={() => handleAccept()}>
+                                        <svg width="24" height="18" aria-checked="false">
                                             <path
                                                 fill="currentColor"
                                                 d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"
                                             ></path>
                                         </svg>
                                     </button>
-                                    <button
-                                        className="refuse"
-                                        onClick={() => handleRefuse()}
-                                    >
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            className="icon_close"
-                                            width="24"
-                                            height="15"
-                                        >
+                                    <button className="refuse" onClick={() => handleRefuse()}>
+                                        <svg viewBox="0 0 24 24" className="icon_close" width="24" height="15">
                                             <path
                                                 fill="currentColor"
                                                 fillRule="nonzero"
@@ -365,13 +259,13 @@ const Navbar = () => {
                     </div>
                 </div>
                 <div className="sign_in navbar_item">
-                    <Link to="/">
+                    <Link to="/login">
                         <button>Đăng nhập</button>
                     </Link>
                 </div>
 
                 <div className="sign_up navbar_item">
-                    <Link to="/">
+                    <Link to="/login">
                         <button>Đăng ký</button>
                     </Link>
                 </div>
