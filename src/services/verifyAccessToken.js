@@ -1,9 +1,8 @@
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
-const verifyExpiredToken = (accessToken) => {
-    // const decodedToken = jwt.decode(accessToken);
-    // console.log(decodedToken);
-    return true;
-};
+// const verifyExpiredToken = (accessToken) => {
 
-export { verifyExpiredToken };
+//     return true;
+// };
+
+// export { verifyExpiredToken };
