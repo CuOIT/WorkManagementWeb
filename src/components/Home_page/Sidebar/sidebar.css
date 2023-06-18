@@ -39,3 +39,50 @@ Span{
 a{
   text-decoration: none;
 }
+#div_title_project{
+  display: flex;
+
+}
+.add_or_show{
+  margin-left: auto;
+  display: flex;
+  display: none;
+}
+.add_or_show .icon_show_project{
+  margin-left: 20px;
+}
+.add_or_show button{
+  background-color: transparent;
+  
+}
+.icon_show_project button{
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon_show_project{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.project_item .circle_project img{
+  width: 10px;
+  height: 10px;
+}
+.project_item{
+  display: flex;
+  
+}
+.list_of_project{
+  margin-left: 40px;
+}
+.project_item .name_project{
+  margin-left: 20px;
+}
+.sidebar_container{
+  background-color: rgb(210, 242, 203);
+}
+.project_head:hover .add_or_show{
+  display: flex;
+}
