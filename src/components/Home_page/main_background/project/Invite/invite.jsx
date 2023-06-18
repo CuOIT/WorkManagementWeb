@@ -3,7 +3,7 @@ import './invite.css'
 import axios from 'axios'
 import { FiKey } from "react-icons/fi";
 
-const Invite = () => {
+const Invite = ({onCancel}) => {
   const [value, setValue] = useState('')
   const [member, setMember] = useState([])
 
@@ -35,7 +35,9 @@ const Invite = () => {
   }
 
   const handleCancel = () => {
-    document.querySelector('.form_invite').style.display = 'none'
+    if (typeof onCancel === "function") {
+      onCancel();
+    }
   }
 
   return (

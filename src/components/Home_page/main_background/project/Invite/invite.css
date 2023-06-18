@@ -27,6 +27,7 @@
     border-bottom: white;
     position: absolute;
     right: 10px;
+    top: 0;
 }
 
 .header_invite button:hover{
@@ -42,6 +43,7 @@
 
 .form_invite .body .action{
     padding: 5px 0;
+    display: flex;
 }
 
 .form_invite .body .action input{
@@ -51,6 +53,10 @@
     font-size: 14px;
     padding: 5px;
     margin-right: 1vh ;
+}
+
+.form_invite .body .action input:hover{
+    cursor: auto;
 }
 
 .form_invite .body .action button{
@@ -63,6 +69,10 @@
 .form_invite .body .action button:hover{
     cursor: pointer;
     background-color: red;
+}
+
+.form_invite .body .action button span{
+    color: black;
 }
 
 .form_invite .body .partner{
@@ -96,9 +106,10 @@
 .form_invite .body .partner button{
     position: absolute;
     right: 10px;
-    top: 13px;
+    top: 10px;
     display: none;
     border: none;
+    background-color: rgb(240, 240, 240);
 }
 
 .form_invite .body .partner button svg{
@@ -107,9 +118,8 @@
 
 .form_invite .body .partner button:hover{
     cursor: pointer;
-    background-color: gray;
     border-radius: 5px;
-    color: white;
+    color: red;
 }
 
 .form_invite .body .partner:hover .action_project{
@@ -119,12 +129,11 @@
 .franchise div{
     padding: 1px 2px;
     position: absolute;
-    right: 30px;
+    right: 35px;
     background-color: rgb(240, 240, 240);
     font-size: 18px;
 }
 
 .franchise div:hover{
-    background-color: gray;
     border-radius: 5px;
 }

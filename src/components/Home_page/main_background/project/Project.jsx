@@ -11,6 +11,11 @@ import icon_exit from "../../image/cross.png"
 import icon_comment from "../../image/comment.png"
 import icon_moon from "../../image/new-moon.png"
 import icon_calendar from "../../image/calendar.png"
+import "./Invite/invite"
+import Invite from './Invite/invite';
+import Comment from './Screen/Screen'
+
+
 const Project = () => {
   const [listOfTask,setlistOfTask] = useState([]);
   const { project_id } = useParams();
@@ -75,9 +80,27 @@ const Project = () => {
   const hide_selected_task = ()=>{
     setdisplayTask(false);
   }
+
+  const handleCancel = () => {
+    setShowInvite(false);
+  };
+
+  const [showInvite, setShowInvite] = useState(false)
+
+  const handleInvite = () => {
+    setShowInvite(true)
+  }
+
   return (
-    <div className='project_screen'>
-      
+    <>
+    {showInvite && 
+      <div className="invite-container">
+        <Invite onCancel={handleCancel} />
+      </div>}
+    <Comment/>
+    {/* Sửa tí rồi mới import Components */}
+
+    <div className={`project_screen ${showInvite ? "blur" : ""}`}>
       <div className='project_header'>
         <div className='project_title'>
           <h3>{name_project}</h3>  
@@ -87,7 +110,15 @@ const Project = () => {
             <button onClick={hide_show_addTask}>Add task</button>
           </div>
           <div className='invite_to_project'>
-            <button type="button" aria-label="Share options" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M10 13.5c3.323 0 5.803.697 7.427 2.119A2.5 2.5 0 0115.78 20H4.22a2.5 2.5 0 01-1.647-4.381C4.197 14.197 6.677 13.5 10 13.5zm0 1c-3.102 0-5.353.633-6.768 1.871A1.5 1.5 0 004.22 19h11.56a1.502 1.502 0 00.989-2.629C15.352 15.133 13.101 14.5 10 14.5zM19.5 6a.5.5 0 01.5.5V9h2.5a.5.5 0 010 1H20v2.5a.5.5 0 01-1 0V10h-2.5a.5.5 0 010-1H19V6.5a.5.5 0 01.5-.5zM10 4c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4zm0 1a3 3 0 100 6 3 3 0 000-6z" fill-rule="evenodd"></path></svg><span class="action_label">Share</span></button>
+            <button 
+              type="button" 
+              aria-label="Share options" 
+              onClick={handleInvite}>
+              <svg xmlns="http://www.w3.org/2000/svg" 
+              width="24" height="24" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M10 13.5c3.323 0 5.803.697 7.427 2.119A2.5 2.5 0 0115.78 20H4.22a2.5 2.5 0 01-1.647-4.381C4.197 14.197 6.677 13.5 10 13.5zm0 1c-3.102 0-5.353.633-6.768 1.871A1.5 1.5 0 004.22 19h11.56a1.502 1.502 0 00.989-2.629C15.352 15.133 13.101 14.5 10 14.5zM19.5 6a.5.5 0 01.5.5V9h2.5a.5.5 0 010 1H20v2.5a.5.5 0 01-1 0V10h-2.5a.5.5 0 010-1H19V6.5a.5.5 0 01.5-.5zM10 4c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4zm0 1a3 3 0 100 6 3 3 0 000-6z" fill-rule="evenodd">
+              </path></svg><span class="action_label">Share</span>
+              </button>
           </div>
         
       </div>
@@ -240,6 +271,7 @@ const Project = () => {
       </div>
       </div>
     </div>
+    </>
   )
 }
 

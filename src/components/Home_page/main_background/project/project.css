@@ -3,8 +3,22 @@
   grid-template-columns: 1fr 1fr 1fr;
   grid-row-gap: 50px;
   grid-column-gap: 40px;
- 
 }
+
+.blur{
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.invite-container {
+  position: absolute;
+  top: 30%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  filter: none;
+}
+
 .project_screen{
   margin: 40px;
 }
@@ -58,7 +72,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 5px;
 }
+
+.project_header .invite_to_project button:hover{
+  cursor: pointer;
+  background-color: gray;
+  border-radius: 6px;
+}
+
 .project_header .invite_to_project button span{
   margin-left: 5px;
   color: rgb(116, 111, 111);
