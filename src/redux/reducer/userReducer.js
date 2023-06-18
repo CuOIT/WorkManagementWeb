@@ -17,10 +17,14 @@ const userSlice = createSlice({
             state.userData = null;
             state.accessToken = "";
         },
+        updateAccessToken(state, action) {
+            state.accessToken = action.payload.accessToken;
+            console.log("Update");
+        },
     },
 });
 const selectUserData = (state) => state.user.userData;
 const selectAccessToken = (state) => state.user.accessToken;
-export const { login, logout } = userSlice.actions;
+export const { login, logout, updateAccessToken } = userSlice.actions;
 export default userSlice.reducer;
 export { selectUserData, selectAccessToken };
