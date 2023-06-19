@@ -8,6 +8,8 @@ import logo_delete from '../../image/delete.png'
 import logo_edit2 from '../../image/edit-text.png'
 import logo_comment from '../../image/comment.png'
 import logo_add_workspace from '../../image/add.png'
+import icon_exit from "../../image/cross.png"
+import { Link } from 'react-router-dom'
 const Assignment = () => {
     const [listofWorkspace,setListWorkspace] = useState([])
     const [listofWork,setListWork] = useState([])
@@ -22,6 +24,7 @@ const Assignment = () => {
     const input_name_element = document.querySelector('.input_name input');
     const input_description_element = document.querySelector('.input_description input');
     const due_date_element = document.querySelector('.due_date input');
+    const [formDeleteWorkspace,setFormDeleteWorkspace] = useState(false);
     const l = 100;
     const arr = Array(l).fill(false);
     var count = -1;
@@ -45,27 +48,12 @@ const Assignment = () => {
       setShowPriority(false)
       setShowButtonEdit(false)
     }
-   
-    function handleDelete(work_id){
-      const newListWork = [];
-      for(let i=0;i<listofWork.length;i++){
-        if(listofWork[i].id!==work_id){
-          newListWork.push(listofWork[i]);
-        }
-      }
-      setListWork(newListWork);
-      const id = work_id
-      axios.delete(`http://localhost:8080/api/work/${work_id}`)
-      .then((response)=>{
-        alert("delete success");
-        console.log(response)
-      })
-      .catch((error)=>{
-        alert("fail really fail")
-      });
-      
+    const handle_prevent_spread = (event)=>{
+      event.stopPropagation();
     }
+
     function handleEdit_workspace(workspace_id){
+      
       setWorkSpaceId(workspace_id);
       setFormChangeWorkspace(!formChangeWorkspace);
       const input_element = document.querySelector(".input_rename_workspace");
@@ -94,6 +82,7 @@ const Assignment = () => {
       .catch((error)=>{
         console.log(error);
       })
+      setFormDeleteWorkspace(false);
     }
     function handleEdit(work_id){
       setformAddWork(true);
@@ -109,20 +98,7 @@ const Assignment = () => {
       }
       
     }
-    function handle_show_work(a){
-      const workSpace_element = document.getElementById(a);
-      
-      if(arr[a]){
-        arr[a] = false;
-        workSpace_element.style.display = "none";
-      }
-      else{
-        arr[a] = true;
-        workSpace_element.style.display = "block"
-      }
-     // workSpace_element.style.display = arr[a].toString();
-      
-    }
+    
     function saveEditWorkspace(workspace_id){
       
       const newlistofworkspace = listofWorkspace;
@@ -247,10 +223,17 @@ const Assignment = () => {
     const newlistOfWorkspace = [...listofWorkspace,new_workspace];
     setListWorkspace(newlistOfWorkspace);
   }
+  const handle_showDeleteWorkspace = (id)=>{
+    setWorkSpaceId(id)
+    setFormDeleteWorkspace(true)
+  }
+  const handle_hideDeleteWorkspace = ()=>{
+    setFormDeleteWorkspace(false);
+  }
   return (
   <div className='container_workspace'>
     <div className='icon_add_workspace'>
-      <div> <img src={logo_add_workspace}></img></div>
+      
       
       <div className='form_add_workspace'>
         <form onSubmit={onSubmit_workspace} method='post'>
@@ -268,60 +251,28 @@ const Assignment = () => {
       {
         listofWorkspace.map((value1,key)=>{
             return (
+              // <Link to={`/trangchu/assignment/${value1.id}`} className='LinkTo'>
                 <div   className='workspace_item'>
-                  <div onClick={()=>handle_show_work(value1.id)} className='div_workspace_name' >
+                  <div  className='div_workspace_name' >
+                  <Link to={`/trangchu/assignment/${value1.id}`} className='LinkTo'>
                     <div className='div_p_workspace_name'>
                       <p className='workspace_name'>{value1.name}</p>
                       
                     </div>
+                    </Link>
                     <div className='workspace_item_listen'>
-                      <div className='workspace_item_edit' onClick={()=>{handleEdit_workspace(value1.id)}}>
-                        <img src = {logo_edit2}></img>
+                      <div className='workspace_item_edit' onClick={(event)=>{handleEdit_workspace(value1.id)}}>
+                        <div className='hmmm'><svg width="24" height="24"><g fill="none" fill-rule="evenodd"><path fill="currentColor" d="M9.5 19h10a.5.5 0 110 1h-10a.5.5 0 110-1z"></path><path stroke="currentColor" d="M4.42 16.03a1.5 1.5 0 00-.43.9l-.22 2.02a.5.5 0 00.55.55l2.02-.21a1.5 1.5 0 00.9-.44L18.7 7.4a1.5 1.5 0 000-2.12l-.7-.7a1.5 1.5 0 00-2.13 0L4.42 16.02z"></path></g></svg></div>  
                       </div>
-                      <div className='workspace_item_delete' onClick={()=>{handleDelete_workspace(value1.id)}}>
-                        <img src = {logo_delete}></img>
+                      <div className='workspace_item_delete' onClick={()=>{handle_showDeleteWorkspace(value1.id)}}>
+                      <div className='hmmm'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g fill="none" fill-rule="evenodd"><path d="M0 0h24v24H0z"></path><rect width="14" height="1" x="5" y="6" fill="currentColor" rx="0.5"></rect><path fill="currentColor" d="M10 9h1v8h-1V9zm3 0h1v8h-1V9z"></path><path stroke="currentColor" d="M17.5 6.5h-11V18A1.5 1.5 0 008 19.5h8a1.5 1.5 0 001.5-1.5V6.5zm-9 0h7V5A1.5 1.5 0 0014 3.5h-4A1.5 1.5 0 008.5 5v1.5z"></path></g></svg></div>  
                       </div>
                     </div>
                     
                   </div>
-                  <div id={value1.id} className='div_work_item' style={{display:"none"}}>{listofWork.map((value2,key)=>{
-                    if(value2.workspace_id === value1.id)
-                      return (
-                        //neu có sai thì tại xóa value.id
-                        <div  id = 'a' className='work_item'> 
-                          <div>
-                            <button className="task_checkbox"  >
-                              <svg width="24" height="18" aria-checked="false"><path fill="currentColor" d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"></path></svg>
-                            </button>
-                          </div>
-                          <div><p className='work_name'>{value2.name}</p></div>
-                          <div className='work_item_listen'>
-                            <div className='work_item_edit' onClick={()=>{handleEdit(value2.id)}}>
-                              <img src = {logo_edit2}></img>
-                            </div>
-                            <div className='work_item_delete' onClick={()=>{handleDelete(value2.id)}}>
-                              <img src = {logo_delete}></img>
-                            </div>
-                            <div className='work_item_comment'>
-                              <img src = {logo_comment}></img>
-                            </div>
-                            
-                          </div>
-                        </div>
-                        )
-                  })}
                   
-                  </div> 
-                  <div  id= {value1.id} className='add_task'>
-                    <div className='div_button_add_task' onClick={()=>openFormAddTask(value1.id)}>
-                      <button type="button" data-add-task-navigation-element="true" className="button_add_task">
-                        <span className="icon_add" aria-hidden="true"><svg width="13" height="13"><path d="M6 6V.5a.5.5 0 011 0V6h5.5a.5.5 0 110 1H7v5.5a.5.5 0 11-1 0V7H.5a.5.5 0 010-1H6z" fill="currentColor" fillRule="evenodd"></path></svg>
-                      </span>Add task</button>
-                    </div>
-                    
-                  </div>   
                 </div>
-                
+                //</Link>
             )
         })
       }
@@ -361,24 +312,42 @@ const Assignment = () => {
         </div>
         </form>
       </div>
-      <div style={{display: formChangeWorkspace?"block": "none"}} className='form_change_workspace'>
-          <form method='post'>
-            <div className='title_rename'>
-              <p>Rename workspace</p>
-            </div>
-            <div className='rename_workspace'>
-              <input className='input_rename_workspace' />
-            </div>
-            <div className='button_workspace_rename'>
-              <div className='save_rename_workspace'>
-                <button type='button' onClick={()=>saveEditWorkspace(workSpaceId)} className='button_rename_workspace'>Rename</button>
-              </div>
-              <div className='cancel_rename_workspace'>
-               <button type='reset' onClick={cancel_rename_workspace}>Cancel</button>
-              </div>
-            </div>
+      <div className='cover_screen' style={{display: formDeleteWorkspace?"block":"none"}} onClick={handle_hideDeleteWorkspace}>
+        <div className='announce_delete_workspace' onClick={handle_prevent_spread}>
+          <div className='announce_delete_header ggg' >
+            <div className='hghg'><p>Delete Workspace</p></div>
             
-          </form>
+              <div  onClick={handle_hideDeleteWorkspace}><img src={icon_exit} alt="" /></div>
+            
+          </div>
+          <div className='ggg2'><p>There is no way to recover a workspace once it has been deleted.</p></div>
+          <div className='delete_workspace_footer'>
+            <div className='cancel_delete_workspace' onClick={handle_hideDeleteWorkspace}><button>Cancel</button></div>
+            <div className='accept_delete_workspace' onClick={()=>{handleDelete_workspace(workSpaceId)}}><button >Delete</button></div>
+          </div>
+        </div>
+        
+      </div>
+      <div className='screen_cover' style={{display: formChangeWorkspace?"block": "none"}}>
+        <div  className='form_change_workspace'>
+            <form method='post'>
+              <div className='title_rename'>
+                <p>Rename workspace</p>
+              </div>
+              <div className='rename_workspace'>
+                <input className='input_rename_workspace' />
+              </div>
+              <div className='button_workspace_rename'>
+                <div className='save_rename_workspace'>
+                  <button type='button' onClick={()=>saveEditWorkspace(workSpaceId)} className='button_rename_workspace'>Rename</button>
+                </div>
+                <div className='cancel_rename_workspace'>
+                <button type='reset' onClick={cancel_rename_workspace}>Cancel</button>
+                </div>
+              </div>
+              
+            </form>
+        </div>
       </div>
   </div>
   )

@@ -3,6 +3,10 @@
   margin: 0;
 }
 
+input:hover, input:focus{
+  cursor: auto;
+}
+
 .edit_screen{ 
   border: 2px solid rgb(50, 90, 18);
   border-radius: 16px;
@@ -17,6 +21,7 @@
 }
 
 .edit_screen .header_edit{
+  
   padding: 10px;
   border-bottom: 1px solid wheat;
   position: relative;
@@ -29,7 +34,7 @@
 }
 
 .edit_screen .header_edit button{
-  padding: 5px;
+  padding: 3px;
   position: absolute;
   right: 10px;
   top: 7px;
@@ -68,13 +73,33 @@
   outline: none;
 }
 
+.edit_screen .body .content .name{
+  width: 700px;
+}
+
+
+.edit_screen .body .taskname .content1{
+  width: 100%;
+}
+
 .edit_screen .body .taskname .content1 .task_content1 input{
   font-weight: 700;
   font-size: 16px;
 }
 
-.edit_screen .body .taskname .content1 .task_description input{
-  opacity: 0.5;
+
+.edit_screen .body .taskname .content1 .task_description textarea{
+  opacity: 0.7;
+  width: 620px;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  overflow-y: auto;
+  border: none;
+  outline: none;
+  resize: none;
+  scrollbar-width: none;
+  scrollbar-color: transparent;
 }
 
 .task_checkbox{
@@ -106,6 +131,11 @@
 
 .content .comment .action .arrow{
   margin-right: 7px;
+}
+
+.content .comment .commentlist {
+  max-height: 320px;
+  overflow: auto;
 }
 
 .content .comment .commentlist .comment_content{
@@ -164,11 +194,17 @@
   margin-left: 10px;
   color: black;
   font-size: 15px;
+  max-width: 600px;
+}
+
+.content .comment .commentlist .comment_content .content_cmt p{
+  max-width: 550px;
 }
 
 .add_cmt{
   display: flex;
   margin-top: 30px;
+  max-width: 650px;
 }
 
 .add_cmt img{
@@ -224,10 +260,16 @@
 .edit_screen .body .side div p{
   font-size: 14px;
   opacity: 0.6;
-  text-align: center;
+  text-align: left;
 }
 
-.edit_screen .body .side div div {
-  text-align: center;
+.edit_screen .body .side div div{
+  text-align: left;
+}
+
+.edit_screen .body .side div div img{
+  height: 14px;
+  margin-right: 3px;
+  margin-top: -2px;
 }
 

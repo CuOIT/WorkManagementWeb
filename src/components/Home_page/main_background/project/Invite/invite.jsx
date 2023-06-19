@@ -3,7 +3,7 @@ import './invite.css'
 import axios from 'axios'
 import { FiKey } from "react-icons/fi";
 
-const Invite = ({onCancel}) => {
+const Invite = ({onCancel, prj_id}) => {
   const [value, setValue] = useState('')
   const [member, setMember] = useState([])
 
@@ -12,7 +12,7 @@ const Invite = ({onCancel}) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/project?project_id={project_id}`
+          `http://localhost:8080/api/project?project_id=${prj_id}`
         )
         setMember(response.data.data)
       } catch (error) {
@@ -22,14 +22,16 @@ const Invite = ({onCancel}) => {
     fetchData()
   })
 
-
+  const date = new Date()
+  const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  
   const handleSubmit = (event) => {
     event.preventDefault()
     axios.post("http://localhost:8080/api/project/invite", {
       inviter: 1,
       receiver: 2,
-      project_id: 3,
-      created_at: new Date()
+      project_id: prj_id,
+      created_at: formattedDate
     })
     setValue('')
   }
@@ -57,7 +59,7 @@ const Invite = ({onCancel}) => {
             <span>Invite</span>
           </button>
         </div>
-        <ul>
+        <ul className='list_partner'>
           {member?.map((item, index) => {
             return (
               <li key={index} className="partner">
@@ -67,7 +69,7 @@ const Invite = ({onCancel}) => {
 
                 <div className="field_infor">
                   <div className="Name">
-                    {item.id}
+                    {item.inviter}
                   </div>
                   <div className="mail">
                     Someone@gmail.com
@@ -76,7 +78,7 @@ const Invite = ({onCancel}) => {
 
                 {/* doan nay la hien thi nut bam theo role nguoi dung */}
               
-                {/* {userRole === 'admin' ? (
+                {item.role === 'Leader' ? (
                   <button className="action_project leave_project">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g fill="none" fill-rule="evenodd"><path stroke="currentColor" d="M6.5 8.3V5.63c0-1.17.9-2.13 2-2.13h7c1.1 0 2 .95 2 2.13v11.74c0 1.17-.9 2.13-2 2.13h-7c-1.1 0-2-.95-2-2.13V14.7"></path><path fill="currentColor" d="M12.8 11l-2.15-2.15a.5.5 0 11.7-.7L14 10.79a1 1 0 010 1.42l-2.65 2.64a.5.5 0 01-.7-.7L12.79 12H4.5a.5.5 0 010-1h8.3z"></path></g></svg>
                   </button>
@@ -90,7 +92,7 @@ const Invite = ({onCancel}) => {
                       <div><FiKey className='franchise_icon' /></div>
                     </button>
                   </>
-                )} */}
+                )}
               </li>
             )
           })}
@@ -118,26 +120,6 @@ const Invite = ({onCancel}) => {
             <div><FiKey className='franchise_icon' /></div>
           </button>
 
-
-        </div>
-
-        <div className="partner">
-          <div className="avatar">
-            <img src="https://avatars.doist.com?fullName=Pemond&amp;email=vipthieugia200%40gmail.com&amp;size=50&amp;bg=ffffff" alt="Pemond" />
-          </div>
-
-          <div className="field_infor">
-            <div className="Name">
-              Someone
-            </div>
-            <div className="mail">
-              Someone@gmail.com
-            </div>
-          </div>
-
-          <button className="action_project leave_project">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g fill="none" fill-rule="evenodd"><path stroke="currentColor" d="M6.5 8.3V5.63c0-1.17.9-2.13 2-2.13h7c1.1 0 2 .95 2 2.13v11.74c0 1.17-.9 2.13-2 2.13h-7c-1.1 0-2-.95-2-2.13V14.7"></path><path fill="currentColor" d="M12.8 11l-2.15-2.15a.5.5 0 11.7-.7L14 10.79a1 1 0 010 1.42l-2.65 2.64a.5.5 0 01-.7-.7L12.79 12H4.5a.5.5 0 010-1h8.3z"></path></g></svg>
-          </button>
         </div>
       </div>
     </form>
