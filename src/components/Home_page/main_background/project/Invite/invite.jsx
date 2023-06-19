@@ -12,7 +12,7 @@ const Invite = ({onCancel}) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:8080/api/project?project_id={project_id}'
+          `http://localhost:8080/api/project?project_id={project_id}`
         )
         setMember(response.data.data)
       } catch (error) {
