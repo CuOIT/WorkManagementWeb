@@ -15,10 +15,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
 }
-.icon{
-  
+#navbar_container{
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  top: 0px;
 }
 .icon img{
   height: 100%;

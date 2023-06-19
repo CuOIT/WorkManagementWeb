@@ -1,20 +1,28 @@
+.container_workspace{
+  margin-left: 50px;
+  margin-right: 50px;
+}
 .workspace_screen{
   
   align-items: center;
   margin-top:30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 30px;
+  grid-row-gap: 20px;
 }
 .div_workspace_name{
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   padding-top:10px;
   border-radius: 5px;
-  background-color: rgb(217, 238, 231);
+  background-color: rgb(245, 250, 158);
   margin-bottom: 10px;
   
 }
-.workspace_item{
+/* .workspace_item{
   margin-left: 20px;
   margin-right: 20px;
-}
+} */
 .workspace_name{
   padding-left:20px;
   
@@ -150,6 +158,10 @@ input[type=date]:focus::-webkit-datetime-edit {
   background-color: red;
   color:white;
 }
+.button_workspace_rename .cancel_rename_workspace button{
+  background-color: rgb(148, 243, 148);
+  color: black;
+}
 .Cancel button{
   color:red;
   background-color: aliceblue;
@@ -244,26 +256,30 @@ input[type=date]:focus::-webkit-datetime-edit {
   cursor: pointer;
 }
 .icon_add_workspace{
-  margin-left: 20px;
+ 
   margin-top: 30px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  
+  justify-content: center;
 }
 .icon_add_workspace img{
   width: 50px;
   height: 50px;
 }
 .form_add_workspace{
-  margin-left: 40px;
+  
   border-radius: 10px;
   background-color: aliceblue;
   border: solid 1px rgb(215, 173, 173);
-  
+  width: 60%;
+}
+.input_name_workspace{
+  display: flex;
+  justify-content: center;
 }
 .form_add_workspace input{
-  width: 300px;
+  width: 80%;
   padding: 5px;
 }
 .form_add_workspace form{
@@ -285,14 +301,41 @@ input[type=date]:focus::-webkit-datetime-edit {
   
   outline: none;
 }
+.LinkTo{
+  text-decoration: none;
+  color: black;
+}
 .div_workspace_name{
   display: flex;
   flex-direction: row;
+  justify-content: left;
 }
 .workspace_item_listen{
   display: flex;
   flex-direction: row;
-  margin-left: auto;
+  flex-grow: 0;
+  color: rgb(66, 66, 66);
+  /* margin-left: auto; */
+}
+.workspace_item_edit:hover, .workspace_item_delete:hover{
+  cursor: pointer;
+  color: red;
+ 
+  border-radius: 50px;
+}
+.div_p_workspace_name{
+  flex-grow: 1;
+}
+.LinkTo{
+  flex-grow: 1;
+}
+.screen_cover{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 .workspace_item_listen img{
   width: 24px;
@@ -312,7 +355,7 @@ input[type=date]:focus::-webkit-datetime-edit {
   left: 50%;
   transform: translate(-50%, -50%);
   margin: auto;
-  background-color:rgb(221, 253, 201);
+  background-color:rgb(221, 241, 248);
   border-radius: 10px;
 }
 .rename_workspace{
@@ -329,6 +372,12 @@ input[type=date]:focus::-webkit-datetime-edit {
   flex-direction: row;
   justify-content: right;
   margin-top: 25px;
+}
+.button_workspace_rename button:hover{
+  cursor: pointer;
+}
+.cancel_rename_workspace button:hover{
+  cursor: pointer;
 }
 .button_workspace_rename button{
   padding-left: 15px;

@@ -1,0 +1,194 @@
+.work_in_workspace_container{
+  
+  margin-top: 40px;
+  margin-bottom: 200px;
+  margin-left: 180px;
+  margin-right: 180px;
+  font-family: 'Times New Roman', Times, serif;
+}
+h2{
+  color: red;
+}
+.work_header{
+  display: flex;
+  border-bottom: solid 1px rgb(215, 212, 212);
+  padding-bottom: 20px;
+}
+.work_header_right1{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+.work_header_edit, .work_header_delete{
+  display: flex;
+  margin-left: 15px;
+  color: rgb(98, 98, 98);
+  align-items: center;
+}
+.work_content{
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+
+}
+.work_checkbox{
+  border-radius: 100px;
+}
+.work_infor{
+  margin-left: 30px;
+}
+.name_work_item{
+  margin-bottom: 10px;
+}
+.name_work_item p{
+  font-size: 19px;
+}
+.date_work p{
+  color: red;
+  font-size: 14px;
+}
+p{
+  font-family: 'Times New Roman', Times, serif;
+}
+.announce_delete_workspace{
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  
+  width: 550px;
+  border-radius: 10px;
+  z-index: inherit;
+}
+.accept_delete_workspace button{
+  margin-left: 10px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  font-size: 17px;
+  font-weight: 500;
+}
+.cancel_delete_workspace button{
+  background-color: rgb(174, 244, 167);
+  font-size: 17px;
+  font-weight: 500;
+  border-radius: 5px;
+}
+.delete_workspace_footer{
+  display: flex;
+  margin: 15px;
+  margin-top: 45px;
+  justify-content: center;
+}
+.delete_workspace_footer button{
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.announce_delete_workspace:hover{
+  cursor: pointer;
+}
+.announce_delete_workspace button:hover{
+  cursor: pointer;
+}
+.work_header_delete:hover{
+  cursor: pointer;
+  color: red;
+  border-radius: 3px;
+}
+.work_header_edit:hover{
+  cursor: pointer;
+  color: red;
+  border-radius: 3px;
+}
+.fix_work_item{
+  margin-left: auto;
+  display: flex;
+}
+.fix_work_item .hmmm{
+  display: flex;
+  align-items: baseline;
+}
+.work_item_edit, .work_item_delete{
+  display: flex;
+  margin-left: 15px;
+}
+.work_item_delete svg:hover{
+  background-color: rgb(232, 233, 235);
+  cursor: pointer;
+}
+.work_item_edit svg:hover{
+  background-color: rgb(232, 233, 235);
+  cursor: pointer;
+}
+.work_content .button_add_task_project {
+  margin-left: 20px;
+}
+
+.work_content .icon_add {
+  margin-right: 30px;
+}
+.form_changeWork{
+  position: fixed;
+  width: 50%;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  background-color: white;
+  border-radius: 10px;
+}
+.form_changeWork .formChangeWork_header{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+}
+.form_changeWork .set_infor{
+  width: 100%;
+}
+.form_changeWork .changeWorkTitle{
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 600;
+  margin-top: 10px;
+  color: red;
+}
+.form_changeWork input{
+  width: 80%;
+  height: 35px;
+}
+.input2_name, .due_date2{
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+.Cancel_changeWork button{
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: greenyellow;
+  font-weight: 500;
+}
+.Save_ChangeWork{
+  margin-left: 10px;
+}
+.Save_ChangeWork button{
+  background-color: red;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.form_changeWork button{
+  cursor: pointer;
+}
+.form_changeWork input{
+  cursor: pointer;
+  padding-left: 10px;
+}
+.form_changeWork .form_footer{
+  
+}

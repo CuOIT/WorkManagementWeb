@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './main_background.css'
-import {Route,Routes,Link} from 'react-router-dom'
+import {Route,Routes,Link, useParams} from 'react-router-dom'
 
 import AssignmentScreen from './assignment/Assignment'
-import PlanScreen from './plan/Plan'
+import WorkScreen from './work/Work'
 import ProjectScreen from './project/Project'
 import TodayScreen from './today/TodayUser'
-const main_background = () => {
+
+const MainBackground = () => {
+  const project_id = useParams();
+ 
   return (
     <div className='main_container'>
      <div>
@@ -16,14 +19,14 @@ const main_background = () => {
         
           <Route path='today' element={<TodayScreen />} />
           <Route path='assignment' element={<AssignmentScreen />} />
+          <Route path='assignment/:workspace_id' element = {<WorkScreen />}/>
           
-          <Route path='plan' element={<PlanScreen />} />
-          <Route path='project/:project_id' element={<ProjectScreen />} />
+          <Route path='project/:project_id' element={<ProjectScreen/>} />
        
       </Routes>
     </div>
   )
 }
 
-export default main_background
+export default MainBackground
 
