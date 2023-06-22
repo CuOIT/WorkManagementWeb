@@ -12,15 +12,17 @@ const Invite = ({onCancel, prj_id}) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/project?project_id=${prj_id}`
+          `http://localhost:8080/api/project/get-member?project_id=${prj_id}`
         )
+        const listMember = response.data.data
+        listMember.sort((a, b) => a.role.localeCompare(b.role))
         setMember(response.data.data)
       } catch (error) {
         console.error('Error fetching tasks:', error)
       }
     }
     fetchData()
-  })
+  }, [])
 
   const date = new Date()
   const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
@@ -61,6 +63,7 @@ const Invite = ({onCancel, prj_id}) => {
         </div>
         <ul className='list_partner'>
           {member?.map((item, index) => {
+            console.log(item)
             return (
               <li key={index} className="partner">
                 <div className="avatar">
@@ -69,10 +72,10 @@ const Invite = ({onCancel, prj_id}) => {
 
                 <div className="field_infor">
                   <div className="Name">
-                    {item.inviter}
+                    {item.user_name}
                   </div>
                   <div className="mail">
-                    Someone@gmail.com
+                    {item.role}
                   </div>
                 </div>
 
@@ -97,30 +100,6 @@ const Invite = ({onCancel, prj_id}) => {
             )
           })}
         </ul>
-
-        <div className="partner">
-          <div className="avatar">
-            <img src="https://avatars.doist.com?fullName=Pemond&amp;email=vipthieugia200%40gmail.com&amp;size=50&amp;bg=ffffff" alt="Pemond" />
-          </div>
-
-          <div className="field_infor">
-            <div className="Name">
-              Me
-            </div>
-            <div className="mail">
-              abc@gmail.com
-            </div>
-          </div>
-
-          <button className="action_project delete_partner">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20"><g fill="none" fill-rule="evenodd"><path d="M0 0h24v24H0z"></path><rect width="14" height="1" x="5" y="6" fill="currentColor" rx="0.5"></rect><path fill="currentColor" d="M10 9h1v8h-1V9zm3 0h1v8h-1V9z"></path><path stroke="currentColor" d="M17.5 6.5h-11V18A1.5 1.5 0 008 19.5h8a1.5 1.5 0 001.5-1.5V6.5zm-9 0h7V5A1.5 1.5 0 0014 3.5h-4A1.5 1.5 0 008.5 5v1.5z"></path></g></svg>
-          </button>
-
-          <button className="action_project franchise">
-            <div><FiKey className='franchise_icon' /></div>
-          </button>
-
-        </div>
       </div>
     </form>
   )

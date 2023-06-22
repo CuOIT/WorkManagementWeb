@@ -66,7 +66,7 @@ const handel_deleteWorkspace = ()=>{
       .catch((error)=>{
         console.log(error);
       })
-      window.location = "http://localhost:3000/trangchu"
+      window.location = "http://localhost:3000"
 }
 const handle_SaveEditWork = (event)=>{
   const work_id = selectWork;

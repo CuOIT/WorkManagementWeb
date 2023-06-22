@@ -254,7 +254,7 @@ const Assignment = () => {
               // <Link to={`/trangchu/assignment/${value1.id}`} className='LinkTo'>
                 <div   className='workspace_item'>
                   <div  className='div_workspace_name' >
-                  <Link to={`/trangchu/assignment/${value1.id}`} className='LinkTo'>
+                  <Link to={`/assignment/${value1.id}`} className='LinkTo'>
                     <div className='div_p_workspace_name'>
                       <p className='workspace_name'>{value1.name}</p>
                       
