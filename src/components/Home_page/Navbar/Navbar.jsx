@@ -4,10 +4,11 @@ import "./navbar.css";
 import logo_todo from "../image/todolist.jpg";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectAccessToken } from "./../../../redux/reducer/userReducer";
+import { logout, selectAccessToken, selectUserData } from "./../../../redux/reducer/userReducer";
 import Dropdown from "../../DropDown/DropDown";
 
 const Navbar = () => {
+    const userRedux = useSelector(selectUserData);
     const accessToken = useSelector(selectAccessToken);
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
@@ -44,9 +45,10 @@ const Navbar = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/project/invite?receiver_id=1`);
-                // console.log(response.data.data);
-                const dataArray = Object.values(response.data.data);
+                const response = await axios.get(`http://localhost:8080/api/project/invite?receiver_id=${userRedux.user_id}`);
+
+                const dataArray = response.data.data;
+                console.log({ dataArray });
                 setInvite(dataArray);
             } catch (err) {
                 console.error(err);
@@ -84,7 +86,9 @@ const Navbar = () => {
                     />
                     <div className="announce_container" style={{ display: show ? "block" : "none" }}>
                         <ul>
-                            {invite.map((item, index) => {
+                            {console.log(invite)}
+                            {invite?.map((item, index) => {
+                                console.log(item);
                                 return (
                                     <li key={index} id={item.id}>
                                         <div className="avatar">
@@ -95,7 +99,7 @@ const Navbar = () => {
                                         </div>
                                         <div className="content">
                                             <p>
-                                                {item.inviter} just send you invite to join {item.project_id}
+                                                {item.inviter} just send you invite to join {item.project_name}
                                             </p>
                                         </div>
                                         <div className="action">
@@ -132,12 +136,6 @@ const Navbar = () => {
                         </Link>
                     </div>
                 )}
-
-                {/* <div className="sign_up navbar_item">
-                    <Link to="/login">
-                        <button>Đăng ký</button>
-                    </Link>
-                </div> */}
             </div>
         </div>
     );

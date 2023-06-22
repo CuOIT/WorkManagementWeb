@@ -111,7 +111,7 @@ const Project = () => {
         console.log(error);
       })
     Handel_HideDelete();
-    window.location = "http://localhost:3000/trangchu"
+    window.location = "http://localhost:3000/"
   }
 
 

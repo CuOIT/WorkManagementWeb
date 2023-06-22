@@ -79,7 +79,7 @@ const LoginForm = () => {
             email: email.value,
             birthday: birthday.value,
         };
-        fetchInstant("/api/user/signup", METHOD.POST, payload).then((res) => {
+        axiosAuth.post("/api/user/signup", payload).then((res) => {
             console.log(res);
             if (res.code === 0) {
             } else {
