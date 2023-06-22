@@ -88,6 +88,11 @@
     cursor: default;
 }
 
+.list_partner{
+    height: 300px;
+    overflow: auto;
+}
+
 .form_invite .body .partner .avatar img{
     border-radius: 50%;
     width: 30px;

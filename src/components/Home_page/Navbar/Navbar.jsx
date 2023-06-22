@@ -3,10 +3,12 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./navbar.css";
 import logo_todo from "../image/todolist.jpg";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { logout } from "./../../../redux/reducer/userReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectAccessToken } from "./../../../redux/reducer/userReducer";
+import Dropdown from "../../DropDown/DropDown";
 
 const Navbar = () => {
+    const accessToken = useSelector(selectAccessToken);
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const handleClick = () => {
@@ -121,17 +123,21 @@ const Navbar = () => {
                         </ul>
                     </div>
                 </div>
-                <div className="sign_in navbar_item">
-                    <Link to="/login">
-                        <button>Đăng nhập</button>
-                    </Link>
-                </div>
+                {accessToken ? (
+                    <Dropdown />
+                ) : (
+                    <div className="sign_in navbar_item">
+                        <Link to="/login">
+                            <button>Đăng nhập</button>
+                        </Link>
+                    </div>
+                )}
 
-                <div className="sign_up navbar_item">
+                {/* <div className="sign_up navbar_item">
                     <Link to="/login">
-                        <button onClick={dispatch(logout({}))}>Đăng ký</button>
+                        <button>Đăng ký</button>
                     </Link>
-                </div>
+                </div> */}
             </div>
         </div>
     );
