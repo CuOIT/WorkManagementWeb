@@ -38,7 +38,7 @@ const Sidebar = () => {
                 <div className="menu">
                     <img onClick={handle_menu} className="icon" src={logo_menu} alt="" />
                 </div>
-                <Link to="/trangchu/today">
+                <Link to="/today">
                     <div className="today item">
                         <div className="div_icon">
                             <img className="icon" src={logo_today} alt="" />
@@ -48,7 +48,7 @@ const Sidebar = () => {
                         </div>
                     </div>
                 </Link>
-                <Link to="/trangchu/assignment">
+                <Link to="/workspace">
                     <div className="assignment item">
                         <div className="div_icon">
                             <img className="icon" src={logo_work} alt="" />
@@ -59,7 +59,7 @@ const Sidebar = () => {
                     </div>
                 </Link>
 
-                <Link to="/trangchu/project">
+                <Link to="/project">
                     <div className="project_head item">
                         <div className="div_icon">
                             <img className="icon" src={logo_project} alt="" />
@@ -96,7 +96,7 @@ const Sidebar = () => {
                     <div className="list_of_project">
                         {listOfProject.map((value, key) => {
                             return (
-                                <Link to={`/trangchu/project/${value.project_id}`}>
+                                <Link to={`/project/${value.project_id}`}>
                                     <div className="project_item" onClick={() => show_project_selected(value.name)}>
                                         <div className="circle_project">
                                             <img src={logo_circle_project}></img>

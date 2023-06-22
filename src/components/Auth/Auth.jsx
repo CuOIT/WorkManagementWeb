@@ -68,16 +68,18 @@ const LoginForm = () => {
 
     const handleSignUp = (event) => {
         event.preventDefault();
-        const { phone, password, confirmPassword, name, email, birthday } = event.target;
+        const { phone, password, user_name, last_name, first_name, email, birthday } = event.target;
         const payload = {
             phone: phone.value,
             user_password: password.value,
             role: 3,
-            user_name: name.value,
+            user_name: user_name.value,
+            last_name: last_name.value,
+            first_name: first_name.value,
             email: email.value,
             birthday: birthday.value,
         };
-        fetchInstant("/api/create-new-user", METHOD.POST, payload).then((res) => {
+        fetchInstant("/api/user/signup", METHOD.POST, payload).then((res) => {
             console.log(res);
             if (res.code === 0) {
             } else {
