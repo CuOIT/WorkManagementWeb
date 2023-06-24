@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react'
 import './invite.css'
 import axios from 'axios'
 import { FiKey } from "react-icons/fi";
+import { useSelector } from 'react-redux';
+import { selectUserData } from '../../../../../redux/reducer/userReducer';
 
 const Invite = ({onCancel, prj_id}) => {
   const [value, setValue] = useState('')
   const [member, setMember] = useState([])
+  const userRedux = useSelector(selectUserData)
 
   useEffect(() => {
     // Lấy toàn bộ thành viên trong Project để hiển thị
@@ -37,6 +40,16 @@ const Invite = ({onCancel, prj_id}) => {
     })
     setValue('')
   }
+
+  
+  const handleLeave = async (index) => {
+    
+  }
+
+  const handleFranchise = async (index) => {
+    
+  }
+
 
   const handleCancel = () => {
     if (typeof onCancel === "function") {
@@ -82,16 +95,16 @@ const Invite = ({onCancel, prj_id}) => {
                 {/* doan nay la hien thi nut bam theo role nguoi dung */}
               
                 {item.role === 'Leader' ? (
-                  <button className="action_project leave_project">
+                  <button className="action_project leave_project" onClick={() => handleLeave(item.member_id)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g fill="none" fill-rule="evenodd"><path stroke="currentColor" d="M6.5 8.3V5.63c0-1.17.9-2.13 2-2.13h7c1.1 0 2 .95 2 2.13v11.74c0 1.17-.9 2.13-2 2.13h-7c-1.1 0-2-.95-2-2.13V14.7"></path><path fill="currentColor" d="M12.8 11l-2.15-2.15a.5.5 0 11.7-.7L14 10.79a1 1 0 010 1.42l-2.65 2.64a.5.5 0 01-.7-.7L12.79 12H4.5a.5.5 0 010-1h8.3z"></path></g></svg>
                   </button>
                 ) : (
                   <>
-                    <button className="action_project delete_partner">
+                    <button className="action_project delete_partner" onClick={() => handleLeave(item.member_id)}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20"><g fill="none" fill-rule="evenodd"><path d="M0 0h24v24H0z"></path><rect width="14" height="1" x="5" y="6" fill="currentColor" rx="0.5"></rect><path fill="currentColor" d="M10 9h1v8h-1V9zm3 0h1v8h-1V9z"></path><path stroke="currentColor" d="M17.5 6.5h-11V18A1.5 1.5 0 008 19.5h8a1.5 1.5 0 001.5-1.5V6.5zm-9 0h7V5A1.5 1.5 0 0014 3.5h-4A1.5 1.5 0 008.5 5v1.5z"></path></g></svg>
                     </button>
 
-                    <button className="action_project franchise">
+                    <button className="action_project franchise" onClick={() => handleFranchise(item.member_id)}>
                       <div><FiKey className='franchise_icon' /></div>
                     </button>
                   </>

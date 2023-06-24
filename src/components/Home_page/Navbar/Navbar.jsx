@@ -20,7 +20,6 @@ const Navbar = () => {
 
   const [showing, setShowing] = useState(false)
   const [invite, setInvite] = useState([])
-  const [user, setUser] = useState([])
 
   const handleAccept = async (index) => {
     try {
@@ -48,7 +47,7 @@ const Navbar = () => {
       console.error(e);
     }
     setShowing(!showing);
-  };
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,9 +87,7 @@ const Navbar = () => {
           <img src="https://static.vecteezy.com/system/resources/previews/006/086/198/original/notification-icon-for-web-vector.jpg" alt="" />
           <div className="announce_container" style={{ display: show ? "block" : "none" }}>
             <ul>
-              {console.log(invite)}
               {invite?.map((item, index) => {
-                console.log(item)
                 return (
                   <li key={index} id={item.id}>
                     <div className='avatar'>
@@ -110,6 +107,11 @@ const Navbar = () => {
                   </li>
                 )
               })}
+              {invite.length === 0 && 
+                <div className='no-invite'>
+                  <p>You don't have any invitation</p>
+                </div>
+              }
             </ul>
           </div>
         </div>
