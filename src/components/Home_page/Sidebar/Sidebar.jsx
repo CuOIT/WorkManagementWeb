@@ -126,7 +126,7 @@ const Sidebar = () => {
                     <div className='circle_project'>
                       <img src={logo_circle_project}></img>
                     </div>
-                    <div className='name_project'>{value.name}</div>
+                    <div className='name_project'>{value.project_name}</div>
                   </div></Link>
                 )
               })

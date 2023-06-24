@@ -412,3 +412,35 @@ select:hover{
 .announce_delete_project :hover{
   cursor: pointer;
 }
+.project_header_right1{
+  
+  display: flex;
+  align-items: baseline;
+  margin-top: 10px;
+  color: rgb(73, 70, 70);
+}
+.kkkk{
+  margin-left: auto;
+}
+.project_edit_task{
+  position: fixed;
+  width: 800px;
+  height: 190px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  background-color:rgb(221, 241, 248);
+  border-radius: 10px;
+}
+.cover_screen .project_add_task{
+  position: fixed;
+  width: 800px;
+  height: 190px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  background-color: white;
+  border-radius: 10px;
+}
