@@ -146,8 +146,8 @@ select:hover{
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  width: 850px;
-  height: 650px;
+  /* width: 850px;
+  height: 650px; */
  
   border-radius: 30px;
 }

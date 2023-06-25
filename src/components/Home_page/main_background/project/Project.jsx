@@ -14,7 +14,7 @@ import icon_moon from "../../image/new-moon.png"
 import icon_calendar from "../../image/calendar.png"
 import icon_edit from "../../image/edit.png"
 import icon_delete from "../../image/delete.png"
-
+import Edit_Screen from "./Screen/Screen"
 import _ from 'lodash';
 const Project = () => {
   const [listOfTask,setlistOfTask] = useState([]);
@@ -110,10 +110,12 @@ const Project = () => {
     HideEditTask();
   }
   const show_selected_task = (task_id, task_name,task_description,task_dueDate)=>{
+    setSelectTask(task_id)
     setNameTask(task_name);
     setDescriptionTask(task_description);
     setdueDate(task_dueDate);
-    setdisplayTask(!displayTask);    
+    setdisplayTask(!displayTask);  
+     
   }
   const hide_selected_task = ()=>{
     setdisplayTask(false);
@@ -364,8 +366,8 @@ const Project = () => {
       </div>
       <div style={{display:displayTask?'block': 'none'}}className='cover_screen' onClick={hide_selected_task}>
       <div  className='selected_task' onClick={handle_prevent_spread}>
-        <div className='all_select_task'>
-          <div className='select_task_header'>
+        {/* <div className='all_select_task'> */}
+          {/* <div className='select_task_header'>
             <div className='arrow_up'>
               <img src={icon_arrow_up} alt="" />
             </div>
@@ -436,8 +438,18 @@ const Project = () => {
                 </div>
                 
             </div>
-          </div>
-        </div>
+          </div> */}
+          <Edit_Screen 
+          onCancel={hide_selected_task}
+          name = {nameTask }
+          description = {descriptionTask}
+          due_date = {dueDate}
+          id = {select_task}
+          name_prj = "hello"
+          prj_id = {project_id}
+          
+          />
+        {/* </div> */}
         
         
       </div>

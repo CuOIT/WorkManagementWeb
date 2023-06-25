@@ -1,36 +1,43 @@
 import React, { useState, useEffect, memo } from 'react'
 import './Screen.css'
 import axios from 'axios'
+import icon_moon from "../../../image/new-moon.png"
+import icon_calendar from "../../../image/calendar.png"
 
-const Edit_Screen = (id) => {
+const Edit_Screen = ({ onCancel, onDone, ...props }) => {
 
+  const { name, description, due_date, id, name_prj, prj_id } = props
+  const id_task = id
+  console.log(props)
 
   const [comment, setComment] = useState('')
   const [comments, setComments] = useState([])
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/project/task/comments?task_id=${id}`
+          `http://localhost:8080/api/project/task/comments?task_id=${id_task}`
         )
+        console.log(response.data.data)
         setComments(response.data.data)
       } catch (error) {
         console.error('Error fetching tasks:', error)
       }
     }
     fetchData()
-  }, [])
+  }, [id_task])
 
   const handleComment = async () => {
     if (!comment) alert("Comment is not empty")
     try {
-      axios.post(`http://localhost:8080/api/project/task/comment`, {
-        task_id: 1,
+      await axios.post(`http://localhost:8080/api/project/task/comment`, {
+        task_id: id_task,
         comment: comment,
         user_id: 1
       })
       const response = await axios.get(
-        `http://localhost:8080/api/project/task/comments?task_id=${id}`
+        `http://localhost:8080/api/project/task/comments?task_id=${id_task}`
       )
       setComments(response.data.data)
     } catch (err) {
@@ -39,13 +46,25 @@ const Edit_Screen = (id) => {
     setComment('')
   }
 
+  const ConvertTime = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes} `;
+    return formattedDate
+  }
+
   const [showing, setShowing] = useState(true)
   const handleShow = () => {
     const icon = document.querySelector('.content .comment .action .arrow svg')
-    if(!showing){
-      icon.style.transform = 'rotate(0)' 
+    if (!showing) {
+      icon.style.transform = 'rotate(0)'
     }
-    else icon.style.transform = 'rotate(-90deg)' 
+    else icon.style.transform = 'rotate(-90deg)'
     setShowing(!showing)
   }
 
@@ -53,7 +72,7 @@ const Edit_Screen = (id) => {
     try {
       await axios.delete(`http://localhost:8080/api/project/task/delete-comment/${idx}`)
       const response = await axios.get(
-        `http://localhost:8080/api/project/task/comments?task_id=${id}`
+        `http://localhost:8080/api/project/task/comments?task_id=${id_task}`
       )
       setComments(response.data.data)
     } catch (error) {
@@ -62,16 +81,33 @@ const Edit_Screen = (id) => {
   }
 
   const handleDone = () => {
-
+    if (typeof onDone === "function") {
+      onDone();
+    }
+    handleCancel()
   }
 
-  const [show, setShow] = useState(true)
   const handleCancel = () => {
-    setShow(false)
+    if (typeof onCancel === "function") {
+      onCancel();
+    }
   }
+
+  const convertDate = (dueDate) => {
+    const dateParts = dueDate.split("-");
+    const year = dateParts[0];
+    const month = dateParts[1];
+    const day = dateParts[2];
+    const formattedDueDate = `${day}-${month}`;
+    return formattedDueDate
+  }
+
+
+  // Đoạn này là chỉnh sửa task nhé
+
 
   return (
-    <div className="edit_screen" style={{ display: show ? 'block' : 'none' }}>
+    <div className="edit_screen">
       <div className="header_edit">
         <p>Review Task</p>
         <button type="button" onClick={handleCancel}>
@@ -83,15 +119,15 @@ const Edit_Screen = (id) => {
         <div className="content">
           <div className="name">
             <div className="taskname">
-              <button className="task_checkbox" onClick={() =>handleDone}>
+              <button className="task_checkbox" onClick={() => handleDone(id_task)}>
                 <svg width="24" height="18"></svg>
               </button>
               <div className="content1">
-                <div className="task_content">
-                  <input value='Pemond' placeholder="Taskname" required />
+                <div className="task_content1">
+                  <input value={name} placeholder="Taskname" required />
                 </div>
                 <div className="task_description">
-                  <input value='This is Description' placeholder="Description" required />
+                  <textarea value={description} placeholder="Description" required />
                 </div>
               </div>
             </div>
@@ -113,12 +149,12 @@ const Edit_Screen = (id) => {
                 return (
                   <div key={index} className="comment_content">
                     <div className="avatar">
-                      <img src="" alt="Pemond" />
+                      <img src="" alt="avatar" />
                     </div>
                     <div className="noway">
                       <div className="name_action">
                         <span className="username"> name</span>
-                        <div className="time_comment">time</div>
+                        <div className="time_comment">{ConvertTime(data.created_at)}</div>
                         <button className="delete_cmt" onClick={() => handleDelete(data.id)}>
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20"><g fill="none" fill-rule="evenodd"><path d="M0 0h24v24H0z"></path><rect width="14" height="1" x="5" y="6" fill="currentColor" rx="0.5"></rect><path fill="currentColor" d="M10 9h1v8h-1V9zm3 0h1v8h-1V9z"></path><path stroke="currentColor" d="M17.5 6.5h-11V18A1.5 1.5 0 008 19.5h8a1.5 1.5 0 001.5-1.5V6.5zm-9 0h7V5A1.5 1.5 0 0014 3.5h-4A1.5 1.5 0 008.5 5v1.5z"></path></g></svg>
                         </button>
@@ -130,60 +166,6 @@ const Edit_Screen = (id) => {
                   </div>
                 )
               })}
-
-              <div className="comment_content">
-                <div className="avatar">
-                  <img src="https://avatars.doist.com?fullName=Pemond&amp;email=vipthieugia200%40gmail.com&amp;size=50&amp;bg=ffffff" alt="Pemond" />
-                </div>
-                <div className="noway">
-                  <div className="name_action">
-                    <span className="username"> Pemond</span>
-                    <div className="time_comment">Yesterday 12:50</div>
-                    <button className="delete_cmt">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20"><g fill="none" fill-rule="evenodd"><path d="M0 0h24v24H0z"></path><rect width="14" height="1" x="5" y="6" fill="currentColor" rx="0.5"></rect><path fill="currentColor" d="M10 9h1v8h-1V9zm3 0h1v8h-1V9z"></path><path stroke="currentColor" d="M17.5 6.5h-11V18A1.5 1.5 0 008 19.5h8a1.5 1.5 0 001.5-1.5V6.5zm-9 0h7V5A1.5 1.5 0 0014 3.5h-4A1.5 1.5 0 008.5 5v1.5z"></path></g></svg>
-                    </button>
-                  </div>
-                  <div className="content_cmt">
-                    <p>Chết trình trình</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="comment_content">
-                <div className="avatar">
-                  <img src="https://avatars.doist.com?fullName=Pemond&amp;email=vipthieugia200%40gmail.com&amp;size=50&amp;bg=ffffff" alt="Pemond" />
-                </div>
-                <div className="noway">
-                  <div className="name_action">
-                    <span className="username"> Pemond</span>
-                    <div className="time_comment">Yesterday 12:50</div>
-                    <button className="delete_cmt">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20"><g fill="none" fill-rule="evenodd"><path d="M0 0h24v24H0z"></path><rect width="14" height="1" x="5" y="6" fill="currentColor" rx="0.5"></rect><path fill="currentColor" d="M10 9h1v8h-1V9zm3 0h1v8h-1V9z"></path><path stroke="currentColor" d="M17.5 6.5h-11V18A1.5 1.5 0 008 19.5h8a1.5 1.5 0 001.5-1.5V6.5zm-9 0h7V5A1.5 1.5 0 0014 3.5h-4A1.5 1.5 0 008.5 5v1.5z"></path></g></svg>
-                    </button>
-                  </div>
-                  <div className="content_cmt">
-                    <p>Chết trình trình</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="comment_content">
-                <div className="avatar">
-                  <img src="https://avatars.doist.com?fullName=Pemond&amp;email=vipthieugia200%40gmail.com&amp;size=50&amp;bg=ffffff" alt="Pemond" />
-                </div>
-                <div className="noway">
-                  <div className="name_action">
-                    <span className="username"> Pemond</span>
-                    <div className="time_comment">Yesterday 12:50</div>
-                    <button className="delete_cmt">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20"><g fill="none" fill-rule="evenodd"><path d="M0 0h24v24H0z"></path><rect width="14" height="1" x="5" y="6" fill="currentColor" rx="0.5"></rect><path fill="currentColor" d="M10 9h1v8h-1V9zm3 0h1v8h-1V9z"></path><path stroke="currentColor" d="M17.5 6.5h-11V18A1.5 1.5 0 008 19.5h8a1.5 1.5 0 001.5-1.5V6.5zm-9 0h7V5A1.5 1.5 0 0014 3.5h-4A1.5 1.5 0 008.5 5v1.5z"></path></g></svg>
-                    </button>
-                  </div>
-                  <div className="content_cmt">
-                    <p>Chết trình trình</p>
-                  </div>
-                </div>
-              </div>
               <div className="add_cmt">
                 <div className="avatar">
                   <img src="https://avatars.doist.com?fullName=Pemond&amp;email=vipthieugia200%40gmail.com&amp;size=50&amp;bg=ffffff" alt="Pemond" />
@@ -200,12 +182,18 @@ const Edit_Screen = (id) => {
         <div className="side">
           <div className="prj_name">
             <p>Project</p>
-            <div>Project2</div>
+            <div>
+              <img src={icon_moon} alt="" />
+              {name_prj}
+            </div>
           </div>
 
           <div className="due_date">
             <p>Due date</p>
-            <div>Today</div>
+            <div>
+              <img src={icon_calendar} alt="" />
+              {convertDate(due_date)}
+            </div>
           </div>
 
           <div className="assigned_to">
