@@ -29,4 +29,3 @@ const MainBackground = () => {
 }
 
 export default MainBackground
-

@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { redirect, useParams } from 'react-router-dom';
 import './project.css'
-import { projectName } from '../../Sidebar/Sidebar';
+import { useDispatch } from "react-redux";
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
-import icon_arrow_up from "../../image/arrow_up.png"
-import icon_arrow_down from "../../image/down-arrow.png"
-import icon_three_dot from "../../image/three-dots.png"
 import icon_exit from "../../image/cross.png"
-import icon_comment from "../../image/comment.png"
-import icon_moon from "../../image/new-moon.png"
-import icon_calendar from "../../image/calendar.png"
-import icon_edit from "../../image/edit.png"
-import icon_delete from "../../image/delete.png"
 import Edit_Screen from "./Screen/Screen"
+import Invite from "./Invite/invite"
 import _ from 'lodash';
+import { useSelector,shallowEqual } from "react-redux";
+import { selectNameProject } from '../../../../redux/reducer/nameProjectReducer';
+import { updateNameProject } from '../../../../redux/reducer/nameProjectReducer';
+import { selectSortTo } from '../../../../redux/reducer/sortTo';
+import { updateSortTo } from '../../../../redux/reducer/sortTo';
 const Project = () => {
   const [listOfTask,setlistOfTask] = useState([]);
   const { project_id } = useParams();
@@ -32,23 +28,41 @@ const Project = () => {
   const [showEditTask, setShowEditTask] = useState(false);
   const [select_task,setSelectTask] = useState("")
   const [showSort,setShowSort] = useState(false);
+  const nameProject = useSelector(selectNameProject,shallowEqual )
+  const sort_to = useSelector(selectSortTo);
+  const [sort,setSort] = useState(1)
+  const dispatch = useDispatch();
+  
   useEffect(()=>{
-   
-    axios.get(`http://localhost:8080/api/project/get-tasks?project_id=${project_id}`)
-      .then((response)=>{
+    
+    setname_project(nameProject)
+    setSort(sort_to)
+    console.log("name_project: " +name_project)
+    console.log("nameProject: "+ nameProject)
+    const fetchData = async ()=>{
+      
+
+      
+    try{
+      const response = await axios.get(`http://localhost:8080/api/project/get-tasks?project_id=${project_id}`)
+      
         const sortedTasks = _.sortBy(response.data.data, 'due_date');
         setlistOfTask(sortedTasks)
-        
-      })
-      axios.get(`http://localhost:8080/api/project/get-member?project_id=${project_id}`)
-      .then((response)=>{
-        setlistOfMember(response.data.data)
-       
-      })
-      console.log("this is member")
-     
-    setname_project(projectName);
-  },[window.location.pathname])
+      
+      
+      
+       const response2 = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${project_id}`)
+       setlistOfMember(response2.data.data)
+    }
+    catch(error){
+      console.error("error fetching")
+    }
+  
+  }
+ 
+  fetchData();
+
+  },[window.location.pathname,project_id])
   
   const hide_show_addTask = ()=>{
     setdisplayAddTask(!displayAddTask);
@@ -178,6 +192,7 @@ const Project = () => {
       status:"start"
     })
     setname_project(name.value)
+    dispatch(updateNameProject(name.value))
     setShowEditProject(false);
   }
   const handle_DeleteTask = ()=>{
@@ -216,6 +231,7 @@ const Project = () => {
     
     const sortWork = [...listOfTask].sort(compareDueDate)
     setlistOfTask(sortWork)
+    dispatch(updateSortTo(1))
     setShowSort(false)
   }
   function compareName(task1,task2){
@@ -226,11 +242,31 @@ const Project = () => {
   const sortToName = ()=>{
     const sortWork = [...listOfTask].sort(compareName);
     setlistOfTask(sortWork)
+    
+    dispatch(updateSortTo(2));
     setShowSort(false)
   }
+
+  const handleCancel = () => {
+    setShowInvite(false);
+  };
+  const [showInvite, setShowInvite] = useState(false)
+  const handleInvite = () => {
+    setShowInvite(true)
+  }
+
+
   return (
-    <div className='project_screen'>
-      
+    <>
+  {showInvite &&
+        <div className="invite-container">
+          <Invite 
+            onCancel={handleCancel} 
+            prj_id = {project_id}
+          />
+        </div>
+      }
+    <div className={`project_screen ${showInvite ? "blur" : ""}`}>
       <div className='project_header'>
         <div className='sortWork'>
             <div className='to_sort' onClick={openShowSort}>
@@ -252,13 +288,15 @@ const Project = () => {
           </div>
           
           <div className='project_title'>
-            <h2>Project_name</h2>  
+            {/* <h2>{nameProject.nameProject}</h2>   */}
+            <h2>{name_project}</h2>
+            
           </div>
         
           
           <div className='project_header_right1'>
             <div className='invite_to_project'>
-              <div className='project_header_invite'>
+              <div className='project_header_invite' onClick={handleInvite}>
                 <div className='hmmm'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M10 13.5c3.323 0 5.803.697 7.427 2.119A2.5 2.5 0 0115.78 20H4.22a2.5 2.5 0 01-1.647-4.381C4.197 14.197 6.677 13.5 10 13.5zm0 1c-3.102 0-5.353.633-6.768 1.871A1.5 1.5 0 004.22 19h11.56a1.502 1.502 0 00.989-2.629C15.352 15.133 13.101 14.5 10 14.5zM19.5 6a.5.5 0 01.5.5V9h2.5a.5.5 0 010 1H20v2.5a.5.5 0 01-1 0V10h-2.5a.5.5 0 010-1H19V6.5a.5.5 0 01.5-.5zM10 4c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4zm0 1a3 3 0 100 6 3 3 0 000-6z" fill-rule="evenodd"></path></svg></div>
                 <div className='hnnn'><p>Share</p></div>
               </div>
@@ -279,7 +317,7 @@ const Project = () => {
       
       <div className='project_container'>
         {
-          listOfTask.map((value,key)=>{
+          listOfTask?.map((value,key)=>{
             return(
              
                 <div onClick={()=>show_selected_task(value.id, value.name, value.description,value.due_date, value.assigned_to)} className='project_item' id={value.id}>
@@ -338,7 +376,7 @@ const Project = () => {
                 <div className='project_select_people'>
                   <select name='assigned_to'>
                     {
-                      listOfMember.map((value,key)=>{
+                      listOfMember?.map((value,key)=>{
                         return (
                           <option value={value.member_id}>{value.user_name}</option>
                         )
@@ -449,7 +487,7 @@ const Project = () => {
           description = {descriptionTask}
           due_date = {dueDate}
           id = {select_task}
-          name_prj = "hello"
+          name_prj = {name_project}
           prj_id = {project_id}
           
           />
@@ -563,7 +601,7 @@ const Project = () => {
                   <div><p>Assign To</p></div>
                   <select name='assigned_to'>
                     {
-                      listOfMember.map((value,key)=>{
+                      listOfMember?.map((value,key)=>{
                         return (
                           <option value={value.member_id}>{value.user_name}</option>
                         )
@@ -588,6 +626,7 @@ const Project = () => {
       </div>
       {/* edit task */}
     </div>
+    </>
   )
 }
 

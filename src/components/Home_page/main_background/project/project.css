@@ -1,3 +1,18 @@
+.blur{
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.invite-container {
+  position: absolute;
+  top: 30%;
+  max-height: 300px;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  filter: none;
+}
+
 
 .project_screen{
   margin-top: 40px;
@@ -251,6 +266,15 @@ select:hover{
     left: 0;
     background-color: rgba(0, 0, 0, 0.7);
 }
+
+.cover_comment{
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
 .select_task_right{
   background-color: rgb(246, 246, 245);
   height: 100%;
