@@ -11,8 +11,8 @@ const TodoList = () => {
     const accessTokenStore = useSelector(selectAccessToken);
     const userStore = useSelector(selectUserData);
     const [date, setDate] = useState("");
-    const [currentTodo, setCurrentTodo] = useState(null);
-    const [newTodo, setNewTodo] = useState(null);
+    const [currentTodo, setCurrentTodo] = useState("");
+    const [newTodo, setNewTodo] = useState("");
     const [todos, setTodos] = useState([]);
 
     useEffect(() => {
@@ -44,7 +44,7 @@ const TodoList = () => {
         const add = document.querySelector(".add_task");
         form.style.display = "none";
         add.style.display = "block";
-        setNewTodo(null);
+        setNewTodo("");
     };
 
     const handleAddTodo = () => {
@@ -86,6 +86,7 @@ const TodoList = () => {
     };
 
     const handleEditTodo = (id) => {
+        if(currentTodo === ""){
         const form_task = document.getElementById(`form_task-${id}`);
         const form_time = document.getElementById(`time-${id}`);
         const form_edit = document.getElementById(`form_edit-${id}`);
@@ -93,7 +94,11 @@ const TodoList = () => {
         form_time.style.display = "none";
         form_edit.style.display = "block";
         const todo = todos.find((item) => item.id === id);
-        setCurrentTodo(todo);
+        setCurrentTodo(todo)
+        }
+        else{
+            alert("Bạn đang chỉnh sửa 1 task khác!")
+        }
     };
 
     const handleCancelEditTodo = (id) => {
@@ -103,7 +108,7 @@ const TodoList = () => {
         form_task.style.display = "flex";
         form_time.style.display = "block";
         form_edit.style.display = "none";
-        setCurrentTodo(null);
+        setCurrentTodo("");
     };
 
     const handleSubmitEditTodo = async (id) => {
@@ -268,7 +273,7 @@ const TodoList = () => {
                                             <div className="task_edit_action">
                                                 <input
                                                     type="time"
-                                                    value={currentTodo?.start_time.slice(0,5) || ""}
+                                                    value={currentTodo?.start_time}
                                                     onChange={(e) => {
                                                         console.log(e.target.value)
                                                         setCurrentTodo({
@@ -281,7 +286,7 @@ const TodoList = () => {
                                                 />
                                                 <input
                                                     type="time"
-                                                    value={currentTodo?.end_time.slice(0, 5) || ""}
+                                                    value={currentTodo?.end_time}
                                                     onChange={(e) =>
                                                         setCurrentTodo({
                                                             ...currentTodo,
@@ -499,7 +504,7 @@ const TodoList = () => {
                                 <div className="task_edit_action">
                                     <input
                                         type="time"
-                                        value={newTodo?.start_time}
+                                        value={newTodo?.start_time || ""}
                                         onChange={(e) => {
                                             setNewTodo({
                                                 ...newTodo,

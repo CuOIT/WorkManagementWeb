@@ -3,6 +3,10 @@
   margin: 0;
 }
 
+input:hover{
+  cursor: auto;
+}
+
 .edit_screen{ 
   border: 2px solid rgb(50, 90, 18);
   border-radius: 16px;
@@ -141,11 +145,44 @@
   margin-top: 20px;
 }
 
-.content .comment .commentlist .comment_content .avatar img{
+.content .comment .commentlist .comment_content .avatar .avatar2{
   margin-left: 10px;
   margin-top: 10px;
   height: 30px;
   width: 30px;
+  border: 2px solid rgb(18, 184, 196);
+  border-radius: 50%;
+}
+
+.content .comment .commentlist .comment_content .avatar .avatar2 div{
+  margin-left: 6px;
+  margin-top: 2px;
+}
+
+.content .comment .commentlist .comment_content .avatar .avatar2 div p{
+  color: rgb(110, 21, 154);
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.add_cmt .avatar .avatar2 {
+  margin-left: 10px;
+  margin-top: 5px;
+  height: 30px;
+  width: 30px;
+  border: 2px solid rgb(18, 184, 196);
+  border-radius: 50%;
+}
+
+.add_cmt .avatar .avatar2 div{
+  margin-left: 6px;
+  margin-top: 2px;
+}
+
+.user_comment{
+  color: rgb(110, 21, 154);
+  font-weight: 700;
+  font-size: 20px;
 }
 
 .content .comment .commentlist .comment_content .name_action{

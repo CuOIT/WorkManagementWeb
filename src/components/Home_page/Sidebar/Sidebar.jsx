@@ -67,7 +67,7 @@ const Sidebar = () => {
     start_date:start_date.value,
     end_date:end_date.value,
     status: "Pending",
-    user_id:1,
+    user_id: userRedux.user_id,
    })
    .then((response)=>{
       console.log(response)
