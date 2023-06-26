@@ -8,10 +8,11 @@ const Edit_Screen = ({ onCancel, onDone, ...props }) => {
 
   const { name, description, due_date, id, name_prj, prj_id } = props
   const id_task = id
-  console.log(id_task)
+  console.log(props)
 
   const [comment, setComment] = useState('')
   const [comments, setComments] = useState([])
+  
   useEffect(() => {
     const fetchData = async () => {
       try {

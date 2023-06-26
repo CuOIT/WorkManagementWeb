@@ -2,11 +2,9 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import axios  from 'axios'
 import './sidebar.css'
-import {Link, NavLink} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import logo_menu from "../image/hamburger.png"
 import logo_today from "../image/sun.png"
-import logo_assignment from "../image/user.png"
-import logo_plan from "../image/planning.png"
 import logo_project from "../image/project (1).png"
 import logo_work from "../image/freelance.png"
 import logo_circle_project from "../image/new-moon.png"
@@ -20,14 +18,13 @@ function handle_menu(){
   home_page_element.style.gridTemplateColumns = "0fr 1fr";
   console.log(home_page_element)
 } 
-
 var projectName = "";
 function show_project_selected(projectname){
     projectName = projectname
+    
 }
 const Sidebar = () => {
-
-  //const nameOfProject = "";
+ 
   const [listOfProject,setlistOfProject] = useState([]);
   const [showListProject,setshowListProject] = useState(false);
   const [showAddProject,setShowAddProject] = useState(false)
@@ -35,14 +32,15 @@ const Sidebar = () => {
 
   useEffect(()=>{
     const fetchData = async()=>{
-      await axios.get(`http://localhost:8080/api/project?user_id=${userRedux.user_id}}`)
+      await axios.get(`http://localhost:8080/api/project?user_id=${userRedux.user_id}`)
       .then((response)=>{
-        console.log(response.data)
+        console.log(response.data.data)
         setlistOfProject(response.data.data)
       })
     }
     fetchData()
   },[])
+
   
   const showListItem = ()=>{
     setshowListProject(!showListProject);
@@ -130,7 +128,7 @@ const Sidebar = () => {
               listOfProject?.map((value,key)=>{
                 return(
                   <Link to={`/project/${value.project_id}`}>
-                  <div className='project_item' onClick={()=>show_project_selected(value.name)}>
+                  <div className='project_item' onClick={()=>show_project_selected(value.project_name)}>
                     <div className='circle_project'>
                       <img src={logo_circle_project}></img>
                     </div>

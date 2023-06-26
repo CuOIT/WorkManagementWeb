@@ -85,18 +85,7 @@
   margin-top: 8px;
   
 }
-select{
-  margin-top: 2px;
-  width: 218px;
-  height: 30px;
-  border-radius: 5px;
-  border: solid 1px rgb(38, 37, 37);
-  outline: none;
-  border: none;
-  height: 30px;
-  font-size: 16px;
-  color: rgb(136, 133, 133);
-}
+
 .project_header_left input{
   
   border-radius: 6px;
@@ -161,8 +150,8 @@ select:hover{
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  width: 850px;
-  height: 650px;
+  /* width: 850px;
+  height: 650px; */
  
   border-radius: 30px;
 }
@@ -271,12 +260,21 @@ select:hover{
 }
 .cover_screen{
   position: fixed;
-  top: 30%;
-  max-height: 300px;
-  left: 55%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.cover_comment{
+  position: absolute;
+  top: 45%;
+  left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
 }
+
 .select_task_right{
   background-color: rgb(246, 246, 245);
   height: 100%;
@@ -426,36 +424,4 @@ select:hover{
 }
 .announce_delete_project :hover{
   cursor: pointer;
-}
-.project_header_right1{
-  
-  display: flex;
-  align-items: baseline;
-  margin-top: 10px;
-  color: rgb(73, 70, 70);
-}
-.kkkk{
-  margin-left: auto;
-}
-.project_edit_task{
-  position: fixed;
-  width: 800px;
-  height: 190px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: auto;
-  background-color:rgb(221, 241, 248);
-  border-radius: 10px;
-}
-.cover_screen .project_add_task{
-  position: fixed;
-  width: 800px;
-  height: 190px;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: auto;
-  background-color: white;
-  border-radius: 10px;
 }

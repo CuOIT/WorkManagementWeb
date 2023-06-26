@@ -13,16 +13,17 @@ h2{
   display: flex;
   border-bottom: solid 1px rgb(215, 212, 212);
   padding-bottom: 20px;
+  justify-content: space-between;
 }
 .work_header_right1{
-  margin-left: auto;
+  /* margin-left: auto; */
   display: flex;
   align-items: center;
 }
-.work_header_edit, .work_header_delete{
+.work_header_edit, .work_header_delete, .sortWork{
   display: flex;
   margin-left: 15px;
-  color: rgb(98, 98, 98);
+  color: rgb(78, 77, 77);
   align-items: center;
 }
 .work_content{
@@ -189,6 +190,62 @@ p{
   cursor: pointer;
   padding-left: 10px;
 }
-.form_changeWork .form_footer{
+.sortWork{
+  display: flex;
+  position: relative;
+  z-index: 999;
+}
+.sortWork:hover{
+  cursor: pointer;
+}
+.chooseSort{
+  position: absolute;
+  top: 30px;
+  width: 150px;
+  height: 150px;
+  background-color: rgb(255, 255, 255);
+  left: -50px;
+  box-shadow: 1px 4px 6px rgba(71, 70, 70, 0.2); 
+}
+.sort_title{
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 8px;
+  border-bottom: solid 1px red;
   
+}
+.sort_title p{
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(242, 43, 43);
+}
+.sort_Due_date, .sort_alphabet{
+  display: flex;
+  
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.sort_Due_date{
+  margin-top: 20px;
+}
+.sort_alphabet{
+  margin-top: 10px;
+}
+.icon_dueDate, .icon_alphabet{
+  margin-right: 10px;
+}
+.sort_Due_date:hover{
+  background-color: rgb(250, 239, 239);
+  
+}
+.sort_alphabet:hover{
+  background-color:rgb(247, 235, 235) ;
+}
+.to_sort{
+  display: flex;
+}
+.sortWork:hover .to_sort{
+  color: red;
 }
