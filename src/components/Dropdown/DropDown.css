@@ -1,0 +1,25 @@
+.dropdown {
+    display: block;
+    margin-left: 10px;
+    width: 150px;
+}
+.dropdown-list-container {
+    position: inherit;
+    margin-top: 8px;
+    display: block;
+    background-color: rgb(158, 179, 197);
+}
+.rxAvatar {
+    display: block;
+    margin: 2px 0 2px 0;
+    width: 40px;
+    height: 40px;
+}
+.btn-option {
+    text-align: left;
+    width: 100%;
+    height: 100%;
+}
+.btn-option:hover {
+    background-color: white;
+}

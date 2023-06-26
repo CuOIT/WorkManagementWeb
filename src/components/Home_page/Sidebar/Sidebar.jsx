@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios  from 'axios'
+import { useDispatch, useSelector } from "react-redux";
 import './sidebar.css'
 import {Link} from 'react-router-dom'
 import logo_menu from "../image/hamburger.png"
@@ -10,38 +11,43 @@ import logo_work from "../image/freelance.png"
 import logo_circle_project from "../image/new-moon.png"
 import logo_exit from "../image/cross.png"
 import { selectUserData } from '../../../redux/reducer/userReducer'
-import { useSelector } from 'react-redux';
 
+import { updateNameProject } from '../../../redux/reducer/nameProjectReducer';
 
+import { selectRenderSidebar } from '../../../redux/reducer/renderSidebar';
+import { updateRenderSidebar } from '../../../redux/reducer/renderSidebar';
 function handle_menu(){
   const home_page_element = document.getElementById("home_page_container");
   home_page_element.style.gridTemplateColumns = "0fr 1fr";
   console.log(home_page_element)
 } 
-var projectName = "";
-function show_project_selected(projectname){
-    projectName = projectname
-    
-}
+
 const Sidebar = () => {
- 
+  
+  const dispatch = useDispatch();
   const [listOfProject,setlistOfProject] = useState([]);
   const [showListProject,setshowListProject] = useState(false);
   const [showAddProject,setShowAddProject] = useState(false)
   const userRedux = useSelector(selectUserData)
-
+  const renderSidebar = useSelector(selectRenderSidebar)
+  
   useEffect(()=>{
+
     const fetchData = async()=>{
-      await axios.get(`http://localhost:8080/api/project?user_id=${userRedux.user_id}`)
+      await axios.get(`http://localhost:8080/api/project?user_id=1`)
       .then((response)=>{
-        console.log(response.data.data)
         setlistOfProject(response.data.data)
       })
     }
     fetchData()
-  },[])
+    dispatch(updateRenderSidebar(false));
+  },[renderSidebar])
 
-  
+  function show_project_selected(projectname){
+    dispatch(updateNameProject(projectname));
+      
+      
+  }
   const showListItem = ()=>{
     setshowListProject(!showListProject);
   }
@@ -67,7 +73,7 @@ const Sidebar = () => {
     start_date:start_date.value,
     end_date:end_date.value,
     status: "Pending",
-    user_id: userRedux.user_id,
+    user_id:userRedux.user_id,
    })
    .then((response)=>{
       console.log(response)
@@ -77,6 +83,7 @@ const Sidebar = () => {
   return (
     
     <div className='sidebar_container'>
+      
       <div className="container">
         <div className="menu">          
           <img onClick={handle_menu}  className='icon' src={logo_menu} alt="" />
@@ -127,13 +134,14 @@ const Sidebar = () => {
             {
               listOfProject?.map((value,key)=>{
                 return(
-                  <Link to={`/project/${value.project_id}`}>
-                  <div className='project_item' onClick={()=>show_project_selected(value.project_name)}>
+                  <Link onClick={()=>show_project_selected(value.project_name)} to={`/project/${value.project_id}`}>
+                  <div className='project_item' >
                     <div className='circle_project'>
                       <img src={logo_circle_project}></img>
                     </div>
                     <div className='name_project'>{value.project_name}</div>
-                  </div></Link>
+                  </div>
+                  </Link>
                 )
               })
             }
@@ -187,4 +195,3 @@ const Sidebar = () => {
 }
 
 export default Sidebar
-export {projectName}

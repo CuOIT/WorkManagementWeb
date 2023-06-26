@@ -9,6 +9,7 @@
   flex-direction: row;
   padding-left: 20px;
   padding-right: 20px;
+  position: relative;
 }
 .navbar_item{
   background-color: #3076ef;
@@ -50,14 +51,7 @@
   border-radius: 3px;
   border: none;
 }
-.help{
 
-}
-.help img{
-  width: 24px;
-  height: 24px;
-  border-radius: 100px;
-}
 .announce img{
   width: 24px;
   height: 24px;
