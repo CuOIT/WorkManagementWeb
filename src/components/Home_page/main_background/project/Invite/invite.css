@@ -108,6 +108,15 @@
     opacity: 0.5;
 }
 
+.form_invite .body .partner .field_infor .Name{
+    display: flex;
+}
+
+.form_invite .body .partner .field_infor .Name div{
+    opacity: 1;
+    margin-left: 5px;
+}
+
 .form_invite .body .partner button{
     position: absolute;
     right: 10px;
@@ -141,4 +150,10 @@
 
 .franchise div:hover{
     border-radius: 5px;
+}
+
+.no-right{
+    text-align: center;
+    padding: 25px;
+    font-size: 24px;
 }

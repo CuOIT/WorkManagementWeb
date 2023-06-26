@@ -27,14 +27,24 @@ const Invite = ({onCancel, prj_id}) => {
     fetchData()
   }, [])
 
+  const[role, setRole] = useState('')
+
+  useEffect(() => {
+    member.forEach((item) => {
+      if (userRedux.user_name === item.user_name) {
+        setRole(item.role);
+      }
+    });
+  }, [userRedux.user_name, member]);
+
   const date = new Date()
   const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    axios.post("http://localhost:8080/api/project/invite", {
-      inviter: 1,
-      receiver: 2,
+    await axios.post("http://localhost:8080/api/project/invite", {
+      inviter: userRedux.user_id,
+      receiver: 18,
       project_id: prj_id,
       created_at: formattedDate
     })
@@ -43,11 +53,45 @@ const Invite = ({onCancel, prj_id}) => {
 
   
   const handleLeave = async (index) => {
-    
+    await axios.delete("http://localhost:8080/api/project/leave-project",{
+      project_id: prj_id,
+      member_id: index
+    })
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/project/get-member?project_id=${prj_id}`
+        )
+        const listMember = response.data.data
+        listMember.sort((a, b) => a.role.localeCompare(b.role))
+        setMember(response.data.data)
+      } catch (error) {
+        console.error('Error fetching tasks:', error)
+      }
+    }
+    fetchData()
   }
 
   const handleFranchise = async (index) => {
-    
+    console.log(index)
+    await axios.put("http://localhost:8080/api/project/authorize", {
+      admin_id: userRedux.user_id,
+      member_id: index,
+      project_id: prj_id
+    })
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/project/get-member?project_id=${prj_id}`
+        )
+        const listMember = response.data.data
+        listMember.sort((a, b) => a.role.localeCompare(b.role))
+        setMember(response.data.data)
+      } catch (error) {
+        console.error('Error fetching tasks:', error)
+      }
+    }
+    fetchData()
   }
 
 
@@ -58,7 +102,7 @@ const Invite = ({onCancel, prj_id}) => {
   }
 
   return (
-    <form className="form_invite" onSubmit={handleSubmit} method="POST">
+    <div className="form_invite">
       <div className="header_invite">
         <h3>Share Projects</h3>
         <button type="button" onClick={handleCancel}>
@@ -66,11 +110,12 @@ const Invite = ({onCancel, prj_id}) => {
         </button>
       </div>
 
+      {role === "Leader" ? (
       <div className="body">
         <h4>Invite People</h4>
         <div className="action">
           <input type="text" placeholder="Name or Email" value={value} onChange={e => setValue(e.target.value)} />
-          <button type="submit">
+          <button type="submit" onClick={handleSubmit}>
             <span>Invite</span>
           </button>
         </div>
@@ -85,7 +130,8 @@ const Invite = ({onCancel, prj_id}) => {
 
                 <div className="field_infor">
                   <div className="Name">
-                    {item.user_name}
+                    {item.user_name} 
+                    {item.user_name === userRedux.user_name && <div>(Me)</div>}
                   </div>
                   <div className="mail">
                     {item.role}
@@ -114,7 +160,11 @@ const Invite = ({onCancel, prj_id}) => {
           })}
         </ul>
       </div>
-    </form>
+      ) : (
+        <p className='no-right'>Bạn không đủ thẩm quyền để mời người khác tham dự vào Project</p>
+      )
+      }
+    </div>
   )
 }
 

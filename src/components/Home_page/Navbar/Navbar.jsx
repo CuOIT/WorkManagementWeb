@@ -17,39 +17,32 @@ const Navbar = () => {
   const handleClick = () => {
     setShow(!show);
   };
-
-  const [showing, setShowing] = useState(false)
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/project/invite?receiver_id=${userRedux.user_id}`)
+        const dataArray = response.data.data
+        console.log({dataArray})
+        setInvite(dataArray)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    fetchData()
+  }, [show])
   const [invite, setInvite] = useState([])
-
   const handleAccept = async (index) => {
     try {
-      axios.put(
+      await axios.put(
         `http://localhost:8080/api/project/response-invitation/${index}`,
         {
-          response: true,
+          response: "true",
         }
       );
     } catch (e) {
       console.error(e);
     }
-    setShowing(!showing);
-  };
-
-  const handleRefuse = async (index) => {
-    try {
-      axios.put(
-        `http://localhost:8080/api/project/response-invitation/${index}`,
-        {
-          response: false,
-        }
-      );
-    } catch (e) {
-      console.error(e);
-    }
-    setShowing(!showing);
-  }
-
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/project/invite?receiver_id=${userRedux.user_id}`)
@@ -62,7 +55,31 @@ const Navbar = () => {
       }
     }
     fetchData()
-  }, [])
+  };
+
+  const handleRefuse = async (index) => {
+    try {
+      await axios.put(
+        `http://localhost:8080/api/project/response-invitation/${index}`,
+        {
+          response: false,
+        }
+      );
+    } catch (e) {
+      console.error(e);
+    }
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/project/invite?receiver_id=${userRedux.user_id}`)
+        const dataArray = response.data.data
+        console.log({dataArray})
+        setInvite(dataArray)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    fetchData()
+  }
 
   return (
     <div id='navbar_container'>
@@ -83,8 +100,8 @@ const Navbar = () => {
         <div className="help navbar_item">
           <img src="https://thumbs.dreamstime.com/b/question-mark-line-art-help-symbol-flat-style-icon-isolated-white-background-vector-illustration-146871828.jpg" alt="" />
         </div>
-        <div className="announce navbar_item" onClick={() => handleClick()}>
-          <img src="https://static.vecteezy.com/system/resources/previews/006/086/198/original/notification-icon-for-web-vector.jpg" alt="" />
+        <div className="announce navbar_item">
+          <img src="https://static.vecteezy.com/system/resources/previews/006/086/198/original/notification-icon-for-web-vector.jpg" alt=""  onClick={() => handleClick()}/>
           <div className="announce_container" style={{ display: show ? "block" : "none" }}>
             <ul>
               {invite?.map((item, index) => {

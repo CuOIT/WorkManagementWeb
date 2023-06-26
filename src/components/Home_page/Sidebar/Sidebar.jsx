@@ -11,6 +11,10 @@ import logo_project from "../image/project (1).png"
 import logo_work from "../image/freelance.png"
 import logo_circle_project from "../image/new-moon.png"
 import logo_exit from "../image/cross.png"
+import { selectUserData } from '../../../redux/reducer/userReducer'
+import { useSelector } from 'react-redux';
+
+
 function handle_menu(){
   const home_page_element = document.getElementById("home_page_container");
   home_page_element.style.gridTemplateColumns = "0fr 1fr";
@@ -27,12 +31,14 @@ const Sidebar = () => {
   const [listOfProject,setlistOfProject] = useState([]);
   const [showListProject,setshowListProject] = useState(false);
   const [showAddProject,setShowAddProject] = useState(false)
+  const userRedux = useSelector(selectUserData)
+
   useEffect(()=>{
     const fetchData = async()=>{
-      await axios.get(`http://localhost:8080/api/project?user_id=1`)
+      await axios.get(`http://localhost:8080/api/project?user_id=${userRedux.user_id}}`)
       .then((response)=>{
+        console.log(response.data)
         setlistOfProject(response.data.data)
-        
       })
     }
     fetchData()
@@ -121,14 +127,14 @@ const Sidebar = () => {
           </div>
           <div className='list_of_project' style={{display:showListProject?"block": "none"}}>
             {
-              listOfProject.map((value,key)=>{
+              listOfProject?.map((value,key)=>{
                 return(
                   <Link to={`/project/${value.project_id}`}>
                   <div className='project_item' onClick={()=>show_project_selected(value.name)}>
                     <div className='circle_project'>
                       <img src={logo_circle_project}></img>
                     </div>
-                    <div className='name_project'>{value.name}</div>
+                    <div className='name_project'>{value.project_name}</div>
                   </div></Link>
                 )
               })

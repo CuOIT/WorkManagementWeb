@@ -6,6 +6,7 @@ import { axiosData } from "../../../../services/axiosInstance";
 import { useSelector } from "react-redux";
 import { selectAccessToken, selectUserData } from "./../../../../redux/reducer/userReducer";
 import { verifyExpiredToken } from "../../../../services/verifyAccessToken";
+
 const TodoList = () => {
     const accessTokenStore = useSelector(selectAccessToken);
     const userStore = useSelector(selectUserData);
@@ -55,18 +56,6 @@ const TodoList = () => {
 
     const handleSubmitCreateTodo = async (event) => {
         event.preventDefault();
-        // const s = newTodo.start_time?.split(":");
-        // const e = newTodo.end_time?.split(":");
-        // let start_time = null;
-        // // if (s) {
-        // //     start_time = new Date();
-        // //     start_time.setHours(s[0], s[1]);
-        // // }
-        // let end_time = null;
-        // // if (e) {
-        // //     end_time = new Date();
-        // //     end_time.setHours(e[0], e[1]);
-        // // }
         if (newTodo?.start_time > newTodo?.end_time) {
             alert("Start_time is not greater than end_time");
             return;
@@ -77,14 +66,19 @@ const TodoList = () => {
             level: newTodo.priority,
             user_id: userStore.user_id,
         };
-        console.log(updatedNewTodo);
         try {
             const res = await axiosData(accessTokenStore).post("/api/to-do", updatedNewTodo);
-            if (res.data.success === "true") {
-                const updatedTodos = [...todos, newTodo];
-                updatedTodos.sort((a, b) => a.level - b.level);
-                setTodos(updatedTodos);
-            }
+            const fetchData = async () => {
+                try {
+                    const response = await axiosData(accessTokenStore).get(`/api/to-do?user_id=${userStore.user_id}&date=${date}`);
+                    const todoList = response.data.data;
+                    todoList.sort((a, b) => a.level - b.level);
+                    setTodos(response.data.data);
+                } catch (error) {
+                    console.error("Error fetching tasks:", error);
+                }
+            };
+            fetchData();
         } catch (err) {
             console.log(err);
         }
@@ -99,7 +93,6 @@ const TodoList = () => {
         form_time.style.display = "none";
         form_edit.style.display = "block";
         const todo = todos.find((item) => item.id === id);
-        console.log({ todo });
         setCurrentTodo(todo);
     };
 
@@ -118,43 +111,27 @@ const TodoList = () => {
             alert("Task name is not empty!");
             return;
         }
-
-        const s = currentTodo.start_time?.split(":");
-        const e = currentTodo.end_time?.split(":");
-        let start_time = null;
-        if (s) {
-            start_time = new Date();
-            start_time.setHours(s[0], s[1]);
-        }
-        let end_time = null;
-        if (e) {
-            end_time = new Date();
-            end_time.setHours(e[0], e[1]);
-        }
-        if (start_time > end_time) {
-            alert("Start_time is not greater than end_time");
-            return;
-        }
         const updatedTodo = {
             id: id,
             name: currentTodo.name,
             date,
-            start_time,
-            end_time,
+            start_time: currentTodo.start_time,
+            end_time: currentTodo.end_time,
             level: currentTodo.priority,
         };
         try {
             const res = await axiosData(accessTokenStore).put(`/api/to-do/${id}`, updatedTodo);
-            if (res.data.success === "true") {
-                const updatedTodos = todos.map((todo) => {
-                    if (todo.id === id) {
-                        return updatedTodo;
-                    }
-                    return todo;
-                });
-                updatedTodos.sort((a, b) => a.level - b.level);
-                setTodos(updatedTodos);
-            }
+            const fetchData = async () => {
+                try {
+                    const response = await axiosData(accessTokenStore).get(`/api/to-do?user_id=${userStore.user_id}&date=${date}`);
+                    const todoList = response.data.data;
+                    todoList.sort((a, b) => a.level - b.level);
+                    setTodos(response.data.data);
+                } catch (error) {
+                    console.error("Error fetching tasks:", error);
+                }
+            };
+            fetchData();
         } catch (err) {
             console.log(err);
         }
@@ -168,16 +145,17 @@ const TodoList = () => {
 
             const updatedTodo = { ...todo, completed: !todo.completed };
             const res = await axiosData(accessTokenStore).put(`/api/to-do/${todo.id}`, updatedTodo);
-            if (res.data.success === "true") {
-                const updatedTodos = todos.map((item) => {
-                    if (item.id === todo.id) {
-                        return updatedTodo;
-                    }
-                    return item;
-                });
-                updatedTodos.sort((a, b) => a.level - b.level);
-                setTodos(updatedTodos);
-            }
+            const fetchData = async () => {
+                try {
+                    const response = await axiosData(accessTokenStore).get(`/api/to-do?user_id=${userStore.user_id}&date=${date}`);
+                    const todoList = response.data.data;
+                    todoList.sort((a, b) => a.level - b.level);
+                    setTodos(response.data.data);
+                } catch (error) {
+                    console.error("Error fetching tasks:", error);
+                }
+            };
+            fetchData();
         } catch (error) {
             console.error("Error updating task status:", error);
         }
@@ -266,7 +244,7 @@ const TodoList = () => {
                                     </div>
                                     <div className="task_time" id={`time-${item.id}`}>
                                         <small>
-                                            {item.start_time || "xx : xx"} - {item.end_time || "xx : xx"}
+                                            {item.start_time?.slice(0, 5) || "xx : xx"} - {item.end_time?.slice(0, 5) || "xx : xx"}
                                         </small>
                                     </div>
 
@@ -290,28 +268,29 @@ const TodoList = () => {
                                             <div className="task_edit_action">
                                                 <input
                                                     type="time"
-                                                    value={currentTodo?.start_time || ""}
+                                                    value={currentTodo?.start_time.slice(0,5) || ""}
                                                     onChange={(e) => {
-                                                        console.log(currentTodo?.start_time);
+                                                        console.log(e.target.value)
                                                         setCurrentTodo({
                                                             ...currentTodo,
-                                                            start_time: e.target.value.substring(11, 19),
+                                                            start_time: e.target.value
                                                         });
+                                                        console.log(currentTodo?.start_time)
                                                     }}
                                                     className="due_date"
                                                 />
                                                 <input
                                                     type="time"
-                                                    value={currentTodo?.end_time || ""}
+                                                    value={currentTodo?.end_time.slice(0, 5) || ""}
                                                     onChange={(e) =>
                                                         setCurrentTodo({
                                                             ...currentTodo,
-                                                            end_time: e.target.value.substring(11, 19),
+                                                            end_time: e.target.value
                                                         })
                                                     }
                                                     className="due_date"
                                                 />
-                                                <div className="priority1" id={`pri-${currentTodo?.priority || 4}`} onClick={handlePri}>
+                                                <div className="priority1" id={`pri-${currentTodo?.priority || currentTodo?.level}`} onClick={handlePri}>
                                                     <svg
                                                         width="16"
                                                         height="16"
@@ -329,7 +308,7 @@ const TodoList = () => {
                                                             fill="currentColor"
                                                         ></path>
                                                     </svg>
-                                                    <p>Priority {currentTodo?.priority}</p>
+                                                    <p>Priority {currentTodo?.priority || currentTodo?.level}</p>
                                                     <ul
                                                         className="select_priority"
                                                         style={{
@@ -467,7 +446,7 @@ const TodoList = () => {
                                                         ></path>
                                                     </svg>
                                                 </button>
-                                                <button type="button" className="add_submit" onClick={(event) => handleSubmitEditTodo(item.id)}>
+                                                <button type="button" className="add_submit" onClick={() => handleSubmitEditTodo(item.id)}>
                                                     <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path
                                                             fillRule="evenodd"
@@ -558,7 +537,7 @@ const TodoList = () => {
                                                 fill="currentColor"
                                             ></path>
                                         </svg>
-                                        <p>Priority {newTodo?.priority || ""}</p>
+                                        <p>Priority {newTodo?.priority || "4"}</p>
                                         <ul
                                             className="select_priority"
                                             style={{
