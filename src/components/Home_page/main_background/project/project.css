@@ -496,3 +496,9 @@ select:hover{
   font-size: 18px;
   font-weight: 500;
 }
+.project_add_task select{
+  height: 28px;
+}
+.project_container .task_checkbox{
+  border: solid 3px red;
+}

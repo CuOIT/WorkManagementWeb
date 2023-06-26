@@ -12,6 +12,7 @@ import { selectNameProject } from '../../../../redux/reducer/nameProjectReducer'
 import { updateNameProject } from '../../../../redux/reducer/nameProjectReducer';
 import { selectSortTo } from '../../../../redux/reducer/sortTo';
 import { updateSortTo } from '../../../../redux/reducer/sortTo';
+import { updateRenderSidebar } from '../../../../redux/reducer/renderSidebar';
 const Project = () => {
   const [listOfTask,setlistOfTask] = useState([]);
   const { project_id } = useParams();
@@ -193,11 +194,17 @@ const Project = () => {
     })
     setname_project(name.value)
     dispatch(updateNameProject(name.value))
+    dispatch(updateRenderSidebar(true))
     setShowEditProject(false);
   }
   const handle_DeleteTask = ()=>{
     const task_id = select_task;
-    const newListTask = [];
+    
+  
+    axios.delete(`http://localhost:8080/api/delete-task/${22}`)
+    .then((response)=>{
+      setShowDeleteTask(false)
+      const newListTask = [];
     for(let i=0;i<listOfTask.length;i++){
       if(listOfTask[i].id!==task_id){
         newListTask.push(listOfTask[i]);
@@ -205,13 +212,11 @@ const Project = () => {
     }
     setlistOfTask(newListTask);
   
-    axios.delete(`http://localhost:8080/api/delete-task/${task_id}`)
-    .then((response)=>{
-      setShowDeleteTask(false)
       console.log(response)
     })
     .catch((error)=>{
-      alert("fail really fail")
+      alert("You dont have permission to delete Task")
+      setShowDeleteTask(false)
     });
   }
   const openShowSort = ()=>{

@@ -14,7 +14,8 @@ import { selectUserData } from '../../../redux/reducer/userReducer'
 
 import { updateNameProject } from '../../../redux/reducer/nameProjectReducer';
 
-
+import { selectRenderSidebar } from '../../../redux/reducer/renderSidebar';
+import { updateRenderSidebar } from '../../../redux/reducer/renderSidebar';
 function handle_menu(){
   const home_page_element = document.getElementById("home_page_container");
   home_page_element.style.gridTemplateColumns = "0fr 1fr";
@@ -29,7 +30,8 @@ const Sidebar = () => {
   const [showListProject,setshowListProject] = useState(false);
   const [showAddProject,setShowAddProject] = useState(false)
   const userRedux = useSelector(selectUserData)
-
+  const renderSidebar = useSelector(selectRenderSidebar)
+  
   useEffect(()=>{
     // const fetchData = async()=>{
     //   await axios.get(`http://localhost:8080/api/project?user_id=${userRedux.user_id}`)
@@ -41,12 +43,13 @@ const Sidebar = () => {
     const fetchData = async()=>{
       await axios.get(`http://localhost:8080/api/project?user_id=1`)
       .then((response)=>{
-        console.log(response.data.data)
+        //console.log(response.data.data)
         setlistOfProject(response.data.data)
       })
     }
     fetchData()
-  },[])
+    dispatch(updateRenderSidebar(false));
+  },[renderSidebar])
 
   function show_project_selected(projectname){
     dispatch(updateNameProject(projectname));
@@ -88,6 +91,7 @@ const Sidebar = () => {
   return (
     
     <div className='sidebar_container'>
+      
       <div className="container">
         <div className="menu">          
           <img onClick={handle_menu}  className='icon' src={logo_menu} alt="" />
