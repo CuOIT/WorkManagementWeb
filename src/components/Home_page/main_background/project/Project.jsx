@@ -150,8 +150,12 @@ const Project = () => {
   const HideDeleteTask = ()=>{
     setShowDeleteTask(false);
   }
-  const OpenEditTask = (event,task_id)=>{
+  const OpenEditTask = (event,task_id, task_name, task_description, task_duDate, task_assign)=>{
     event.stopPropagation();
+    document.querySelector(".project_edit_form_container .input_name input").value = task_name;
+    document.querySelector(".project_edit_form_container .input_description input").value = task_description;
+    document.querySelector(".project_edit_form_container .project_task_dueDate input").value = task_duDate;
+    document.querySelector(".project_edit_form_container .project_edit_select_people select").value = task_assign;
     setSelectTask(task_id)
     setShowEditTask(true);
   }
@@ -259,7 +263,7 @@ const Project = () => {
                 <div className='hnnn'><p>Share</p></div>
               </div>
             </div>
-            <div className='project_header_edit1' onClick={OpenEditProject}>
+            <div className='project_header_edit1' onClick={()=>{OpenEditProject()}}>
               
               <div className='hmmm'><svg width="24" height="24"><g fill="none" fill-rule="evenodd"><path fill="currentColor" d="M9.5 19h10a.5.5 0 110 1h-10a.5.5 0 110-1z"></path><path stroke="currentColor" d="M4.42 16.03a1.5 1.5 0 00-.43.9l-.22 2.02a.5.5 0 00.55.55l2.02-.21a1.5 1.5 0 00.9-.44L18.7 7.4a1.5 1.5 0 000-2.12l-.7-.7a1.5 1.5 0 00-2.13 0L4.42 16.02z"></path></g></svg></div>  
               <div className='hnnn'><p>Edit</p></div>
@@ -278,7 +282,7 @@ const Project = () => {
           listOfTask.map((value,key)=>{
             return(
              
-                <div onClick={()=>show_selected_task(value.id, value.name, value.description,value.due_date)} className='project_item' id={value.id}>
+                <div onClick={()=>show_selected_task(value.id, value.name, value.description,value.due_date, value.assigned_to)} className='project_item' id={value.id}>
                     <div className='check_box_project'>
                     <button className="task_checkbox"  >
                                                 <svg width="24" height="18" aria-checked="false"><path fill="currentColor" d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"></path></svg>
@@ -298,7 +302,7 @@ const Project = () => {
                     </div>
                     <div className='project_header_right1 kkkk'>
           
-                      <div className='project_header_edit' onClick={(event)=>{OpenEditTask(event,value.id)}}>  
+                      <div className='project_header_edit' onClick={(event)=>{OpenEditTask(event,value.id, value.name,value.description, value.due_date)}}>  
                         <div className='hmmm'><svg width="24" height="24"><g fill="none" fill-rule="evenodd"><path fill="currentColor" d="M9.5 19h10a.5.5 0 110 1h-10a.5.5 0 110-1z"></path><path stroke="currentColor" d="M4.42 16.03a1.5 1.5 0 00-.43.9l-.22 2.02a.5.5 0 00.55.55l2.02-.21a1.5 1.5 0 00.9-.44L18.7 7.4a1.5 1.5 0 000-2.12l-.7-.7a1.5 1.5 0 00-2.13 0L4.42 16.02z"></path></g></svg></div>  
                         
                       </div>
@@ -531,24 +535,32 @@ const Project = () => {
       {/* Delete task */}
       {/* edit task */}
       <div className='cover_screen' style={{display:showEditTask?"block":"none"}} onClick={HideEditTask}>
-      <div className='project_add_task' onClick={handle_prevent_spread}>
+      <div className='project_edit_task2' onClick={handle_prevent_spread}>
           <form onSubmit={handle_editTask}  method='post'>
-            <div className='form_container'>
-              <div className='project_add_task_left'>
+          <div className='add_project_header'>
+              <div><h3>Edit Task</h3></div>
+              <div className='add_project_header2' onClick={HideEditTask}><img src={icon_exit} alt="" /></div>
+            </div>
+            <div className='project_edit_form_container'>
+              
                 <div className='input_name'>
+                  <div><p>Name</p></div>
                   <input required name='name' type='text' placeholder='Task name'></input>
                 </div>
                 <div className='input_description'>
+                  <div><p>Description</p></div>
                   <input required name='description' type='text' placeholder='Description'></input>
                 </div>
-              </div>
               
-              <div className='project_add_task_right'>
-                <div  className='project_task_dueDate'>  
+              
+              
+                <div  className='project_task_dueDate'> 
+                  <div><p>Due Date</p></div> 
                   <input required name='dueDate' type='date' />
                 </div>
                 
-                <div className='project_select_people'>
+                <div className='project_edit_select_people'>
+                  <div><p>Assign To</p></div>
                   <select name='assigned_to'>
                     {
                       listOfMember.map((value,key)=>{
@@ -559,7 +571,7 @@ const Project = () => {
                     }
                   </select>
                 </div>                
-              </div>
+              
               <div className='form_footer'>
                 <div className='Cancel'>
                   <button onClick={HideEditTask}  type='reset' >Cancel</button>
