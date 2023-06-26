@@ -206,6 +206,22 @@ const sortToName = ()=>{
   setListWork(sortWork)
   setShowSort(false)
 }
+function handleDone(work_id,work_name,work_dueDate){
+  const ElementWorkDone = document.querySelector(`#work_checkbox${work_id}`);
+  const buttonWorkDone = ElementWorkDone.querySelector(".check_box_work button")
+  const nameWorkDone = ElementWorkDone.querySelector(".work_infor p");
+  
+  buttonWorkDone.style.backgroundColor = "black";
+  const updateWork = {
+    id: work_id,
+    name:work_name,
+    due_date: work_dueDate,
+    completed: true,
+    workspace_id:workspace_id
+  }
+  
+  axios.put(`http://localhost:8080/api/work/${work_id}`,updateWork)
+}
   return (
     <div className='work_in_workspace_container' onClick={hideShowSort}>
       <div className='work_header'>
@@ -228,7 +244,7 @@ const sortToName = ()=>{
           </div>
         </div>
         <div className='work_title'>
-          <h2>name_workspace</h2>  
+          <h2>Workspace</h2>  
         </div>
         
           
@@ -250,9 +266,9 @@ const sortToName = ()=>{
         {
           listWork.map((value1, key) => {
           return (
-            <div  className='work_item' >
+            <div  className='work_item' id={`work_checkbox${value1.id}`}>
               <div className='check_box_work'>
-                <button className="work_checkbox"  >
+                <button className="work_checkbox " onClick={()=>{handleDone(value1.id,value1.name,value1.due_date)}} >
                   <svg width="24" height="18" aria-checked="false"><path fill="currentColor" d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"></path></svg>
                 </button>
               </div>

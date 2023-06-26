@@ -249,3 +249,9 @@ p{
 .sortWork:hover .to_sort{
   color: red;
 }
+.work_content .work_checkbox{
+  border: solid 3px red;
+}
+.work_content .work_checkbox:hover{
+  cursor: pointer;
+}

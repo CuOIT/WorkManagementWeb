@@ -21,6 +21,7 @@ function handle_menu(){
   home_page_element.style.gridTemplateColumns = "0fr 1fr";
   console.log(home_page_element)
 } 
+var projectName = "";
 
 const Sidebar = () => {
   
@@ -32,10 +33,17 @@ const Sidebar = () => {
   const renderSidebar = useSelector(selectRenderSidebar)
   
   useEffect(()=>{
-
+    // const fetchData = async()=>{
+    //   await axios.get(`http://localhost:8080/api/project?user_id=${userRedux.user_id}`)
+    //   .then((response)=>{
+    //     console.log(response.data.data)
+    //     setlistOfProject(response.data.data)
+    //   })
+    // }
     const fetchData = async()=>{
       await axios.get(`http://localhost:8080/api/project?user_id=1`)
       .then((response)=>{
+        //console.log(response.data.data)
         setlistOfProject(response.data.data)
       })
     }

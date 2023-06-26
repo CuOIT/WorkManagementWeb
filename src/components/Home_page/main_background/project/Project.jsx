@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { redirect, useParams } from 'react-router-dom';
 import './project.css'
-import { projectName } from '../../Sidebar/Sidebar';
+import { useDispatch } from "react-redux";
 import axios from 'axios';
 import icon_exit from "../../image/cross.png"
 import Edit_Screen from "./Screen/Screen"
 import Invite from "./Invite/invite"
 import _ from 'lodash';
-
-
+import { useSelector,shallowEqual } from "react-redux";
+import { selectNameProject } from '../../../../redux/reducer/nameProjectReducer';
+import { updateNameProject } from '../../../../redux/reducer/nameProjectReducer';
+import { selectSortTo } from '../../../../redux/reducer/sortTo';
+import { updateSortTo } from '../../../../redux/reducer/sortTo';
+import { updateRenderSidebar } from '../../../../redux/reducer/renderSidebar';
 const Project = () => {
   const [listOfTask, setlistOfTask] = useState([]);
   const { project_id } = useParams();
@@ -23,27 +27,45 @@ const Project = () => {
   const [showEditProject, setShowEditProject] = useState(false);
   const [showDeleteTask, setShowDeleteTask] = useState(false);
   const [showEditTask, setShowEditTask] = useState(false);
-  const [select_task, setSelectTask] = useState("")
-  const [showSort, setShowSort] = useState(false);
+  const [select_task,setSelectTask] = useState("")
+  const [showSort,setShowSort] = useState(false);
+  const nameProject = useSelector(selectNameProject,shallowEqual )
+  const sort_to = useSelector(selectSortTo);
+  const [sort,setSort] = useState(1)
+  const dispatch = useDispatch();
   
-  useEffect(() => {
-    axios.get(`http://localhost:8080/api/project/get-tasks?project_id=${project_id}`)
-      .then((response) => {
+  useEffect(()=>{
+    
+    setname_project(nameProject)
+    setSort(sort_to)
+    console.log("name_project: " +name_project)
+    console.log("nameProject: "+ nameProject)
+    const fetchData = async ()=>{
+      
+
+      
+    try{
+      const response = await axios.get(`http://localhost:8080/api/project/get-tasks?project_id=${project_id}`)
+      
         const sortedTasks = _.sortBy(response.data.data, 'due_date');
         setlistOfTask(sortedTasks)
+      
+      
+      
+       const response2 = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${project_id}`)
+       setlistOfMember(response2.data.data)
+    }
+    catch(error){
+      console.error("error fetching")
+    }
+  
+  }
+ 
+  fetchData();
 
-      })
-    axios.get(`http://localhost:8080/api/project/get-member?project_id=${project_id}`)
-      .then((response) => {
-        setlistOfMember(response.data.data)
-
-      })
-    console.log("this is member")
-
-    setname_project(projectName);
-  }, [window.location.pathname])
-
-  const hide_show_addTask = () => {
+  },[window.location.pathname,project_id])
+  
+  const hide_show_addTask = ()=>{
     setdisplayAddTask(!displayAddTask);
   }
   const submit_addTask = (event) => {
@@ -171,26 +193,31 @@ const Project = () => {
       status: "start"
     })
     setname_project(name.value)
+    dispatch(updateNameProject(name.value))
+    dispatch(updateRenderSidebar(true))
     setShowEditProject(false);
   }
   const handle_DeleteTask = () => {
     const task_id = select_task;
-    const newListTask = [];
-    for (let i = 0; i < listOfTask.length; i++) {
-      if (listOfTask[i].id !== task_id) {
+    
+  
+    axios.delete(`http://localhost:8080/api/delete-task/${22}`)
+    .then((response)=>{
+      setShowDeleteTask(false)
+      const newListTask = [];
+    for(let i=0;i<listOfTask.length;i++){
+      if(listOfTask[i].id!==task_id){
         newListTask.push(listOfTask[i]);
       }
     }
     setlistOfTask(newListTask);
-
-    axios.delete(`http://localhost:8080/api/delete-task/${task_id}`)
-      .then((response) => {
-        setShowDeleteTask(false)
-        console.log(response)
-      })
-      .catch((error) => {
-        alert("fail really fail")
-      });
+  
+      console.log(response)
+    })
+    .catch((error)=>{
+      alert("You dont have permission to delete Task")
+      setShowDeleteTask(false)
+    });
   }
   const openShowSort = () => {
     setShowSort(true);
@@ -211,6 +238,7 @@ const Project = () => {
 
     const sortWork = [...listOfTask].sort(compareDueDate)
     setlistOfTask(sortWork)
+    dispatch(updateSortTo(1))
     setShowSort(false)
   }
   function compareName(task1, task2) {
@@ -221,6 +249,8 @@ const Project = () => {
   const sortToName = () => {
     const sortWork = [...listOfTask].sort(compareName);
     setlistOfTask(sortWork)
+    
+    dispatch(updateSortTo(2));
     setShowSort(false)
   }
 
@@ -265,7 +295,9 @@ const Project = () => {
           </div>
 
           <div className='project_title'>
-            <h2>Project_name</h2>
+            {/* <h2>{nameProject.nameProject}</h2>   */}
+            <h2>{name_project}</h2>
+            
           </div>
 
 
@@ -326,80 +358,163 @@ const Project = () => {
                     </div>
                   </div>
                 </div>
-
-              )
-            })
-          }
-          <div class="button_add_task_project" onClick={hide_show_addTask}><button type="button" data-add-task-navigation-element="true" class="button_add_task"><span class="icon_add" aria-hidden="true"><svg width="13" height="13"><path d="M6 6V.5a.5.5 0 011 0V6h5.5a.5.5 0 110 1H7v5.5a.5.5 0 11-1 0V7H.5a.5.5 0 010-1H6z" fill="currentColor" fill-rule="evenodd"></path></svg></span>Add task</button></div>
-          <div className='project_add_task' style={{ display: displayAddTask ? 'block' : 'none' }}>
-            <form onSubmit={submit_addTask} method='post'>
-              <div className='form_container'>
-                <div className='project_add_task_left'>
-                  <div className='input_name'>
-                    <input required name='name' type='text' placeholder='Task name'></input>
-                  </div>
-                  <div className='input_description'>
-                    <input required name='description' type='text' placeholder='Description'></input>
-                  </div>
+              
+            )
+          })
+        }
+        <div class="button_add_task_project" onClick={hide_show_addTask}><button type="button" data-add-task-navigation-element="true" class="button_add_task"><span class="icon_add" aria-hidden="true"><svg width="13" height="13"><path d="M6 6V.5a.5.5 0 011 0V6h5.5a.5.5 0 110 1H7v5.5a.5.5 0 11-1 0V7H.5a.5.5 0 010-1H6z" fill="currentColor" fill-rule="evenodd"></path></svg></span>Add task</button></div>
+        <div className='project_add_task' style={{display:displayAddTask?'block': 'none'}}>
+          <form onSubmit={submit_addTask}  method='post'>
+            <div className='form_container'>
+              <div className='project_add_task_left'>
+                <div className='input_name'>
+                  <input required name='name' type='text' placeholder='Task name'></input>
                 </div>
-
-                <div className='project_add_task_right'>
-                  <div className='project_task_dueDate'>
-                    <input required name='dueDate' type='date' />
-                  </div>
-
-                  <div className='project_select_people'>
-                    <select name='assigned_to'>
-                      {
-                        listOfMember?.map((value, key) => {
-                          return (
-                            <option key={key} value={value.member_id}>{value.user_name}</option>
-                          )
-                        })
-                      }
-                    </select>
-                  </div>
-                </div>
-                <div className='form_footer'>
-                  <div className='Cancel'>
-                    <button onClick={hide_show_addTask} type='reset' >Cancel</button>
-                  </div>
-                  <div className='add_work' >
-                    <button type='submit'>Add task</button>
-                  </div>
-
+                <div className='input_description'>
+                  <input required name='description' type='text' placeholder='Description'></input>
                 </div>
               </div>
-
-            </form>
-          </div>
-        </div>
-        <div style={{ display: displayTask ? 'block' : 'none' }} className='cover_screen' onClick={hide_selected_task}>
-          <div className='selected_task' onClick={handle_prevent_spread}>
-            <Edit_Screen
-              onCancel={hide_selected_task}
-              name={nameTask}
-              description={descriptionTask}
-              due_date={dueDate}
-              id={select_task}
-              name_prj="hello"
-              prj_id={project_id}
-
-            />
-          </div>
-        </div>
-        <div className='cover_screen' style={{ display: showEditProject ? "block" : "none" }} onClick={HideEditProject}>
-          <div className='add_project_container' onClick={handle_prevent_spread}>
-            <div className='form_add_project'>
-              <form method="post" onSubmit={handleEditProject}>
-                <div className='add_project_header'>
-                  <div><h3>Edit Project</h3></div>
-                  <div className='add_project_header2' onClick={HideEditProject}><img src={icon_exit} alt="" /></div>
+              
+              <div className='project_add_task_right'>
+                <div  className='project_task_dueDate'>  
+                  <input required name='dueDate' type='date' />
                 </div>
-                <div className='add_project_content'>
-                  <div className='add_project_name vvvv'>
-                    <div><p>Name</p></div>
-                    <div><input required type="text" name='name' /></div>
+                
+                <div className='project_select_people'>
+                  <select name='assigned_to'>
+                    {
+                      listOfMember?.map((value,key)=>{
+                        return (
+                          <option value={value.member_id}>{value.user_name}</option>
+                        )
+                      })
+                    }
+                  
+                    {/* <option value="choose1">choose1</option>
+                    <option value = "choose2">choose2</option>
+                    <option value = "choose3">choose1</option>
+                    <option value = "choose4">choose2</option>
+                    <option value = "choose5">choose1</option>
+                    <option value = "choose6">choose2</option> */}
+                  </select>
+                </div>                
+              </div>
+              <div className='form_footer'>
+                <div className='Cancel'>
+                  <button onClick={hide_show_addTask}  type='reset' >Cancel</button>
+                </div>
+                <div className='add_work' >
+                  <button type='submit'>Add task</button>
+                </div>
+              
+              </div>
+            </div>
+           
+          </form>
+        </div>
+      </div>
+      <div style={{display:displayTask?'block': 'none'}}className='cover_screen' onClick={hide_selected_task}>
+      <div  className='selected_task' onClick={handle_prevent_spread}>
+        {/* <div className='all_select_task'> */}
+          {/* <div className='select_task_header'>
+            <div className='arrow_up'>
+              <img src={icon_arrow_up} alt="" />
+            </div>
+            <div className='arrow_down'>
+              <img src={icon_arrow_down} alt="" />
+            </div>
+            <div className='three_dot'>
+              <img src={icon_three_dot} alt="" />
+            </div>
+            <div className='exit_task_select' onClick={hide_selected_task}>
+              <img src={icon_exit} alt="" />
+            </div>
+          </div>
+          <div className='select_task_content'>
+            <div className='select_task_left'>
+              <div className='checkBoxAndName_des'>
+               <div className='checkbox_Task'>
+                  <button className="task_checkbox_project"  >
+                    <svg width="24" height="18" aria-checked="false"><path fill="currentColor" d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"></path></svg>
+                  </button>
+                </div>
+                <div className='name_description_task'>
+                  <div className='nameOfTask'>
+                    <p>{nameTask}</p>
+                  </div>
+                  <div className='descriptionOfTask'>
+                    <p>{descriptionTask}</p>
+                  </div>
+                </div>
+              </div>
+              <div className='comment_task'>
+                <div className='input_comment'>
+                  <div className='logo_user'>
+                    <img src="https://dcff1xvirvpfp.cloudfront.net/a45d5938c6104c7bb45274c5b8641e29_small.jpg" alt="maicong"/>
+                  </div>
+                  <div className='form_comment'>
+                    <form method='post'>
+                      <input placeholder='Comment' name='comment'></input>
+                    </form>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            <div className='select_task_right'>
+                <div className='Label_project'>
+                  <div className='selected_task_titelProject'>
+                    <p>Project</p>
+                  </div>
+                  <div className='selected_task_nameProject'>
+                    <div><img src={icon_moon} alt="" /></div>
+                    <div><p>{name_project}</p></div>
+                  </div>
+                </div>
+                <div className='due_date_task'>
+                  <div className='abcde'><p>Due Date</p></div>
+                  <div className='calendar_task'>
+                    <div className='icon_calendar'><img src={icon_calendar} alt="" /></div>
+                    <div className='abdsf'><p>{dueDate.slice(5,10)}</p></div>
+                  </div>
+                  
+                </div>
+                <div className='member_assigned'>
+                  <div className='member_titel'>Member</div>
+                  <div className='name_member_assigned'>
+
+                  </div>
+                </div>
+                
+            </div>
+          </div> */}
+          <Edit_Screen 
+          onCancel={hide_selected_task}
+          name = {nameTask }
+          description = {descriptionTask}
+          due_date = {dueDate}
+          id = {select_task}
+          name_prj = {name_project}
+          prj_id = {project_id}
+          
+          />
+        {/* </div> */}
+        
+        
+      </div>
+      </div>
+      <div className='cover_screen'  style={{display:showEditProject?"block":"none"}} onClick={HideEditProject}>
+        <div className='add_project_container' onClick={handle_prevent_spread}>
+          <div className='form_add_project'>
+            <form  method = "post" onSubmit={handleEditProject}>
+            <div className='add_project_header'>
+              <div><h3>Edit Project</h3></div>
+              <div className='add_project_header2' onClick={HideEditProject}><img src={icon_exit} alt="" /></div>
+            </div>
+            <div className='add_project_content'>
+              <div className='add_project_name vvvv'>
+                <div><p>Name</p></div>
+                <div><input required type="text" name='name' /></div>
 
                   </div>
                   <div className='add_project_description vvvv'>
