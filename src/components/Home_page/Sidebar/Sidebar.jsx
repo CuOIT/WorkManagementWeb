@@ -16,26 +16,24 @@ function handle_menu(){
   home_page_element.style.gridTemplateColumns = "0fr 1fr";
   console.log(home_page_element)
 } 
-
 var projectName = "";
 function show_project_selected(projectname){
     projectName = projectname
+    
 }
 const Sidebar = () => {
+ 
 
   //const nameOfProject = "";
   const [listOfProject,setlistOfProject] = useState([]);
   const [showListProject,setshowListProject] = useState(false);
   const [showAddProject,setShowAddProject] = useState(false)
   useEffect(()=>{
-    const fetchData = async()=>{
-      await axios.get(`http://localhost:8080/api/project?user_id=1`)
+    axios.get(`http://localhost:8080/api/project?user_id=1`)
       .then((response)=>{
         setlistOfProject(response.data.data)
         
       })
-    }
-    fetchData()
   },[])
   
   const showListItem = ()=>{
@@ -121,14 +119,14 @@ const Sidebar = () => {
           </div>
           <div className='list_of_project' style={{display:showListProject?"block": "none"}}>
             {
-              listOfProject.map((value,key)=>{
+              listOfProject?.map((value,key)=>{
                 return(
                   <Link to={`/trangchu/project/${value.project_id}`}>
                   <div className='project_item' onClick={()=>show_project_selected(value.name)}>
                     <div className='circle_project'>
                       <img src={logo_circle_project}></img>
                     </div>
-                    <div className='name_project'>{value.name}</div>
+                    <div className='name_project'>{value.project_name}</div>
                   </div></Link>
                 )
               })

@@ -1,24 +1,3 @@
-.project_container{
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-row-gap: 50px;
-  grid-column-gap: 40px;
-}
-
-.blur{
-  filter: blur(2px);
-  pointer-events: none;
-}
-
-.invite-container {
-  position: absolute;
-  top: 30%;
-  max-height: 300px;
-  left: 60%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-  filter: none;
-}
 
 .project_screen{
   margin-top: 40px;
@@ -78,79 +57,8 @@
   background-color: rgb(253, 38, 38);
   color: rgb(246, 238, 238);
 }
-.project_header .invite_to_project button{
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-}
 
-.project_header .invite_to_project button:hover{
-  cursor: pointer;
-  background-color: gray;
-  border-radius: 6px;
-}
 
-.project_header .invite_to_project button span{
-  margin-left: 5px;
-  color: rgb(116, 111, 111);
-  font-weight: 300;
-  font-size: 15px;
-}
-.project_add_task{
-  background-color: rgb(241, 236, 148);
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  border: solid 1px rgb(200, 195, 195);
-  margin-left: 140px;
-  margin-right: 140px;
-}
-.project_add_task .project_add_task_header input{
-  border: none;
-  outline: none;
-  margin-top: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  
-}
-.project_add_task .input_task_name input{
-  padding-top: 8px;
-  padding-bottom: 6px;
-}
-.project_add_task_footer{
-  display: flex;
-  justify-content: right;
-}
-.project_add_task_footer button{
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-.div_cancel_add_task button{
-  background-color: rgb(133, 208, 99);
-  color: red;
-  font-weight: 500;
-  font-size: 18px;
-  margin-right: 10px;
-  border-radius: 5px;
-}
-.div_add_task button{
-  background-color: red;
-  color: white;
-  font-weight: 500;
-  font-size: 18px;
-  border-radius: 5px;
-}
-.project_add_task_header{
-  display: flex;
-  justify-content: space-between;
-}
 .project_header_right{
   margin-right: 250px;
 }
@@ -162,18 +70,7 @@
   margin-top: 8px;
   
 }
-select{
-  margin-top: 2px;
-  width: 218px;
-  height: 30px;
-  border-radius: 5px;
-  border: solid 1px rgb(38, 37, 37);
-  outline: none;
-  border: none;
-  height: 30px;
-  font-size: 16px;
-  color: rgb(136, 133, 133);
-}
+
 .project_header_left input{
   
   border-radius: 6px;
@@ -238,8 +135,8 @@ select:hover{
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  width: 850px;
-  height: 650px;
+  /* width: 850px;
+  height: 650px; */
  
   border-radius: 30px;
 }
@@ -354,15 +251,6 @@ select:hover{
     left: 0;
     background-color: rgba(0, 0, 0, 0.7);
 }
-
-.cover_comment{
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-}
-
 .select_task_right{
   background-color: rgb(246, 246, 245);
   height: 100%;
@@ -512,4 +400,75 @@ select:hover{
 }
 .announce_delete_project :hover{
   cursor: pointer;
+}
+.project_header_right1{
+  
+  display: flex;
+  align-items: baseline;
+  margin-top: 10px;
+  color: rgb(73, 70, 70);
+}
+.kkkk{
+  margin-left: auto;
+}
+.project_edit_task{
+  position: fixed;
+  width: 800px;
+  height: 190px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  background-color:rgb(221, 241, 248);
+  border-radius: 10px;
+}
+.cover_screen .project_add_task{
+  position: fixed;
+  width: 800px;
+  height: 190px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  background-color: white;
+  border-radius: 10px;
+}
+.project_edit_task2{
+  background-color: white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  height: 550px;
+}
+.project_edit_form_container{
+  margin-left: 20px;
+  margin-right: 30px;
+  margin-top: 20px;
+}
+.project_edit_form_container input{
+  width: 100%;
+  height: 30px;
+  margin-bottom: 20px;
+  border: solid 1px red;
+  padding-left: 10px;
+}
+.project_edit_form_container select{
+  width: 100%;
+  height: 30px;
+  padding-left: 7px;
+  border: solid 1px red;
+}
+.project_edit_form_container p{
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 400;
+}
+.project_edit_form_container .form_footer{
+  margin-top: 40px;
+}
+.project_edit_form_container .form_footer button{
+  font-size: 18px;
+  font-weight: 500;
 }
