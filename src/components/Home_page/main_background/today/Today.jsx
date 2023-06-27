@@ -202,7 +202,7 @@ const Home = () => {
                                         </div>
                                     </div>
                                     <div className="task_time" id = {`time-${item.id}`}>
-                                        <small>{item.start} - {item.end}</small>
+                                        <small>{item.start || "xx"} - {item.end || "xx"}</small>
                                     </div>
                                     
                                     <div className="form_edit" id = {`form_edit-${item.id}`}>

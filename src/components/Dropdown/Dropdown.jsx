@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import "./DropDown.css";
-import { RxAvatar } from "react-icons/rx";
-import { useDispatch } from "react-redux";
-import { logout } from "../../redux/reducer/userReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUserData } from "../../redux/reducer/userReducer";
 import { useNavigate } from "react-router-dom";
+
 const Dropdown = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [isOpen, setIsOpen] = useState(false);
+    const user = useSelector(selectUserData)
 
+    const [isOpen, setIsOpen] = useState(false);
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
@@ -31,7 +32,11 @@ const Dropdown = () => {
     return (
         <div className="dropdown navbar_item">
             <div className="avatar-dropdown " onClick={toggleDropdown}>
-                <RxAvatar className="rxAvatar" />
+                <div className='avatarhere'>
+                    <div>
+                        <p>{user.user_name.slice(0, 1)}</p>
+                    </div>
+                </div>
             </div>
 
             {isOpen && (
