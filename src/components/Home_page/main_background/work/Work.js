@@ -4,6 +4,9 @@ import axios from 'axios';
 import './work.css'
 import icon_exit from "../../image/cross.png"
 import _ from 'lodash';
+import { useDispatch } from "react-redux";
+import { useSelector,shallowEqual } from "react-redux";
+import { selectNameWorkspace,updateNameWorkspace } from '../../../../redux/reducer/nameWorkspaceReducer';
 const Work = () => {
   const {workspace_id} = useParams();
   const [listWork,setListWork] = useState([])
@@ -14,7 +17,8 @@ const Work = () => {
   const [selectWork,setSelectWork] = useState('');//take the id of the work that we want to change or delete
   const [showFormAddWork,setShowFormAddWork] = useState(false);
   const [showSort, setShowSort] = useState(false);
-
+  const nameWorkspace = useSelector(selectNameWorkspace)
+  const dispatch = useDispatch();
   useEffect(()=>{
     axios.get(`http://localhost:8080/api/work?workspace_id=${workspace_id}`)
         .then((response)=>{
@@ -116,6 +120,7 @@ function saveEditWorkspace(workspace_id){
     name: name,
     
   }
+  dispatch(updateNameWorkspace(name))
   setShowFormChangeWorkspace(false);
   axios.put(`http://localhost:8080/api/workspace/${workspace_id}`,updateWorkspace)
       .then((response)=>{
@@ -210,8 +215,9 @@ function handleDone(work_id,work_name,work_dueDate){
   const ElementWorkDone = document.querySelector(`#work_checkbox${work_id}`);
   const buttonWorkDone = ElementWorkDone.querySelector(".check_box_work button")
   const nameWorkDone = ElementWorkDone.querySelector(".work_infor p");
+  alert("You just complete the work?")
+  nameWorkDone.style.textDecoration = "line-through";
   
-  buttonWorkDone.style.backgroundColor = "black";
   const updateWork = {
     id: work_id,
     name:work_name,
@@ -244,7 +250,7 @@ function handleDone(work_id,work_name,work_dueDate){
           </div>
         </div>
         <div className='work_title'>
-          <h2>Workspace</h2>  
+          <h2>{nameWorkspace}</h2>  
         </div>
         
           
@@ -274,7 +280,9 @@ function handleDone(work_id,work_name,work_dueDate){
               </div>
               <div className='work_infor'>
                 <div className='name_work_item'>
-                  <p>{value1.name}</p>
+                  <p style={{
+                                        textDecoration: value1.completed ? "line-through" : "none",
+                                    }}>{value1.name}</p>
                 </div>
                 
                 <div className='date_work'>

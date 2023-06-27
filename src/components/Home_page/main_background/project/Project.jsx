@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { redirect, useParams } from 'react-router-dom';
 import './project.css'
-import { useDispatch } from "react-redux";
+
 import axios from 'axios';
 import icon_exit from "../../image/cross.png"
 import Edit_Screen from "./Screen/Screen"
 import Invite from "./Invite/invite"
 import _ from 'lodash';
+import { useDispatch } from "react-redux";
 import { useSelector,shallowEqual } from "react-redux";
 import { selectNameProject } from '../../../../redux/reducer/nameProjectReducer';
 import { updateNameProject } from '../../../../redux/reducer/nameProjectReducer';
@@ -71,6 +72,7 @@ const Project = () => {
   const submit_addTask = (event)=>{
     event.preventDefault();
     const {name,description,dueDate,assigned_to} = event.target;
+    const now = new Date();
     
     axios.post("http://localhost:8080/api/project/add-task",{
       project_id: project_id,
@@ -99,6 +101,7 @@ const Project = () => {
     event.preventDefault();
     const task_id = select_task;
     const {name,description,dueDate,assigned_to} = event.target;
+    
     axios.put(`http://localhost:8080/api/project/update-task/${task_id}`,{
       
       name: name.value,
@@ -604,7 +607,7 @@ const Project = () => {
                 
                 <div className='project_edit_select_people'>
                   <div><p>Assign To</p></div>
-                  <select name='assigned_to'>
+                  <select required name='assigned_to'>
                     {
                       listOfMember?.map((value,key)=>{
                         return (

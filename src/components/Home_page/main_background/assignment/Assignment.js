@@ -2,14 +2,11 @@ import React, { useTransition } from 'react'
 import { useEffect, useState } from 'react'
 import './assignment.css'
 import axios from 'axios'
-import { type } from '@testing-library/user-event/dist/type'
-import logo_edit from '../../image/edit.png'
-import logo_delete from '../../image/delete.png'
-import logo_edit2 from '../../image/edit-text.png'
-import logo_comment from '../../image/comment.png'
-import logo_add_workspace from '../../image/add.png'
+import { useDispatch } from "react-redux";
+import { useSelector,shallowEqual } from "react-redux";
 import icon_exit from "../../image/cross.png"
 import { Link } from 'react-router-dom'
+import { updateNameWorkspace } from '../../../../redux/reducer/nameWorkspaceReducer'
 const Assignment = () => {
     const [listofWorkspace,setListWorkspace] = useState([])
     const [listofWork,setListWork] = useState([])
@@ -27,6 +24,7 @@ const Assignment = () => {
     const [formDeleteWorkspace,setFormDeleteWorkspace] = useState(false);
     const l = 100;
     const arr = Array(l).fill(false);
+    const dispatch = useDispatch();
     var count = -1;
     useEffect(()=>{
         axios.get(`http://localhost:8080/api/workspace?user_id=1`)
@@ -230,6 +228,9 @@ const Assignment = () => {
   const handle_hideDeleteWorkspace = ()=>{
     setFormDeleteWorkspace(false);
   }
+  function handle_nameWorkspace(name_workspace){
+    dispatch(updateNameWorkspace(name_workspace))
+  }
   return (
   <div className='container_workspace'>
     <div className='icon_add_workspace'>
@@ -252,7 +253,7 @@ const Assignment = () => {
         listofWorkspace.map((value1,key)=>{
             return (
               // <Link to={`/trangchu/assignment/${value1.id}`} className='LinkTo'>
-                <div   className='workspace_item'>
+                <div   className='workspace_item' onClick={()=>{handle_nameWorkspace(value1.name)}}>
                   <div  className='div_workspace_name' >
                   <Link to={`/assignment/${value1.id}`} className='LinkTo'>
                     <div className='div_p_workspace_name'>
