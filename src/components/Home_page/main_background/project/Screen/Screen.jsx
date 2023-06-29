@@ -3,15 +3,18 @@ import './Screen.css'
 import axios from 'axios'
 import icon_moon from "../../../image/new-moon.png"
 import icon_calendar from "../../../image/calendar.png"
+import { useSelector } from 'react-redux'
+import { selectUserData } from '../../../../../redux/reducer/userReducer'
 
 const Edit_Screen = ({ onCancel, onDone, ...props }) => {
 
   const { name, description, due_date, id, name_prj, prj_id } = props
   const id_task = id
-  console.log(id_task)
+  const userRedux = useSelector(selectUserData)
 
   const [comment, setComment] = useState('')
   const [comments, setComments] = useState([])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,7 +36,7 @@ const Edit_Screen = ({ onCancel, onDone, ...props }) => {
       await axios.post(`http://localhost:8080/api/project/task/comment`, {
         task_id: id_task,
         comment: comment,
-        user_id: 1
+        user_id: userRedux.user_id
       })
       const response = await axios.get(
         `http://localhost:8080/api/project/task/comments?task_id=${id_task}`
@@ -145,14 +148,19 @@ const Edit_Screen = ({ onCancel, onDone, ...props }) => {
             </button>
             <div className="commentlist" style={{ display: showing ? 'block' : 'none' }}>
               {comments?.map((data, index) => {
+                console.log(data)
                 return (
                   <div key={index} className="comment_content">
                     <div className="avatar">
-                      <img src="" alt="avatar" />
+                      <div className='avatar2'>
+                        <div>
+                          <p>{data.User.user_name.slice(0, 1)}</p>
+                        </div>
+                      </div>
                     </div>
                     <div className="noway">
                       <div className="name_action">
-                        <span className="username"> name</span>
+                        <span className="username">{data.User.user_name} </span>
                         <div className="time_comment">{ConvertTime(data.created_at)}</div>
                         <button className="delete_cmt" onClick={() => handleDelete(data.id)}>
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20"><g fill="none" fill-rule="evenodd"><path d="M0 0h24v24H0z"></path><rect width="14" height="1" x="5" y="6" fill="currentColor" rx="0.5"></rect><path fill="currentColor" d="M10 9h1v8h-1V9zm3 0h1v8h-1V9z"></path><path stroke="currentColor" d="M17.5 6.5h-11V18A1.5 1.5 0 008 19.5h8a1.5 1.5 0 001.5-1.5V6.5zm-9 0h7V5A1.5 1.5 0 0014 3.5h-4A1.5 1.5 0 008.5 5v1.5z"></path></g></svg>
@@ -167,7 +175,11 @@ const Edit_Screen = ({ onCancel, onDone, ...props }) => {
               })}
               <div className="add_cmt">
                 <div className="avatar">
-                  <img src="https://avatars.doist.com?fullName=Pemond&amp;email=vipthieugia200%40gmail.com&amp;size=50&amp;bg=ffffff" alt="Pemond" />
+                  <div className='avatar2'>
+                    <div>
+                      <p className='user_comment'>{userRedux.user_name.slice(0, 1)}</p>
+                    </div>
+                  </div>
                 </div>
                 <input value={comment} onChange={e => setComment(e.target.value)} type="text" placeholder='Add Comment' />
                 <button onClick={handleComment}>

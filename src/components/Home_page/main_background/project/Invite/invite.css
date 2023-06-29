@@ -108,6 +108,15 @@
     opacity: 0.5;
 }
 
+.form_invite .body .partner .field_infor .Name{
+    display: flex;
+}
+
+.form_invite .body .partner .field_infor .Name div{
+    opacity: 1;
+    margin-left: 5px;
+}
+
 .form_invite .body .partner button{
     position: absolute;
     right: 10px;
@@ -141,4 +150,33 @@
 
 .franchise div:hover{
     border-radius: 5px;
+}
+
+.no-right{
+    text-align: center;
+    padding: 25px;
+    font-size: 24px;
+}
+
+.list_search{
+   display: flex;
+   width: 350px;
+   overflow: auto;
+}
+
+.list_search li{
+    padding: 3px;
+    border: 1px solid wheat;
+    margin-left: 10px;
+    border-radius: 10px;
+    background-color: antiquewhite;
+    width: fit-content;
+}
+
+.list_search li div p{
+    font-size: 15px
+}
+
+.list_search li:hover{
+    cursor: pointer;
 }

@@ -3,46 +3,42 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./navbar.css";
 import logo_todo from "../image/todolist.jpg";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, selectAccessToken, selectUserData } from "./../../../redux/reducer/userReducer";
-import Dropdown from "../../DropDown/DropDown";
+import Dropdown from "../../Dropdown/Dropdown";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUserData, logout, selectAccessToken } from "../../../redux/reducer/userReducer";
 
 const Navbar = () => {
     const userRedux = useSelector(selectUserData);
     const accessToken = useSelector(selectAccessToken);
     const dispatch = useDispatch();
+
     const [show, setShow] = useState(false);
     const handleClick = () => {
         setShow(!show);
     };
 
-    const [showing, setShowing] = useState(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/project/invite?receiver_id=${userRedux.user_id}`);
+                const dataArray = response.data.data;
+                console.log({ dataArray });
+                setInvite(dataArray);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchData();
+    }, [show]);
     const [invite, setInvite] = useState([]);
-    const [user, setUser] = useState([]);
-
     const handleAccept = async (index) => {
         try {
-            axios.put(`http://localhost:8080/api/project/response-invitation/${index}`, {
-                response: true,
+            await axios.put(`http://localhost:8080/api/project/response-invitation/${index}`, {
+                response: "true",
             });
         } catch (e) {
             console.error(e);
         }
-        setShowing(!showing);
-    };
-
-    const handleRefuse = async (index) => {
-        try {
-            axios.put(`http://localhost:8080/api/project/response-invitation/${index}`, {
-                response: false,
-            });
-        } catch (e) {
-            console.error(e);
-        }
-        setShowing(!showing);
-    };
-
-    useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/project/invite?receiver_id=${userRedux.user_id}`);
@@ -55,7 +51,28 @@ const Navbar = () => {
             }
         };
         fetchData();
-    }, []);
+    };
+
+    const handleRefuse = async (index) => {
+        try {
+            await axios.put(`http://localhost:8080/api/project/response-invitation/${index}`, {
+                response: false,
+            });
+        } catch (e) {
+            console.error(e);
+        }
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/project/invite?receiver_id=${userRedux.user_id}`);
+                const dataArray = response.data.data;
+                console.log({ dataArray });
+                setInvite(dataArray);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchData();
+    };
 
     return (
         <div id="navbar_container">
@@ -73,22 +90,15 @@ const Navbar = () => {
                 </div>
             </div>
             <div className="navbar_right">
-                <div className="help navbar_item">
-                    <img
-                        src="https://thumbs.dreamstime.com/b/question-mark-line-art-help-symbol-flat-style-icon-isolated-white-background-vector-illustration-146871828.jpg"
-                        alt=""
-                    />
-                </div>
-                <div className="announce navbar_item" onClick={() => handleClick()}>
+                <div className="announce navbar_item">
                     <img
                         src="https://static.vecteezy.com/system/resources/previews/006/086/198/original/notification-icon-for-web-vector.jpg"
                         alt=""
+                        onClick={() => handleClick()}
                     />
                     <div className="announce_container" style={{ display: show ? "block" : "none" }}>
                         <ul>
-                            {console.log(invite)}
                             {invite?.map((item, index) => {
-                                console.log(item);
                                 return (
                                     <li key={index} id={item.id}>
                                         <div className="avatar">
@@ -124,11 +134,18 @@ const Navbar = () => {
                                     </li>
                                 );
                             })}
+                            {invite.length === 0 && (
+                                <div className="no-invite">
+                                    <p>You don't have any invitation</p>
+                                </div>
+                            )}
                         </ul>
                     </div>
                 </div>
                 {accessToken ? (
-                    <Dropdown />
+                    <div className="dropdown">
+                        <Dropdown />
+                    </div>
                 ) : (
                     <div className="sign_in navbar_item">
                         <Link to="/login">

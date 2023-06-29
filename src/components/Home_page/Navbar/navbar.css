@@ -9,6 +9,7 @@
   flex-direction: row;
   padding-left: 20px;
   padding-right: 20px;
+  position: relative;
 }
 .navbar_item{
   background-color: #3076ef;
@@ -50,14 +51,7 @@
   border-radius: 3px;
   border: none;
 }
-.help{
 
-}
-.help img{
-  width: 24px;
-  height: 24px;
-  border-radius: 100px;
-}
 .announce img{
   width: 24px;
   height: 24px;
@@ -129,7 +123,7 @@ input :active{
   top: 50px;
   height: fit-content;
   width: 400px;
-  background-color: wheat;
+  background-color: rgb(145, 169, 189);
   border: 1px solid black;
   border-radius: 5px;
 }
@@ -177,4 +171,15 @@ ul > li{
 
 .announce_container ul li .action .refuse{
   background-color: orange;
+}
+
+.no-invite{
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-invite p{
+  font-size: 24px;
 }

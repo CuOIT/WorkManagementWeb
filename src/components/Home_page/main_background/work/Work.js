@@ -3,6 +3,10 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './work.css'
 import icon_exit from "../../image/cross.png"
+import _ from 'lodash';
+import { useDispatch } from "react-redux";
+import { useSelector,shallowEqual } from "react-redux";
+import { selectNameWorkspace,updateNameWorkspace } from '../../../../redux/reducer/nameWorkspaceReducer';
 const Work = () => {
   const {workspace_id} = useParams();
   const [listWork,setListWork] = useState([])
@@ -12,14 +16,16 @@ const Work = () => {
   const [showFormChangeWork, setShowFormChangeWork] = useState(false);
   const [selectWork,setSelectWork] = useState('');//take the id of the work that we want to change or delete
   const [showFormAddWork,setShowFormAddWork] = useState(false);
-
+  const [showSort, setShowSort] = useState(false);
+  const nameWorkspace = useSelector(selectNameWorkspace)
+  const dispatch = useDispatch();
   useEffect(()=>{
     axios.get(`http://localhost:8080/api/work?workspace_id=${workspace_id}`)
         .then((response)=>{
             setListWork(response.data.data)
         })
     
-}, [listWork])
+},[])
 const handle_prevent_spread = (event)=>{
   event.stopPropagation();
 }
@@ -66,7 +72,7 @@ const handel_deleteWorkspace = ()=>{
       .catch((error)=>{
         console.log(error);
       })
-      window.location = "http://localhost:3000"
+      window.location = "http://localhost:3000/trangchu"
 }
 const handle_SaveEditWork = (event)=>{
   const work_id = selectWork;
@@ -114,6 +120,7 @@ function saveEditWorkspace(workspace_id){
     name: name,
     
   }
+  dispatch(updateNameWorkspace(name))
   setShowFormChangeWorkspace(false);
   axios.put(`http://localhost:8080/api/workspace/${workspace_id}`,updateWorkspace)
       .then((response)=>{
@@ -173,11 +180,77 @@ function handleDeleteWork(work_id){
   });
   
 }
+
+const openShowSort = (event)=>{
+  event.stopPropagation();
+  setShowSort(true);
+}
+const hideShowSort = ()=>{
+  setShowSort(false);
+}
+function compareDueDate(task1, task2) {
+  const date1 = new Date(task1.due_date);
+  const date2 = new Date(task2.due_date);
+  
+  return date1 - date2;
+}
+const sortToDue_date = ()=>{
+  
+  
+  const sortWork = [...listWork].sort(compareDueDate)
+  setListWork(sortWork)
+  setShowSort(false)
+}
+function compareName(task1,task2){
+  const name1 = task1.name;
+  const name2 = task2.name;
+  return name1.localeCompare(name2);
+}
+const sortToName = ()=>{
+  const sortWork = [...listWork].sort(compareName);
+  setListWork(sortWork)
+  setShowSort(false)
+}
+function handleDone(work_id,work_name,work_dueDate){
+  const ElementWorkDone = document.querySelector(`#work_checkbox${work_id}`);
+  const buttonWorkDone = ElementWorkDone.querySelector(".check_box_work button")
+  const nameWorkDone = ElementWorkDone.querySelector(".work_infor p");
+  alert("You just complete the work?")
+  nameWorkDone.style.textDecoration = "line-through";
+  
+  const updateWork = {
+    id: work_id,
+    name:work_name,
+    due_date: work_dueDate,
+    completed: true,
+    workspace_id:workspace_id
+  }
+  
+  axios.put(`http://localhost:8080/api/work/${work_id}`,updateWork)
+}
   return (
-    <div className='work_in_workspace_container'>
+    <div className='work_in_workspace_container' onClick={hideShowSort}>
       <div className='work_header'>
+        <div className='sortWork'>
+          <div className='to_sort' onClick={openShowSort}>
+            <div className='hmmm'><svg class="fluentIcon ___12fm75w f1w7gpdv fez10in fg4l7m0" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.35 7.35L5 4.71V16.5a.5.5 0 001 0V4.7l2.65 2.65a.5.5 0 00.7-.7l-3.49-3.5A.5.5 0 005.5 3a.5.5 0 00-.39.18L1.65 6.65a.5.5 0 10.7.7zm15.3 5.3L15 15.29V3.5a.5.5 0 00-1 0v11.8l-2.65-2.65a.5.5 0 00-.7.7l3.49 3.5a.5.5 0 00.36.15.5.5 0 00.39-.18l3.46-3.47a.5.5 0 10-.7-.7z" fill="currentColor"></path></svg></div>
+            <div className='hnnn'><p>Sort</p></div>
+          </div>
+          
+          <div className='chooseSort' style={{display:showSort?"block":"none"}} onClick={handle_prevent_spread}>
+            <div className='sort_title'><p>Sort by</p></div>
+            <div className='sort_Due_date' onClick={sortToDue_date}>
+              <div className='icon_dueDate hmmm'><svg class="fluentIcon ___12fm75w f1w7gpdv fez10in fg4l7m0" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M7 11a1 1 0 100-2 1 1 0 000 2zm1 2a1 1 0 11-2 0 1 1 0 012 0zm2-2a1 1 0 100-2 1 1 0 000 2zm1 2a1 1 0 11-2 0 1 1 0 012 0zm2-2a1 1 0 100-2 1 1 0 000 2zm4-5.5A2.5 2.5 0 0014.5 3h-9A2.5 2.5 0 003 5.5v9A2.5 2.5 0 005.5 17h9a2.5 2.5 0 002.5-2.5v-9zM4 7h12v7.5c0 .83-.67 1.5-1.5 1.5h-9A1.5 1.5 0 014 14.5V7zm1.5-3h9c.83 0 1.5.67 1.5 1.5V6H4v-.5C4 4.67 4.67 4 5.5 4z" fill="currentColor"></path></svg></div>
+              <div className='hnnn'><p>Due Date</p></div>
+            </div>
+            <div className='sort_alphabet' onClick={sortToName}>
+              <div className='icon_alphabet hmmm'><svg class="fluentIcon ___12fm75w f1w7gpdv fez10in fg4l7m0" fill="currentColor" aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M2.35 7.35L5 4.71V16.5a.5.5 0 001 0V4.7l2.65 2.65a.5.5 0 00.7-.7l-3.49-3.5A.5.5 0 005.5 3a.5.5 0 00-.39.18L1.65 6.65a.5.5 0 10.7.7zm15.3 5.3L15 15.29V3.5a.5.5 0 00-1 0v11.8l-2.65-2.65a.5.5 0 00-.7.7l3.49 3.5a.5.5 0 00.36.15.5.5 0 00.39-.18l3.46-3.47a.5.5 0 10-.7-.7z" fill="currentColor"></path></svg></div>
+              <div className='hnnn'><p>Alphabetically</p></div>
+            </div>
+          </div>
+        </div>
         <div className='work_title'>
-          <h2>name_workspace</h2>  
+          <h2>{nameWorkspace}</h2>  
         </div>
         
           
@@ -199,15 +272,17 @@ function handleDeleteWork(work_id){
         {
           listWork.map((value1, key) => {
           return (
-            <div  className='work_item' >
+            <div  className='work_item' id={`work_checkbox${value1.id}`}>
               <div className='check_box_work'>
-                <button className="work_checkbox"  >
+                <button className="work_checkbox " onClick={()=>{handleDone(value1.id,value1.name,value1.due_date)}} >
                   <svg width="24" height="18" aria-checked="false"><path fill="currentColor" d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"></path></svg>
                 </button>
               </div>
               <div className='work_infor'>
                 <div className='name_work_item'>
-                  <p>{value1.name}</p>
+                  <p style={{
+                                        textDecoration: value1.completed ? "line-through" : "none",
+                                    }}>{value1.name}</p>
                 </div>
                 
                 <div className='date_work'>
