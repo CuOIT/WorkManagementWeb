@@ -1,0 +1,11 @@
+.main_content {
+    flex: 1;
+    width: auto;
+    transition: margin-left 0.26s;
+}
+.sidebar_hidden + .main_content {
+    margin-left: -15%;
+}
+.base_layout {
+    background-color: white;
+}

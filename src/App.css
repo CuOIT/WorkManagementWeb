@@ -1,3 +1,9 @@
 .App {
-  text-align: center;
+    text-align: center;
+}
+.ai_icon {
+    color: white;
+    width: 23px;
+    height: 23px;
+    margin: 0 5px 0 5px;
 }

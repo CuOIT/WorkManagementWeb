@@ -1,8 +1,9 @@
 // import LoginForm from "@/services/Auth/Auth";
 
-import LoginForm from "../../components/Auth/Auth";
+import LoginForm from "../../components/Auth";
 import NotFound from "../../components/NotFound";
-import HomePage from "../../components/Home_page/index";
+import BaseLayout from "../../layout/Base";
+import Today from "../../components/today/Today";
 
 export const PublicRouter = [
     {
@@ -11,10 +12,12 @@ export const PublicRouter = [
     },
     {
         path: "/*",
-        element: HomePage,
+        element: Today,
+        layout: BaseLayout,
     },
-    // {
-    //     path: "/trangchu/*",
-    //     element: HomePage,
-    // },
+    {
+        path: "/today",
+        element: Today,
+        layout: BaseLayout,
+    },
 ];
