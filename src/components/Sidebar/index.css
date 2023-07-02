@@ -6,9 +6,8 @@
 .sidebar_hidden {
     transform: translateX(-100%);
 }
-.sidebar_container .icon {
-    width: 16px;
-    height: 16px;
+
+.sb_icon {
 }
 .container .item {
     display: flex;

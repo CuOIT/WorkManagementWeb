@@ -4,9 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import "./index.css";
 import { Link } from "react-router-dom";
-import logo_today from "../../asset/sun.png";
-import logo_project from "../../asset/project (1).png";
-import logo_work from "../../asset/freelance.png";
+import { FcAlarmClock, FcPlanner, FcConferenceCall } from "react-icons/fc";
 import logo_circle_project from "../../asset/new-moon.png";
 import logo_exit from "../../asset/cross.png";
 import { selectUserData } from "../../redux/reducer/userReducer";
@@ -94,7 +92,7 @@ const Sidebar = () => {
                 <Link to="/today">
                     <div className="today item">
                         <div className="div_icon">
-                            <img className="icon" src={logo_today} alt="" />
+                            <FcAlarmClock className="sb_icon" />
                         </div>
                         <div className="div_title">
                             <span>Today</span>
@@ -104,7 +102,7 @@ const Sidebar = () => {
                 <Link to="/workspace">
                     <div className="assignment item">
                         <div className="div_icon">
-                            <img className="icon" src={logo_work} alt="" />
+                            <FcPlanner className="sb_icon" />
                         </div>
                         <div className="div_title">
                             <span>WorkSpace</span>
@@ -114,7 +112,7 @@ const Sidebar = () => {
 
                 <div className="project_head item" onClick={showListItem}>
                     <div className="div_icon">
-                        <img className="icon" src={logo_project} alt="" />
+                        <FcConferenceCall className="sb_icon" />
                     </div>
                     <div className="div_title" id="div_title_project">
                         <div className="project_all_title">
