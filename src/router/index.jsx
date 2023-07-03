@@ -5,8 +5,11 @@ import { PublicRouter } from "./public";
 import { PrivateRouter } from "./private";
 
 import EmptyLayout from "../layout/Empty";
+import { useSelector } from "react-redux";
+import { selectAccessToken } from "../redux/reducer/userReducer";
 
 const Router = () => {
+    const accessToken = useSelector(selectAccessToken)
     const navigate = useNavigate();
     const checkLayout = (route) => {
         let Layout = EmptyLayout;
@@ -21,7 +24,8 @@ const Router = () => {
     return (
         <>
             <Routes>
-                {PublicRouter.map((route, index) => {
+                {!accessToken ? 
+                (PublicRouter.map((route, index) => {
                     const Container = route.element;
                     const Layout = checkLayout(route);
                     return (
@@ -37,8 +41,8 @@ const Router = () => {
                             }
                         />
                     );
-                })}
-                {PrivateRouter.map((route, index) => {
+                })) :
+                (PrivateRouter.map((route, index) => {
                     //handleLogic accessToken
                     if (false) {
                         navigate("/login");
@@ -58,7 +62,8 @@ const Router = () => {
                             }
                         />
                     );
-                })}
+                }))
+            }
             </Routes>
         </>
     );

@@ -7,7 +7,7 @@ const BaseLayout = ({ children }) => {
             <Navbar />
             <div className="body_page" style={{ display: "flex", flexDirection: "row", width: "100%" }}>
                 <Sidebar />
-                {/* <div className="main_content">{children}</div> */}
+                <div className="main_content">{children}</div>
             </div>
         </div>
     );

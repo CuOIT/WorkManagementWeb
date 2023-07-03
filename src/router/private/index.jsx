@@ -25,4 +25,9 @@ export const PrivateRouter = [
         element: Project,
         layout: BaseLayout,
     },
+    {
+        path: "/",
+        element: TodoList,
+        layout: BaseLayout,
+    }
 ];

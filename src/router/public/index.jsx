@@ -15,9 +15,9 @@ export const PublicRouter = [
         element: Today,
         layout: BaseLayout,
     },
-    {
-        path: "/today",
-        element: Today,
-        layout: BaseLayout,
-    },
+    // {
+    //     path: "/today",
+    //     element: Today,
+    //     layout: BaseLayout,
+    // },
 ];

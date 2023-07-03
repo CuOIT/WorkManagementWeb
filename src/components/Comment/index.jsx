@@ -6,7 +6,7 @@ import icon_calendar from "../../asset/calendar.png";
 import { useSelector } from "react-redux";
 import { selectUserData } from "../../redux/reducer/userReducer";
 
-const Edit_Screen = ({ onCancel, onDone, ...props }) => {
+const Comment = ({ onCancel, onDone, ...props }) => {
     const { name, description, due_date, id, name_prj, prj_id } = props;
     const id_task = id;
     const userRedux = useSelector(selectUserData);
@@ -230,4 +230,4 @@ const Edit_Screen = ({ onCancel, onDone, ...props }) => {
     );
 };
 
-export default memo(Edit_Screen);
+export default memo(Comment);

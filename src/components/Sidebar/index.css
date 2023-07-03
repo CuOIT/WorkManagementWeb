@@ -3,6 +3,11 @@
     margin-top: 30px;
     margin-right: 25px;
 }
+
+.sidebar_container{
+    min-width: 200px;
+}
+
 .sidebar_hidden {
     transform: translateX(-100%);
 }

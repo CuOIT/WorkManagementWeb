@@ -9,11 +9,6 @@ const Dropdown = () => {
     const dispatch = useDispatch();
     const user = useSelector(selectUserData);
 
-    const [isOpen, setIsOpen] = useState(false);
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
-
     const handleOptionClick = (option) => {
         // Handle option click logic here
         console.log({ option });
@@ -31,25 +26,23 @@ const Dropdown = () => {
 
     return (
         <div className="dropdown_container">
-            {isOpen && (
                 <ul className="dropdown-list">
                     <li>
                         <button className="btn-option" onClick={() => handleOptionClick("profile")}>
-                            Profile
+                            <p>Profile</p>
                         </button>
                     </li>
                     <li>
                         <button className="btn-option" onClick={() => handleOptionClick("changePassword")}>
-                            Change Password
+                            <p>Change Password</p>
                         </button>
                     </li>
                     <li>
                         <button className="btn-option" onClick={() => handleOptionClick("logout")}>
-                            Logout
+                            <p>Logout</p>
                         </button>
                     </li>
                 </ul>
-            )}
         </div>
     );
 };

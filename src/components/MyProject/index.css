@@ -18,7 +18,10 @@
     margin-left: 180px;
     margin-right: 180px;
     margin-bottom: 200px;
+    max-height: 720px;
+    overflow: auto;
 }
+
 .project_container {
     background-color: rgb(252, 252, 253);
     margin-top: 10px;

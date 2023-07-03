@@ -116,3 +116,15 @@ ul > li {
 .signin_btn {
     margin-left: 5px;
 }
+
+.avatar-dropdown {
+    margin-bottom: 5px;
+}
+
+.avatarhere{
+    padding: 6px 10px;
+}
+.avatarhere p {
+    color: #3498db;
+    font-weight: 900;
+}

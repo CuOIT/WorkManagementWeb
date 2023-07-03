@@ -4,7 +4,7 @@ import "./index.css";
 
 import axios from "axios";
 import icon_exit from "../../asset/cross.png";
-import Edit_Screen from "../Screen";
+import Comment from "../Comment";
 import Invite from "../Invite";
 import _ from "lodash";
 import { useDispatch } from "react-redux";
@@ -14,6 +14,7 @@ import { updateNameProject } from "../../redux/reducer/nameProjectReducer";
 import { selectSortTo } from "../../redux/reducer/sortTo";
 import { updateSortTo } from "../../redux/reducer/sortTo";
 import { updateRenderSidebar } from "../../redux/reducer/renderSidebar";
+
 const MyProject = () => {
     const [listOfTask, setlistOfTask] = useState([]);
     const { project_id } = useParams();
@@ -523,7 +524,7 @@ const MyProject = () => {
                 </div>
                 <div style={{ display: displayTask ? "block" : "none" }} className="cover_screen" onClick={hide_selected_task}>
                     <div className="selected_task" onClick={handle_prevent_spread}>
-                        <Edit_Screen
+                        <Comment
                             onCancel={hide_selected_task}
                             name={nameTask}
                             description={descriptionTask}
