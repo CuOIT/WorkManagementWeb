@@ -1,13 +1,13 @@
 import React, { useTransition } from "react";
 import { useEffect, useState } from "react";
 import "./index.css";
-import axios from "axios";
+import { axiosData } from "../../services/axiosInstance";
 import { useDispatch } from "react-redux";
 import { useSelector, shallowEqual } from "react-redux";
 import icon_exit from "../../asset/cross.png";
 import { Link } from "react-router-dom";
 import { updateNameWorkspace } from "../../redux/reducer/nameWorkspaceReducer";
-import { selectUserData } from "../../redux/reducer/userReducer";
+import { selectAccessToken, selectUserData } from "../../redux/reducer/userReducer";
 const Workspace = () => {
     const [listofWorkspace, setListWorkspace] = useState([]);
     const [listofWork, setListWork] = useState([]);
@@ -27,12 +27,13 @@ const Workspace = () => {
     const arr = Array(l).fill(false);
     const dispatch = useDispatch();
     const userRedux = useSelector(selectUserData);
+    const accessToken = useSelector(selectAccessToken);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/workspace?user_id=${userRedux.user_id}`).then((response) => {
+        axiosData(accessToken).get(`http://localhost:8080/api/workspace?user_id=${userRedux.user_id}`).then((response) => {
             setListWorkspace(response.data.data);
         });
-        axios.get(`http://localhost:8080/api/work?workspace_id=${userRedux.user_id}`).then((response) => {
+        axiosData(accessToken).get(`http://localhost:8080/api/work?workspace_id=${userRedux.user_id}`).then((response) => {
             setListWork(response.data.data);
         });
     }, []);
@@ -67,7 +68,7 @@ const Workspace = () => {
             }
         }
         setListWorkspace(newlistOfWorkspace);
-        axios
+        axiosData(accessToken)
             .delete(`http://localhost:8080/api/workspace/${workspace_id}`)
             .then((response) => {
                 console.log(response);
@@ -105,7 +106,7 @@ const Workspace = () => {
             name: name,
         };
         setFormChangeWorkspace(!formChangeWorkspace);
-        axios
+        axiosData(accessToken)
             .put(`http://localhost:8080/api/workspace/${workspace_id}`, updateWorkspace)
             .then((response) => {
                 console.log(response);
@@ -151,7 +152,7 @@ const Workspace = () => {
             workspace_id: workspace_id,
         };
 
-        axios
+        axiosData(accessToken)
             .put(`http://localhost:8080/api/work/${work_id}`, updateWork)
             .then((response) => {
                 console.log(response);
@@ -165,7 +166,7 @@ const Workspace = () => {
         // checkPriority();
         // setShowPriority(false)
         const { name, description, dueDate } = event.target;
-        axios
+        axiosData(accessToken)
             .post("http://localhost:8080/api/work", {
                 name: name.value,
                 description: description.value,
@@ -197,7 +198,7 @@ const Workspace = () => {
     const onSubmit_workspace = (event) => {
         event.preventDefault();
         const { name } = event.target;
-        axios
+        axiosData(accessToken)
             .post("http://localhost:8080/api/workspace", {
                 name: name.value,
                 user_id: userRedux.user_id,

@@ -53,6 +53,17 @@ a {
     display: flex;
     display: none;
 }
+
+.icon_add_project{
+    margin-right: -10px;
+    padding: 0px 6px;
+    border-radius: 50%;
+}
+
+.icon_add_project:hover{
+    background-color: white;
+}
+
 .add_or_show .icon_show_project {
     margin-left: 20px;
 }

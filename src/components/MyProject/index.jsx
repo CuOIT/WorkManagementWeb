@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { redirect, useParams } from "react-router-dom";
 import "./index.css";
 
-import axios from "axios";
+import { axiosData } from "../../services/axiosInstance";
 import icon_exit from "../../asset/cross.png";
 import Comment from "../Comment";
 import Invite from "../Invite";
@@ -14,6 +14,7 @@ import { updateNameProject } from "../../redux/reducer/nameProjectReducer";
 import { selectSortTo } from "../../redux/reducer/sortTo";
 import { updateSortTo } from "../../redux/reducer/sortTo";
 import { updateRenderSidebar } from "../../redux/reducer/renderSidebar";
+import { selectAccessToken } from "../../redux/reducer/userReducer";
 
 const MyProject = () => {
     const [listOfTask, setlistOfTask] = useState([]);
@@ -36,6 +37,8 @@ const MyProject = () => {
     const [sort, setSort] = useState(1);
     const dispatch = useDispatch();
 
+    const accessToken = useSelector(selectAccessToken)
+
     useEffect(() => {
         setname_project(nameProject);
         setSort(sort_to);
@@ -43,12 +46,12 @@ const MyProject = () => {
         console.log("nameProject: " + nameProject);
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/project/get-tasks?project_id=${project_id}`);
+                const response = await axiosData(accessToken).get(`http://localhost:8080/api/project/get-tasks?project_id=${project_id}`);
 
                 const sortedTasks = _.sortBy(response.data.data, "due_date");
                 setlistOfTask(sortedTasks);
 
-                const response2 = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${project_id}`);
+                const response2 = await axiosData(accessToken).get(`http://localhost:8080/api/project/get-member?project_id=${project_id}`);
                 setlistOfMember(response2.data.data);
             } catch (error) {
                 console.error("error fetching");
@@ -66,7 +69,7 @@ const MyProject = () => {
         const { name, description, dueDate, assigned_to } = event.target;
         const now = new Date();
 
-        axios
+        axiosData(accessToken)
             .post("http://localhost:8080/api/project/add-task", {
                 project_id: project_id,
                 name: name.value,
@@ -94,7 +97,7 @@ const MyProject = () => {
         const task_id = select_task;
         const { name, description, dueDate, assigned_to } = event.target;
 
-        axios.put(`http://localhost:8080/api/project/update-task/${task_id}`, {
+        axiosData(accessToken).put(`http://localhost:8080/api/project/update-task/${task_id}`, {
             name: name.value,
             description: description.value,
             project_id: project_id,
@@ -138,7 +141,7 @@ const MyProject = () => {
         event.stopPropagation();
     };
     const deleteProject = () => {
-        axios
+        axiosData(accessToken)
             .delete(`http://localhost:8080/api/project/${project_id}`)
             .then((response) => {
                 console.log(response);
@@ -178,7 +181,7 @@ const MyProject = () => {
     const handleEditProject = (event) => {
         event.preventDefault();
         const { name, description, start_date, end_date } = event.target;
-        axios.put(`http://localhost:8080/api/project/${project_id}`, {
+        axiosData(accessToken).put(`http://localhost:8080/api/project/${project_id}`, {
             name: name.value,
             description: description.value,
             start_date: start_date.value,
@@ -193,7 +196,7 @@ const MyProject = () => {
     const handle_DeleteTask = () => {
         const task_id = select_task;
 
-        axios
+        axiosData(accessToken)
             .delete(`http://localhost:8080/api/delete-task/${22}`)
             .then((response) => {
                 setShowDeleteTask(false);

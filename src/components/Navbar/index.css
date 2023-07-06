@@ -28,13 +28,18 @@
     display: inline-block;
 }
 .navbar_left {
+    margin-left: 10px;
     margin-right: 0;
-    height: 100%;
     width: 40%;
 }
-.navbar_middle {
-    flex-basis: 40%;
+
+.navbar_middle p{
+    font-size: 1.5rem;
+    margin-top: 13px;
+    color :rgb(73, 55, 57);
+    margin-left: 3rem;
 }
+
 .navbar_right {
     /* flex-basis: 45%; */
     margin-right: 5%;
@@ -53,7 +58,6 @@
     height: fit-content;
     width: 400px;
     background-color: rgb(145, 169, 189);
-    border: 1px solid black;
     border-radius: 5px;
 }
 
@@ -119,6 +123,7 @@ ul > li {
 
 .avatar-dropdown {
     margin-bottom: 5px;
+    margin-right: 30px;
 }
 
 .avatarhere{

@@ -3,6 +3,7 @@ import Workspace from "../../components/Workspace";
 import TodoList from "../../components/today/TodayUser";
 import Work from "../../components/Work";
 import BaseLayout from "../../layout/Base";
+import Profile from "../../components/Profile/index";
 
 export const PrivateRouter = [
     {
@@ -29,5 +30,11 @@ export const PrivateRouter = [
         path: "/",
         element: TodoList,
         layout: BaseLayout,
+    },
+    {
+        path:"/profile",
+        element: Profile,
+        layout: BaseLayout,
     }
+
 ];

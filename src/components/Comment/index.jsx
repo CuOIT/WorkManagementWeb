@@ -1,15 +1,16 @@
 import React, { useState, useEffect, memo } from "react";
 import "./index.css";
-import axios from "axios";
+import { axiosData } from "../../services/axiosInstance";
 import icon_moon from "../../asset/new-moon.png";
 import icon_calendar from "../../asset/calendar.png";
 import { useSelector } from "react-redux";
-import { selectUserData } from "../../redux/reducer/userReducer";
+import { selectUserData, selectAccessToken } from "../../redux/reducer/userReducer";
 
 const Comment = ({ onCancel, onDone, ...props }) => {
     const { name, description, due_date, id, name_prj, prj_id } = props;
     const id_task = id;
     const userRedux = useSelector(selectUserData);
+    const accessToken = useSelector(selectAccessToken);
 
     const [comment, setComment] = useState("");
     const [comments, setComments] = useState([]);
@@ -17,7 +18,7 @@ const Comment = ({ onCancel, onDone, ...props }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/project/task/comments?task_id=${id_task}`);
+                const response = await axiosData(accessToken).get(`http://localhost:8080/api/project/task/comments?task_id=${id_task}`);
                 console.log(response.data.data);
                 setComments(response.data.data);
             } catch (error) {
@@ -30,12 +31,12 @@ const Comment = ({ onCancel, onDone, ...props }) => {
     const handleComment = async () => {
         if (!comment) alert("Comment is not empty");
         try {
-            await axios.post(`http://localhost:8080/api/project/task/comment`, {
+            await axiosData(accessToken).post(`http://localhost:8080/api/project/task/comment`, {
                 task_id: id_task,
                 comment: comment,
                 user_id: userRedux.user_id,
             });
-            const response = await axios.get(`http://localhost:8080/api/project/task/comments?task_id=${id_task}`);
+            const response = await axiosData(accessToken).get(`http://localhost:8080/api/project/task/comments?task_id=${id_task}`);
             setComments(response.data.data);
         } catch (err) {
             console.log(err);
@@ -66,8 +67,8 @@ const Comment = ({ onCancel, onDone, ...props }) => {
 
     const handleDelete = async (idx) => {
         try {
-            await axios.delete(`http://localhost:8080/api/project/task/delete-comment/${idx}`);
-            const response = await axios.get(`http://localhost:8080/api/project/task/comments?task_id=${id_task}`);
+            await axiosData(accessToken).delete(`http://localhost:8080/api/project/task/delete-comment/${idx}`);
+            const response = await axiosData(accessToken).get(`http://localhost:8080/api/project/task/comments?task_id=${id_task}`);
             setComments(response.data.data);
         } catch (error) {
             console.error("Error deleting task:", error);

@@ -145,10 +145,12 @@ const TodoList = () => {
 
     const handleCompleted = async (todo) => {
         try {
-            const decodedToken = verifyExpiredToken(accessTokenStore);
-
-            const updatedTodo = { ...todo, completed: !todo.completed };
-            const res = await axiosData(accessTokenStore).put(`/api/to-do/${todo.id}`, updatedTodo);
+            console.log(todo)
+            // const updatedTodo = { ...todo, completed: !todo.completed };
+            const res = await axiosData(accessTokenStore).put(`/api/to-do/${todo.id}`, {
+                ...todo, 
+                completed: true
+            });
             const fetchData = async () => {
                 try {
                     const response = await axiosData(accessTokenStore).get(`/api/to-do?user_id=${userStore.user_id}&date=${date}`);
@@ -204,6 +206,7 @@ const TodoList = () => {
                                     id={item.id}
                                     style={{
                                         textDecoration: item.completed ? "line-through" : "none",
+                                        pointerEvents: item.completed ? "none" : "auto"
                                     }}
                                 >
                                     <div className="form_task" id={`form_task-${item.id}`}>

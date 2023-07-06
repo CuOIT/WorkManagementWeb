@@ -11,9 +11,10 @@ const Dropdown = () => {
 
     const handleOptionClick = (option) => {
         // Handle option click logic here
-        console.log({ option });
+
         switch (option) {
             case "profile":
+                navigate("/profile")
                 break;
             case "changePassword":
                 break;

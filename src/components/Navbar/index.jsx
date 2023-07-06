@@ -46,8 +46,10 @@ const Navbar = () => {
                 <div className="navbar_item" >
                     <AiFillHome className="ai_icon" onClick={handleHome}/>
                 </div>
-            </div>
-
+            </div>     
+            <div className="navbar_middle">
+                <p className="group9">GROUP 9: TASK MANAGEMENT</p>
+            </div> 
             <div className="navbar_right">
                 <div className="navbar_item">
                     <AiFillBell className="ai_icon" onClick={() => handleShow(SHOW_NOTIFICATION)} />

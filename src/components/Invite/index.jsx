@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import axios from "axios";
+import { axiosData } from "../../services/axiosInstance";
 import { FiKey } from "react-icons/fi";
 import { useSelector } from "react-redux";
-import { selectUserData } from "../../redux/reducer/userReducer";
+import { selectUserData, selectAccessToken } from "../../redux/reducer/userReducer";
 
 const Invite = ({ onCancel, prj_id }) => {
     const [value, setValue] = useState("");
     const [member, setMember] = useState([]);
     const [searchList, setSearchList] = useState([]);
     const [targetID, setID] = useState("");
-
+    const accessToken = useSelector(selectAccessToken)
     const userRedux = useSelector(selectUserData);
 
     useEffect(() => {
         // Lấy toàn bộ thành viên trong Project để hiển thị
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
+                const response = await axiosData(accessToken).get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
                 const listMember = response.data.data;
                 listMember.sort((a, b) => a.role.localeCompare(b.role));
                 setMember(response.data.data);
@@ -45,7 +45,7 @@ const Invite = ({ onCancel, prj_id }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await axios.post("http://localhost:8080/api/project/invite", {
+        await axiosData(accessToken).post("http://localhost:8080/api/project/invite", {
             inviter: userRedux.user_id,
             receiver: targetID,
             project_id: prj_id,
@@ -55,7 +55,7 @@ const Invite = ({ onCancel, prj_id }) => {
     };
 
     const fetchSearch = async (user_name) => {
-        const response = await axios.get(`http://localhost:8080/api/user/find-user-by-user-name?user_name=${user_name}`);
+        const response = await axiosData(accessToken).get(`http://localhost:8080/api/user/find-user-by-user-name?user_name=${user_name}`);
         const list = response.data.data;
         const filteredList = list.filter((item) => {
             return !member.some((memberItem) => memberItem.user_name === item.user_name);
@@ -64,13 +64,13 @@ const Invite = ({ onCancel, prj_id }) => {
     };
 
     const handleLeave = async (index) => {
-        await axios.delete("http://localhost:8080/api/project/leave-project", {
+        await axiosData(accessToken).delete("http://localhost:8080/api/project/leave-project", {
             project_id: prj_id,
             member_id: index,
         });
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
+                const response = await axiosData(accessToken).get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
                 const listMember = response.data.data;
                 listMember.sort((a, b) => a.role.localeCompare(b.role));
                 setMember(response.data.data);
@@ -82,13 +82,13 @@ const Invite = ({ onCancel, prj_id }) => {
     };
 
     const handleDelete = async (index) => {
-        await axios.delete("http://localhost:8080/api/project/delete-member", {
+        await axiosData(accessToken).delete("http://localhost:8080/api/project/delete-member", {
             project_id: prj_id,
             member_id: index,
         });
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
+                const response = await axiosData(accessToken).get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
                 const listMember = response.data.data;
                 listMember.sort((a, b) => a.role.localeCompare(b.role));
                 setMember(response.data.data);
@@ -101,14 +101,14 @@ const Invite = ({ onCancel, prj_id }) => {
 
     const handleFranchise = async (index) => {
         console.log(index);
-        await axios.put("http://localhost:8080/api/project/authorize", {
+        await axiosData(accessToken).put("http://localhost:8080/api/project/authorize", {
             admin_id: userRedux.user_id,
             member_id: index,
             project_id: prj_id,
         });
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
+                const response = await axiosData(accessToken).get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
                 const listMember = response.data.data;
                 listMember.sort((a, b) => a.role.localeCompare(b.role));
                 setMember(response.data.data);

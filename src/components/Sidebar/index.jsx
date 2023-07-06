@@ -9,12 +9,12 @@ import logo_project from "../../asset/project (1).png";
 import logo_work from "../../asset/freelance.png";
 import logo_circle_project from "../../asset/new-moon.png";
 import logo_exit from "../../asset/cross.png";
-import { selectUserData } from "../../redux/reducer/userReducer";
-
+import { selectUserData, selectAccessToken } from "../../redux/reducer/userReducer";
+import { axiosData } from "../../services/axiosInstance";
 import { updateNameProject } from "../../redux/reducer/nameProjectReducer";
-
 import { selectRenderSidebar } from "../../redux/reducer/renderSidebar";
 import { updateRenderSidebar } from "../../redux/reducer/renderSidebar";
+
 function handle_menu() {
     const home_page_element = document.getElementById("home_page_container");
     home_page_element.style.gridTemplateColumns = "0fr 1fr";
@@ -29,18 +29,11 @@ const Sidebar = () => {
     const [showAddProject, setShowAddProject] = useState(false);
     const userRedux = useSelector(selectUserData);
     const renderSidebar = useSelector(selectRenderSidebar);
+    const accessToken = useSelector(selectAccessToken);
 
     useEffect(() => {
-        // const fetchData = async()=>{
-        //   await axios.get(`http://localhost:8080/api/project?user_id=${userRedux.user_id}`)
-        //   .then((response)=>{
-        //     console.log(response.data.data)
-        //     setlistOfProject(response.data.data)
-        //   })
-        // }
         const fetchData = async () => {
-            await axios.get(`http://localhost:8080/api/project?user_id=1`).then((response) => {
-                //console.log(response.data.data)
+            await axiosData(accessToken).get(`http://localhost:8080/api/project?user_id=1`).then((response) => {
                 setlistOfProject(response.data.data);
             });
         };
@@ -52,6 +45,8 @@ const Sidebar = () => {
         dispatch(updateNameProject(projectname));
     }
     const showListItem = () => {
+        const icon = document.querySelector(".icon_show_project button svg")
+        !showListProject ? icon.style.transfrom = "rotate(0)" : icon.style.transfrom = "rotate(-90deg)" 
         setshowListProject(!showListProject);
     };
     const addNewProject = (event) => {
@@ -87,9 +82,6 @@ const Sidebar = () => {
     return (
         <div className="sidebar_container">
             <div className="container">
-                {/* <div className="menu">
-                    <img onClick={handle_menu} className="icon" src={logo_menu} alt="" />
-                </div> */}
 
                 <Link to="/today">
                     <div className="today item">
