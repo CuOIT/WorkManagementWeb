@@ -1,6 +1,6 @@
 .container {
     margin-left: 25px;
-    margin-top: 30px;
+    margin-top: 80px;
     margin-right: 25px;
 }
 .sidebar_hidden {
@@ -8,6 +8,8 @@
 }
 
 .sb_icon {
+    width: 25px;
+    height: 25px;
 }
 .container .item {
     display: flex;
@@ -82,8 +84,8 @@ a {
     background-color: rgb(240, 240, 240);
     position: relative;
     display: inline-block;
-    height: 100vh;
     transition: transform 0.3s;
+    height: 100%;
 }
 .project_head:hover .add_or_show {
     display: flex;

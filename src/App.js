@@ -10,7 +10,7 @@ function App() {
             <BrowserRouter>
                 <Router />
             </BrowserRouter>
-            <ChoicePopUp content={"Hello world"} handleChoice={() => {}} />
+            {/* <ChoicePopUp content={"Hello world"} handleChoice={() => {}} /> */}
         </>
     );
 }

@@ -1,16 +1,20 @@
 import React from "react";
 import "./index.css";
 const ChoicePopUp = ({ content, handleChoice }) => {
+    const handleYesOrNo = (choice) => {
+        //choice is boolean
+        handleChoice(choice);
+    };
     return (
         <div className="pop-up-panel">
             <div className="pop-up-container">
                 <div className="pop-up-content">{content}</div>
                 <div className="choice-field">
                     <div className="choice-btn">
-                        <button>Yes</button>
+                        <button onClick={() => handleYesOrNo(true)}>Yes</button>
                     </div>
                     <div className="choice-btn">
-                        <button>No</button>
+                        <button onClick={() => handleYesOrNo(false)}>No</button>
                     </div>
                 </div>
             </div>

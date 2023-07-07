@@ -6,11 +6,6 @@ import BaseLayout from "../../layout/Base";
 
 export const PrivateRouter = [
     {
-        path: "/today",
-        element: TodoList,
-        layout: BaseLayout,
-    },
-    {
         path: "workspace",
         element: Workspace,
         layout: BaseLayout,

@@ -7,14 +7,17 @@ import { PrivateRouter } from "./private";
 import EmptyLayout from "../layout/Empty";
 
 const Router = () => {
+    console.log("HI");
     const navigate = useNavigate();
     const checkLayout = (route) => {
+        console.log(route);
         let Layout = EmptyLayout;
         if (route.layout) {
             Layout = route.layout;
         } else if (route.layout === null) {
             Layout = EmptyLayout;
         }
+        console.log(Layout);
         return Layout;
     };
 
@@ -26,6 +29,7 @@ const Router = () => {
                     const Layout = checkLayout(route);
                     return (
                         <Route
+                            exact
                             path={route.path}
                             key={index}
                             element={
@@ -38,7 +42,7 @@ const Router = () => {
                         />
                     );
                 })}
-                {PrivateRouter.map((route, index) => {
+                {/* {PrivateRouter.map((route, index) => {
                     //handleLogic accessToken
                     if (false) {
                         navigate("/login");
@@ -58,7 +62,7 @@ const Router = () => {
                             }
                         />
                     );
-                })}
+                })} */}
             </Routes>
         </>
     );

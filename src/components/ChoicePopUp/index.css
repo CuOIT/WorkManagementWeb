@@ -1,9 +1,10 @@
 .pop-up-container {
     background-color: aliceblue;
-    width: 30%;
+    position: absolute;
+    width: 25%;
     height: 30%;
     z-index: 9999;
-    border-radius: 5px;
+    border-radius: 10px;
     border: rgba(1, 1, 1, 0.1) 1px solid;
     margin: auto;
 }

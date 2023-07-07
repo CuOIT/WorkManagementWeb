@@ -1,0 +1,147 @@
+.b_icon {
+    width: 24px;
+    height: 24px;
+    opacity: 0.3;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.b_icon:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+.save-todolist {
+    width: 100%;
+    height: 40px;
+}
+#save-todolist-button {
+    /* float: right; */
+    color: white;
+    background-color: rgb(0, 177, 0);
+    width: 40px;
+    height: 30px;
+    margin-left: 20px;
+    border: solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+#save-todolist-button:hover {
+    background-color: rgb(0, 200, 0);
+}
+#save-todolist-button:active {
+    background-color: rgb(0, 150, 0);
+    transform: scale(0.9);
+}
+.task_edit {
+    text-align: left;
+}
+
+.task_edit_input input {
+    border: none;
+    outline: none;
+    width: 100%;
+}
+.cancel {
+    background-color: rgb(255, 157, 173);
+}
+.cancel:hover {
+    background-color: rgb(255, 72, 72);
+}
+.add_submit {
+    background-color: rgb(166, 255, 165);
+}
+.add_submit:hover {
+    background-color: rgb(83, 255, 80);
+}
+.select-level {
+    height: fit-content;
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    width: 100px;
+    border: 1px solid rgba(10, 28, 19, 0.591);
+    background-color: white;
+    border-radius: 5px;
+}
+.level-undefined {
+    color: rgb(118, 118, 118);
+}
+.level > * {
+    display: inline-block;
+}
+.lv {
+    margin: 0 0 0 15px;
+}
+.level {
+    padding: 5px;
+    z-index: 9999;
+}
+.level:hover {
+    background-color: rgb(222, 222, 222);
+}
+.level-1 {
+    color: red;
+}
+.level-2 {
+    color: yellow;
+}
+.level-3 {
+    color: green;
+}
+.level-4 {
+    color: blue;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    /* width: 40px; */
+}
+
+.checkbox-container label {
+    cursor: pointer;
+    display: flex;
+}
+
+.checkbox-container input[type="checkbox"] {
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox-container label::before {
+    content: "";
+    width: 1em;
+    height: 1em;
+    border-radius: 0.15em;
+    margin-right: 0.5em;
+    border: 0.05em solid black;
+}
+
+.checkbox-container label:hover::before,
+.checkbox-container input[type="checkbox"]:hover + label::before {
+    background-color: #35e07d;
+}
+
+.checkbox-container input[type="checkbox"]:focus + label::before {
+    /* box-shadow: 0 0 20px black; */
+}
+
+.checkbox-container input[type="checkbox"]:disabled + label,
+.checkbox-container input[type="checkbox"]:disabled {
+    color: #aaa;
+    cursor: default;
+}
+
+.checkbox-container input[type="checkbox"]:checked + label::before {
+    content: "\002714";
+    background-color: #27ae60;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.checkbox-container input[type="checkbox"]:disabled + label::before {
+    background-color: #ccc;
+    border-color: #999;
+}

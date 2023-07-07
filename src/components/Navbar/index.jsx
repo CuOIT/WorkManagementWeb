@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import { AiOutlineMenu } from "react-icons/ai";
 import { AiFillBell } from "react-icons/ai";
@@ -33,8 +33,8 @@ const Navbar = () => {
     return (
         <div id="navbar_container">
             <div className="navbar_left">
-                <div className="navbar_item">
-                    <AiOutlineMenu className="ai_icon" onClick={toggleSideBar} />
+                <div className="navbar_item" onClick={toggleSideBar}>
+                    <AiOutlineMenu className="ai_icon" />
                 </div>
                 <div className="navbar_item">
                     <AiFillHome className="ai_icon" />
@@ -42,8 +42,8 @@ const Navbar = () => {
             </div>
 
             <div className="navbar_right">
-                <div className="navbar_item">
-                    <AiFillBell className="ai_icon" onClick={() => handleShow(SHOW_NOTIFICATION)} />
+                <div className="navbar_item" onClick={() => handleShow(SHOW_NOTIFICATION)}>
+                    <AiFillBell className="ai_icon" />
                     {show === SHOW_NOTIFICATION ? <Notification /> : null}
                 </div>
                 <div className="navbar_item">
@@ -56,7 +56,7 @@ const Navbar = () => {
                         </>
                     ) : (
                         <Link to="/login">
-                            <button>Login</button>
+                            <button id="button-login">Login</button>
                         </Link>
                     )}
                 </div>

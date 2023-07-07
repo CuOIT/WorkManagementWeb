@@ -1,6 +1,9 @@
 #navbar_container {
     height: 50px;
     background-color: #3076ef;
+    position: fixed;
+    z-index: 10;
+    width: 100vw;
     /* display: flex;
     flex-direction: row; */
     /* position: relative;

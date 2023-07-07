@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./today.css";
 
 const Today = () => {
+    console.log("HI");
+
     const [task, setTask] = useState("");
     const [priority, setPri] = useState("");
     const [start_time, setStart] = useState("");
