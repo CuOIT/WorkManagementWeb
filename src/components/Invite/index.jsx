@@ -185,10 +185,7 @@ const Invite = ({ onCancel, prj_id }) => {
                             return (
                                 <li key={index} className="partner">
                                     <div className="avatar">
-                                        <img
-                                            src="https://avatars.doist.com?fullName=Pemond&amp;email=vipthieugia200%40gmail.com&amp;size=50&amp;bg=ffffff"
-                                            alt="Pemond"
-                                        />
+                                        <p>{item.user_name.slice(0, 1)}</p>
                                     </div>
 
                                     <div className="field_infor">

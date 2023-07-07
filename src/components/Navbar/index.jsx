@@ -47,7 +47,7 @@ const Navbar = () => {
                     <AiFillHome className="ai_icon" onClick={handleHome}/>
                 </div>
             </div>     
-            <div className="navbar_middle">
+            <div className="navbar_middle" >
                 <p className="group9">GROUP 9: TASK MANAGEMENT</p>
             </div> 
             <div className="navbar_right">
