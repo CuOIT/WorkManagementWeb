@@ -4,7 +4,7 @@ import { axiosData } from "../../services/axiosInstance";
 const Notification = () => {
     const [user, setUser] = useState(null);
     const fetchData = async () => {
-        user = JSON.parse(localStorage.getItem("user"));
+        const user = JSON.parse(localStorage.getItem("user"));
         setUser(user);
         try {
             const response = await axiosData.get(`/api/project/invite?receiver_id=${user.user_id}`);

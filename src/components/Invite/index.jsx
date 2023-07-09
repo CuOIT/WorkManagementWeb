@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
+import axios from "axios"
 import { axiosData } from "../../services/axiosInstance";
 import { FiKey } from "react-icons/fi";
-import { useSelector } from "react-redux";
+
 
 const Invite = ({ onCancel, prj_id }) => {
     const [value, setValue] = useState("");
     const [member, setMember] = useState([]);
     const [searchList, setSearchList] = useState([]);
     const [targetID, setID] = useState("");
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState([]);
     const fetchData = async () => {
         const user = JSON.parse(localStorage.getItem("user"));
         setUser(user);
@@ -62,7 +63,7 @@ const Invite = ({ onCancel, prj_id }) => {
     };
 
     const handleLeave = async (index) => {
-        await axiosData.delete("/api/project/leave-project", {
+        await axios.delete("http://localhost:8080/api/project/leave-project", {
             project_id: prj_id,
             member_id: index,
         });
@@ -84,6 +85,7 @@ const Invite = ({ onCancel, prj_id }) => {
             project_id: prj_id,
             member_id: index,
         });
+    
         const fetchData = async () => {
             try {
                 const response = await axiosData.get(`/api/project/get-member?project_id=${prj_id}`);
@@ -183,10 +185,7 @@ const Invite = ({ onCancel, prj_id }) => {
                             return (
                                 <li key={index} className="partner">
                                     <div className="avatar">
-                                        <img
-                                            src="https://avatars.doist.com?fullName=Pemond&amp;email=vipthieugia200%40gmail.com&amp;size=50&amp;bg=ffffff"
-                                            alt="Pemond"
-                                        />
+                                        <p>{item.user_name.slice(0, 1)}</p>
                                     </div>
 
                                     <div className="field_infor">

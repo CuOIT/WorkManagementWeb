@@ -4,13 +4,6 @@
     position: fixed;
     z-index: 10;
     width: 100vw;
-    /* display: flex;
-    flex-direction: row; */
-    /* position: relative;
-    display: inline-block;
-    z-index: 999;
-    width: 100%;
-    top: 0px; */
 }
 
 .navbar_item {
@@ -38,17 +31,43 @@
 
 .navbar_middle p {
     font-size: 1.5rem;
-    margin-top: 13px;
+    margin-top: 10px;
     color: rgb(73, 55, 57);
-    margin-left: 3rem;
+    margin-left: 1rem;
+}
+
+@media (max-width : 900px) {
+    .navbar_middle p {
+      display: none;
+    }
+    .navbar_left{
+        margin-top: 1rem;
+    }
+  }
+
+.navbar_right {
+    margin-right: 3%;
+    height: 100%;
+    float: right;
+}
+
+.navbar_item:hover {
+    cursor: pointer;
+}
+
+.announce_container {
+    position: absolute;
+    top: 50px;
+    height: fit-content;
+    width: 400px;
+    background-color: rgb(145, 169, 189);
+    border-radius: 5px;
 }
 
 .navbar_right {
-    /* flex-basis: 45%; */
     margin-right: 5%;
     height: 100%;
     float: right;
-    /* justify-content: right; */
 }
 
 .navbar_item:hover {
