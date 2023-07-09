@@ -11,7 +11,7 @@ const persistConfig = {
     key: "root",
     storage,
 };
-const reducers = combineReducers({
+const reducer = combineReducers({
     user: userReducer,
     nameProject: nameProjectReducer,
     sortTo: sortToReducer,
@@ -19,10 +19,10 @@ const reducers = combineReducers({
     nameWorkspace: nameWorkspaceReducer,
     todoList: todolistReducer,
 });
-const persistedReducer = persistReducer(persistConfig, reducers);
-const store = configureStore({
-    reducer: persistedReducer,
-});
+// console.log({ reducers });
+// const persistedReducer = persistReducer(persistConfig, reducers);
+
+const store = configureStore({ reducer });
 // const store = createStore(persistedReducer);
-let persistor = persistStore(store);
-export { store, persistor };
+// let persistor = persistStore(store);
+export { store };

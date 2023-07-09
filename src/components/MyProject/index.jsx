@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { redirect, useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import "./index.css";
 
-import axios from "axios";
+import { axiosData } from "../../services/axiosInstance";
+import Task from "../Task";
 import icon_exit from "../../asset/cross.png";
-import Edit_Screen from "../Screen";
 import Invite from "../Invite";
 import _ from "lodash";
 import { useDispatch } from "react-redux";
@@ -14,41 +14,32 @@ import { updateNameProject } from "../../redux/reducer/nameProjectReducer";
 import { selectSortTo } from "../../redux/reducer/sortTo";
 import { updateSortTo } from "../../redux/reducer/sortTo";
 import { updateRenderSidebar } from "../../redux/reducer/renderSidebar";
+import ChoicePopUp from "../ChoicePopUp";
+
 const MyProject = () => {
-    const [listOfTask, setlistOfTask] = useState([]);
     const { project_id } = useParams();
-    const [name_project, setname_project] = useState("fdsf");
-    const [listOfMember, setlistOfMember] = useState([]);
+    const [listOfTask, setlistOfTask] = useState([]);
+    const project_name = useSelector(selectNameProject, shallowEqual);
+    const [projectName, setProjectName] = useState("");
+    const [listOfMember, setListOfMember] = useState([]);
     const [displayAddTask, setdisplayAddTask] = useState(false);
-    const [displayTask, setdisplayTask] = useState(false);
-    const [nameTask, setNameTask] = useState("");
-    const [descriptionTask, setDescriptionTask] = useState("");
-    const [dueDate, setdueDate] = useState("");
-    const [showFormDelete, setshowFormDelete] = useState(false);
+    const [showDeleteProject, setShowDeleteProject] = useState(false);
     const [showEditProject, setShowEditProject] = useState(false);
-    const [showDeleteTask, setShowDeleteTask] = useState(false);
-    const [showEditTask, setShowEditTask] = useState(false);
-    const [select_task, setSelectTask] = useState("");
     const [showSort, setShowSort] = useState(false);
-    const nameProject = useSelector(selectNameProject, shallowEqual);
-    const sort_to = useSelector(selectSortTo);
-    const [sort, setSort] = useState(1);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        setname_project(nameProject);
-        setSort(sort_to);
-        console.log("name_project: " + name_project);
-        console.log("nameProject: " + nameProject);
+        setProjectName(project_name);
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/project/get-tasks?project_id=${project_id}`);
+                const response = await axiosData.get(`/api/project/get-tasks?project_id=${project_id}`);
 
                 const sortedTasks = _.sortBy(response.data.data, "due_date");
                 setlistOfTask(sortedTasks);
 
-                const response2 = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${project_id}`);
-                setlistOfMember(response2.data.data);
+                const response2 = await axiosData.get(`/api/project/get-member?project_id=${project_id}`);
+                setListOfMember(response2.data.data);
             } catch (error) {
                 console.error("error fetching");
             }
@@ -65,8 +56,8 @@ const MyProject = () => {
         const { name, description, dueDate, assigned_to } = event.target;
         const now = new Date();
 
-        axios
-            .post("http://localhost:8080/api/project/add-task", {
+        axiosData
+            .post("/api/project/add-task", {
                 project_id: project_id,
                 name: name.value,
                 description: description.value,
@@ -88,65 +79,23 @@ const MyProject = () => {
         const newListTask = [...listOfTask, newTask];
         setlistOfTask(newListTask);
     };
-    const handle_editTask = (event) => {
-        event.preventDefault();
-        const task_id = select_task;
-        const { name, description, dueDate, assigned_to } = event.target;
 
-        axios.put(`http://localhost:8080/api/project/update-task/${task_id}`, {
-            name: name.value,
-            description: description.value,
-            project_id: project_id,
-            assigned_to: assigned_to.value,
-            due_date: dueDate.value,
-            status: "Start",
-        });
-
-        const newListTask = listOfTask;
-        for (let i = 0; i < listOfTask.length; i++) {
-            if (listOfTask[i].id === task_id) {
-                newListTask[i].name = name.value;
-                newListTask[i].description = description.value;
-                newListTask[i].assigned_to = assigned_to.value;
-                newListTask[i].due_date = dueDate.value;
-                newListTask[i].status = "start";
-            }
-        }
-        const sortedTasks = _.sortBy(newListTask, "due_date");
-        setlistOfTask(sortedTasks);
-
-        HideEditTask();
-    };
-    const show_selected_task = (task_id, task_name, task_description, task_dueDate) => {
-        setSelectTask(task_id);
-        setNameTask(task_name);
-        setDescriptionTask(task_description);
-        setdueDate(task_dueDate);
-        setdisplayTask(!displayTask);
-    };
-    const hide_selected_task = () => {
-        setdisplayTask(false);
-    };
-    const Handel_showDelete = () => {
-        setshowFormDelete(!showFormDelete);
-    };
-    const Handel_HideDelete = () => {
-        setshowFormDelete(false);
-    };
     const handle_prevent_spread = (event) => {
         event.stopPropagation();
     };
-    const deleteProject = () => {
-        axios
-            .delete(`http://localhost:8080/api/project/${project_id}`)
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        Handel_HideDelete();
-        window.location = "http://localhost:3000/trangchu";
+    const handleDeleteProject = (choice) => {
+        if (choice) {
+            axiosData
+                .delete(`/api/project/${project_id}`)
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            navigate("/");
+        }
+        setShowDeleteProject(false);
     };
     const OpenEditProject = () => {
         setShowEditProject(true);
@@ -154,76 +103,33 @@ const MyProject = () => {
     const HideEditProject = () => {
         setShowEditProject(false);
     };
-    const HideDeleteTask = () => {
-        setShowDeleteTask(false);
-    };
-    const OpenEditTask = (event, task_id, task_name, task_description, task_duDate, task_assign) => {
-        event.stopPropagation();
-        document.querySelector(".project_edit_form_container .input_name input").value = task_name;
-        document.querySelector(".project_edit_form_container .input_description input").value = task_description;
-        document.querySelector(".project_edit_form_container .project_task_dueDate input").value = task_duDate;
-        document.querySelector(".project_edit_form_container .project_edit_select_people select").value = task_assign;
-        setSelectTask(task_id);
-        setShowEditTask(true);
-    };
-    const HideEditTask = () => {
-        setShowEditTask(false);
-    };
-    const handle_showDeleteTask = (event, task_id) => {
-        event.stopPropagation();
-        setSelectTask(task_id);
-        setShowDeleteTask(true);
-    };
     const handleEditProject = (event) => {
         event.preventDefault();
         const { name, description, start_date, end_date } = event.target;
-        axios.put(`http://localhost:8080/api/project/${project_id}`, {
+        axiosData.put(`/api/project/${project_id}`, {
             name: name.value,
             description: description.value,
             start_date: start_date.value,
             end_date: end_date.value,
             status: "start",
         });
-        setname_project(name.value);
+        setProjectName(name.value);
         dispatch(updateNameProject(name.value));
         dispatch(updateRenderSidebar(true));
         setShowEditProject(false);
     };
-    const handle_DeleteTask = () => {
-        const task_id = select_task;
 
-        axios
-            .delete(`http://localhost:8080/api/delete-task/${22}`)
-            .then((response) => {
-                setShowDeleteTask(false);
-                const newListTask = [];
-                for (let i = 0; i < listOfTask.length; i++) {
-                    if (listOfTask[i].id !== task_id) {
-                        newListTask.push(listOfTask[i]);
-                    }
-                }
-                setlistOfTask(newListTask);
-
-                console.log(response);
-            })
-            .catch((error) => {
-                alert("You dont have permission to delete Task");
-                setShowDeleteTask(false);
-            });
-    };
     const openShowSort = () => {
         setShowSort(true);
     };
-    const hideShowSort = () => {
-        setShowSort(false);
-    };
+
     function compareDueDate(task1, task2) {
         const date1 = new Date(task1.due_date);
         const date2 = new Date(task2.due_date);
 
         return date1 - date2;
     }
-    const sortToDue_date = () => {
+    const sortByDueDate = () => {
         const sortWork = [...listOfTask].sort(compareDueDate);
         setlistOfTask(sortWork);
         dispatch(updateSortTo(1));
@@ -234,7 +140,7 @@ const MyProject = () => {
         const name2 = task2.name;
         return name1.localeCompare(name2);
     }
-    const sortToName = () => {
+    const sortByName = () => {
         const sortWork = [...listOfTask].sort(compareName);
         setlistOfTask(sortWork);
 
@@ -286,7 +192,7 @@ const MyProject = () => {
                             <div className="sort_title">
                                 <p>Sort by</p>
                             </div>
-                            <div className="sort_Due_date" onClick={sortToDue_date}>
+                            <div className="sort_Due_date" onClick={sortByDueDate}>
                                 <div className="icon_dueDate hmmm">
                                     <svg
                                         className="fluentIcon ___12fm75w f1w7gpdv fez10in fg4l7m0"
@@ -308,7 +214,7 @@ const MyProject = () => {
                                     <p>Due Date</p>
                                 </div>
                             </div>
-                            <div className="sort_alphabet" onClick={sortToName}>
+                            <div className="sort_alphabet" onClick={sortByName}>
                                 <div className="icon_alphabet hmmm">
                                     <svg
                                         className="fluentIcon ___12fm75w f1w7gpdv fez10in fg4l7m0"
@@ -334,7 +240,7 @@ const MyProject = () => {
                     </div>
 
                     <div className="project_title">
-                        <h2>{name_project}</h2>
+                        <h2>{projectName}</h2>
                     </div>
 
                     <div className="project_header_right1">
@@ -375,7 +281,7 @@ const MyProject = () => {
                                 <p>Edit</p>
                             </div>
                         </div>
-                        <div className="project_header_delete1" onClick={Handel_showDelete}>
+                        <div className="project_header_delete1" onClick={() => setShowDeleteProject(true)}>
                             <div className="hmmm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
                                     <g fill="none" fillRule="evenodd">
@@ -397,76 +303,8 @@ const MyProject = () => {
                 </div>
 
                 <div className="project_container">
-                    {listOfTask?.map((value, key) => {
-                        return (
-                            <div
-                                onClick={() => show_selected_task(value.id, value.name, value.description, value.due_date, value.assigned_to)}
-                                className="project_item"
-                                id={value.id}
-                            >
-                                <div className="check_box_project">
-                                    <button className="task_checkbox">
-                                        <svg width="24" height="18" aria-checked="false">
-                                            <path
-                                                fill="currentColor"
-                                                d="M11.23 13.7l-2.15-2a.55.55 0 0 0-.74-.01l.03-.03a.46.46 0 0 0 0 .68L11.24 15l5.4-5.01a.45.45 0 0 0 0-.68l.02.03a.55.55 0 0 0-.73 0l-4.7 4.35z"
-                                            ></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div className="project_infor">
-                                    <div className="name_project_item">
-                                        <p>{value.name}</p>
-                                    </div>
-                                    <div className="project_description">
-                                        <p>{value.description}</p>
-                                    </div>
-                                    <div className="date_project">
-                                        <p>{value.due_date}</p>
-                                    </div>
-                                </div>
-                                <div className="project_header_right1 kkkk">
-                                    <div
-                                        className="project_header_edit"
-                                        onClick={(event) => {
-                                            OpenEditTask(event, value.id, value.name, value.description, value.due_date);
-                                        }}
-                                    >
-                                        <div className="hmmm">
-                                            <svg width="24" height="24">
-                                                <g fill="none" fillRule="evenodd">
-                                                    <path fill="currentColor" d="M9.5 19h10a.5.5 0 110 1h-10a.5.5 0 110-1z"></path>
-                                                    <path
-                                                        stroke="currentColor"
-                                                        d="M4.42 16.03a1.5 1.5 0 00-.43.9l-.22 2.02a.5.5 0 00.55.55l2.02-.21a1.5 1.5 0 00.9-.44L18.7 7.4a1.5 1.5 0 000-2.12l-.7-.7a1.5 1.5 0 00-2.13 0L4.42 16.02z"
-                                                    ></path>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="project_header_delete"
-                                        onClick={(event) => {
-                                            handle_showDeleteTask(event, value.id);
-                                        }}
-                                    >
-                                        <div className="hmmm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-                                                <g fill="none" fillRule="evenodd">
-                                                    <path d="M0 0h24v24H0z"></path>
-                                                    <rect width="14" height="1" x="5" y="6" fill="currentColor" rx="0.5"></rect>
-                                                    <path fill="currentColor" d="M10 9h1v8h-1V9zm3 0h1v8h-1V9z"></path>
-                                                    <path
-                                                        stroke="currentColor"
-                                                        d="M17.5 6.5h-11V18A1.5 1.5 0 008 19.5h8a1.5 1.5 0 001.5-1.5V6.5zm-9 0h7V5A1.5 1.5 0 0014 3.5h-4A1.5 1.5 0 008.5 5v1.5z"
-                                                    ></path>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        );
+                    {listOfTask?.map((task, key) => {
+                        return <Task task={task} index={key} projectName={projectName} listOfMember={listOfMember} />;
                     })}
                     <div className="button_add_task_project" onClick={hide_show_addTask}>
                         <button type="button" data-add-task-navigation-element="true" className="button_add_task">
@@ -521,20 +359,7 @@ const MyProject = () => {
                         </form>
                     </div>
                 </div>
-                <div style={{ display: displayTask ? "block" : "none" }} className="cover_screen" onClick={hide_selected_task}>
-                    <div className="selected_task" onClick={handle_prevent_spread}>
-                        <Edit_Screen
-                            onCancel={hide_selected_task}
-                            name={nameTask}
-                            description={descriptionTask}
-                            due_date={dueDate}
-                            id={select_task}
-                            name_prj={name_project}
-                            prj_id={project_id}
-                        />
-                    </div>
-                </div>
-                <div className="cover_screen" style={{ display: showEditProject ? "block" : "none" }} onClick={HideEditProject}>
+                <div className="cover_screen eidt-project" style={{ display: showEditProject ? "block" : "none" }} onClick={HideEditProject}>
                     <div className="add_project_container" onClick={handle_prevent_spread}>
                         <div className="form_add_project">
                             <form method="post" onSubmit={handleEditProject}>
@@ -592,117 +417,9 @@ const MyProject = () => {
                         </div>
                     </div>
                 </div>
-                <div className="cover_screen" style={{ display: showFormDelete ? "block" : "none" }} onClick={Handel_HideDelete}>
-                    <div className="announce_delete_project" onClick={handle_prevent_spread}>
-                        <div className="announce_delete_header ggg">
-                            <div className="hghg">
-                                <p>Delete Project</p>
-                            </div>
-
-                            <div onClick={Handel_HideDelete}>
-                                <img src={icon_exit} alt="" />
-                            </div>
-                        </div>
-                        <div className="ggg2">
-                            <p>There is no way to recover a project once it has been deleted.</p>
-                        </div>
-                        <div className="delete_project_footer">
-                            <div className="cancel_delete_project" onClick={Handel_HideDelete}>
-                                <button>Cancel</button>
-                            </div>
-                            <div className="accept_delete_project">
-                                <button
-                                    onClick={() => {
-                                        deleteProject();
-                                    }}
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="cover_screen" style={{ display: showDeleteTask ? "block" : "none" }} onClick={HideDeleteTask}>
-                    <div className="announce_delete_project" onClick={handle_prevent_spread}>
-                        <div className="announce_delete_header ggg">
-                            <div className="hghg">
-                                <p>Delete Task</p>
-                            </div>
-
-                            <div onClick={HideDeleteTask}>
-                                <img src={icon_exit} alt="" />
-                            </div>
-                        </div>
-                        <div className="ggg2">
-                            <p>There is no way to recover a Task once it has been deleted.</p>
-                        </div>
-                        <div className="delete_project_footer">
-                            <div className="cancel_delete_project" onClick={HideDeleteTask}>
-                                <button>Cancel</button>
-                            </div>
-                            <div className="accept_delete_project">
-                                <button onClick={handle_DeleteTask}>Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="cover_screen" style={{ display: showEditTask ? "block" : "none" }} onClick={HideEditTask}>
-                    <div className="project_edit_task2" onClick={handle_prevent_spread}>
-                        <form onSubmit={handle_editTask} method="post">
-                            <div className="add_project_header">
-                                <div>
-                                    <h3>Edit Task</h3>
-                                </div>
-                                <div className="add_project_header2" onClick={HideEditTask}>
-                                    <img src={icon_exit} alt="" />
-                                </div>
-                            </div>
-                            <div className="project_edit_form_container">
-                                <div className="input_name">
-                                    <div>
-                                        <p>Name</p>
-                                    </div>
-                                    <input required name="name" type="text" placeholder="Task name"></input>
-                                </div>
-                                <div className="input_description">
-                                    <div>
-                                        <p>Description</p>
-                                    </div>
-                                    <input required name="description" type="text" placeholder="Description"></input>
-                                </div>
-
-                                <div className="project_task_dueDate">
-                                    <div>
-                                        <p>Due Date</p>
-                                    </div>
-                                    <input required name="dueDate" type="date" />
-                                </div>
-
-                                <div className="project_edit_select_people">
-                                    <div>
-                                        <p>Assign To</p>
-                                    </div>
-                                    <select required name="assigned_to">
-                                        {listOfMember?.map((value, key) => {
-                                            return <option value={value.member_id}>{value.user_name}</option>;
-                                        })}
-                                    </select>
-                                </div>
-
-                                <div className="form_footer">
-                                    <div className="Cancel">
-                                        <button onClick={HideEditTask} type="reset">
-                                            Cancel
-                                        </button>
-                                    </div>
-                                    <div className="add_work">
-                                        <button type="submit">Save</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                {showDeleteProject ? (
+                    <ChoicePopUp content={"Do you want to delete this project"} handleChoice={(choice) => handleDeleteProject(choice)} />
+                ) : null}
             </div>
         </>
     );

@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initState = {
     todoList: [],
@@ -34,9 +34,12 @@ const todolistSlice = createSlice({
             console.log(action.payload);
             state.todoList = action.payload;
         },
+        reset_todoList(state, action) {
+            state = initState;
+        },
     },
 });
-const selectToDoList = (state) => state.todoList.todoList;
-export const { add_todo, update_todo, delete_todo, set_todoList } = todolistSlice.actions;
+const selectTodoList = (state) => state.todoList.todoList;
+export const { add_todo, update_todo, delete_todo, set_todoList, reset_todoList } = todolistSlice.actions;
 export default todolistSlice.reducer;
-export { selectToDoList };
+export { selectTodoList };

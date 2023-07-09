@@ -4,6 +4,7 @@ const ChoicePopUp = ({ content, handleChoice }) => {
     const handleYesOrNo = (choice) => {
         //choice is boolean
         handleChoice(choice);
+        console.log(choice);
     };
     return (
         <div className="pop-up-panel">

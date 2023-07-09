@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import axios from "axios";
+import { axiosData } from "../../services/axiosInstance";
 import { FiKey } from "react-icons/fi";
 import { useSelector } from "react-redux";
-import { selectUserData } from "../../redux/reducer/userReducer";
 
 const Invite = ({ onCancel, prj_id }) => {
     const [value, setValue] = useState("");
     const [member, setMember] = useState([]);
     const [searchList, setSearchList] = useState([]);
     const [targetID, setID] = useState("");
-
-    const userRedux = useSelector(selectUserData);
-
+    const [user, setUser] = useState(null);
+    const fetchData = async () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        setUser(user);
+        try {
+            const response = await axiosData.get(`/api/project/get-member?project_id=${prj_id}`);
+            const listMember = response.data.data;
+            listMember.sort((a, b) => a.role.localeCompare(b.role));
+            setMember(response.data.data);
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
+        }
+    };
     useEffect(() => {
-        // Lấy toàn bộ thành viên trong Project để hiển thị
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
-                const listMember = response.data.data;
-                listMember.sort((a, b) => a.role.localeCompare(b.role));
-                setMember(response.data.data);
-            } catch (error) {
-                console.error("Error fetching tasks:", error);
-            }
-        };
         fetchData();
     }, []);
 
@@ -32,11 +30,11 @@ const Invite = ({ onCancel, prj_id }) => {
 
     useEffect(() => {
         member.forEach((item) => {
-            if (userRedux.user_name === item.user_name) {
+            if (user.user_name === item.user_name) {
                 setRole(item.role);
             }
         });
-    }, [userRedux.user_name, member]);
+    }, [user.user_name, member]);
 
     const date = new Date();
     const formattedDate = `${date.getDate()}/${
@@ -45,8 +43,8 @@ const Invite = ({ onCancel, prj_id }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await axios.post("http://localhost:8080/api/project/invite", {
-            inviter: userRedux.user_id,
+        await axiosData.post("/api/project/invite", {
+            inviter: user.user_id,
             receiver: targetID,
             project_id: prj_id,
             created_at: formattedDate,
@@ -55,7 +53,7 @@ const Invite = ({ onCancel, prj_id }) => {
     };
 
     const fetchSearch = async (user_name) => {
-        const response = await axios.get(`http://localhost:8080/api/user/find-user-by-user-name?user_name=${user_name}`);
+        const response = await axiosData.get(`/api/user/find-user-by-user-name?user_name=${user_name}`);
         const list = response.data.data;
         const filteredList = list.filter((item) => {
             return !member.some((memberItem) => memberItem.user_name === item.user_name);
@@ -64,13 +62,13 @@ const Invite = ({ onCancel, prj_id }) => {
     };
 
     const handleLeave = async (index) => {
-        await axios.delete("http://localhost:8080/api/project/leave-project", {
+        await axiosData.delete("/api/project/leave-project", {
             project_id: prj_id,
             member_id: index,
         });
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
+                const response = await axiosData.get(`/api/project/get-member?project_id=${prj_id}`);
                 const listMember = response.data.data;
                 listMember.sort((a, b) => a.role.localeCompare(b.role));
                 setMember(response.data.data);
@@ -82,13 +80,13 @@ const Invite = ({ onCancel, prj_id }) => {
     };
 
     const handleDelete = async (index) => {
-        await axios.delete("http://localhost:8080/api/project/delete-member", {
+        await axiosData.delete("/api/project/delete-member", {
             project_id: prj_id,
             member_id: index,
         });
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
+                const response = await axiosData.get(`/api/project/get-member?project_id=${prj_id}`);
                 const listMember = response.data.data;
                 listMember.sort((a, b) => a.role.localeCompare(b.role));
                 setMember(response.data.data);
@@ -101,14 +99,14 @@ const Invite = ({ onCancel, prj_id }) => {
 
     const handleFranchise = async (index) => {
         console.log(index);
-        await axios.put("http://localhost:8080/api/project/authorize", {
-            admin_id: userRedux.user_id,
+        await axiosData.put("/api/project/authorize", {
+            admin_id: user.user_id,
             member_id: index,
             project_id: prj_id,
         });
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/project/get-member?project_id=${prj_id}`);
+                const response = await axiosData.get(`/api/project/get-member?project_id=${prj_id}`);
                 const listMember = response.data.data;
                 listMember.sort((a, b) => a.role.localeCompare(b.role));
                 setMember(response.data.data);
@@ -194,13 +192,13 @@ const Invite = ({ onCancel, prj_id }) => {
                                     <div className="field_infor">
                                         <div className="Name">
                                             {item.user_name}
-                                            {item.user_name === userRedux.user_name && <div>(Me)</div>}
+                                            {item.user_name === user.user_name && <div>(Me)</div>}
                                         </div>
                                         <div className="mail">{item.role}</div>
                                     </div>
 
                                     {item.role === "admin" ? (
-                                        item.user_name === userRedux.user_name && (
+                                        item.user_name === user.user_name && (
                                             <button className="action_project leave_project" onClick={() => handleLeave(item.member_id)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
                                                     <g fill="none" fillRule="evenodd">

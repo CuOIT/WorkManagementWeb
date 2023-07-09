@@ -5,19 +5,19 @@ import { PublicRouter } from "./public";
 import { PrivateRouter } from "./private";
 
 import EmptyLayout from "../layout/Empty";
+import { useSelector } from "react-redux";
+import { selectAccessToken } from "../redux/reducer/userReducer";
 
 const Router = () => {
-    console.log("HI");
+    const user = JSON.parse(localStorage.getItem("user"));
     const navigate = useNavigate();
     const checkLayout = (route) => {
-        console.log(route);
         let Layout = EmptyLayout;
         if (route.layout) {
             Layout = route.layout;
         } else if (route.layout === null) {
             Layout = EmptyLayout;
         }
-        console.log(Layout);
         return Layout;
     };
 
@@ -42,7 +42,7 @@ const Router = () => {
                         />
                     );
                 })}
-                {/* {PrivateRouter.map((route, index) => {
+                {PrivateRouter.map((route, index) => {
                     //handleLogic accessToken
                     if (false) {
                         navigate("/login");
@@ -62,7 +62,7 @@ const Router = () => {
                             }
                         />
                     );
-                })} */}
+                })}
             </Routes>
         </>
     );

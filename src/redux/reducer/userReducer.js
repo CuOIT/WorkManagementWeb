@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const initState = {
     userData: null,
@@ -13,6 +13,7 @@ const userSlice = createSlice({
             state.accessToken = action.payload.accessToken;
         },
         logout(state, action) {
+            console.log(current(state));
             state.userData = null;
             state.accessToken = "";
         },

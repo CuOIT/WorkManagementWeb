@@ -6,11 +6,12 @@ import { useDispatch } from "react-redux";
 import { add_todo, delete_todo, update_todo } from "../../redux/reducer/todolistReducer";
 const Todo = ({ todo, index, type }) => {
     console.log({ todo });
-    const [editToDo, setEditToDo] = useState({ ...todo, edit: false, delete: false });
+    const [editToDo, setEditToDo] = useState({ ...todo, edit: false, deleted: false });
     const [showLevel, setShowLevel] = useState(false);
     const dispatch = useDispatch();
     const handleCompleted = (event) => {
-        dispatch(update_todo({ ...todo, completed: event.target.checked }));
+        setEditToDo({ ...editToDo, edit: true, completed: event.target.checked });
+        dispatch(update_todo({ ...editToDo, edit: true, completed: event.target.checked }));
     };
     const handleEditToDo = () => {
         const form_task = document.getElementById(`form_task-${todo.id}`);
@@ -30,12 +31,17 @@ const Todo = ({ todo, index, type }) => {
         form_edit.style.display = "none";
     };
     const handleSubmitEditTodo = () => {
+        setEditToDo({ ...editToDo, edit: true });
+        console.log({ editToDo });
         dispatch(update_todo(editToDo));
         handleCancelEditTodo();
     };
 
     const handleDeleteTodo = () => {
-        dispatch(delete_todo(editToDo));
+        setEditToDo({ ...editToDo, deleted: true });
+        console.log({ editToDo });
+
+        dispatch(delete_todo({ ...editToDo, deleted: true }));
     };
 
     const handleShowLevel = () => {
@@ -50,7 +56,7 @@ const Todo = ({ todo, index, type }) => {
                         id={`checkbox-${todo.id}`}
                         className=""
                         onClick={(event) => handleCompleted(event)}
-                        checkek={todo.completed}
+                        checked={todo.completed}
                     ></input>
                     <label htmlFor={`checkbox-${todo.id}`}></label>
                 </div>

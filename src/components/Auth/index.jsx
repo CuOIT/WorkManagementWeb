@@ -46,14 +46,14 @@ const LoginForm = () => {
                 withCredentials: true,
             })
             .then((res) => {
-                console.log(res.data);
                 const successMessage = res.data.message;
                 toast.success(successMessage);
                 const payload = {
-                    user: res.data.user,
+                    userData: res.data.user,
                     accessToken: res.data.accessToken,
                 };
-                dispatch(login(payload));
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+                localStorage.setItem("accessToken", JSON.stringify(res.data.accessToken));
                 navigate("/");
             })
             .catch((error) => {

@@ -1,41 +1,39 @@
 import React, { useState, useEffect, memo } from "react";
 import "./index.css";
-import axios from "axios";
+import { axiosData } from "../../services/axiosInstance";
 import icon_moon from "../../asset/new-moon.png";
 import icon_calendar from "../../asset/calendar.png";
-import { useSelector } from "react-redux";
-import { selectUserData } from "../../redux/reducer/userReducer";
 
-const Edit_Screen = ({ onCancel, onDone, ...props }) => {
-    const { name, description, due_date, id, name_prj, prj_id } = props;
-    const id_task = id;
-    const userRedux = useSelector(selectUserData);
-
+const Comment = ({ onCancel, onDone, task, project_name }) => {
+    const [user, setUser] = useState(null);
     const [comment, setComment] = useState("");
     const [comments, setComments] = useState([]);
 
+    const fetchData = async () => {
+        try {
+            const response = await axiosData.get(`/api/project/task/comments?task_id=${task.id}`);
+            setComments(response.data.data);
+        } catch (error) {
+            console.error("Error :", error);
+        }
+    };
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/project/task/comments?task_id=${id_task}`);
-                console.log(response.data.data);
-                setComments(response.data.data);
-            } catch (error) {
-                console.error("Error fetching tasks:", error);
-            }
-        };
+        console.log("Hi");
+        const user = JSON.parse(localStorage.getItem("user"));
+        console.log(user);
+        setUser(user);
         fetchData();
-    }, [id_task]);
+    }, []);
 
     const handleComment = async () => {
         if (!comment) alert("Comment is not empty");
         try {
-            await axios.post(`http://localhost:8080/api/project/task/comment`, {
-                task_id: id_task,
+            await axiosData.post(`/api/project/task/comment`, {
+                task_id: task.id,
                 comment: comment,
-                user_id: userRedux.user_id,
+                user_id: user.user_id,
             });
-            const response = await axios.get(`http://localhost:8080/api/project/task/comments?task_id=${id_task}`);
+            const response = await axiosData.get(`/api/project/task/comments?task_id=${task.id}`);
             setComments(response.data.data);
         } catch (err) {
             console.log(err);
@@ -66,8 +64,8 @@ const Edit_Screen = ({ onCancel, onDone, ...props }) => {
 
     const handleDelete = async (idx) => {
         try {
-            await axios.delete(`http://localhost:8080/api/project/task/delete-comment/${idx}`);
-            const response = await axios.get(`http://localhost:8080/api/project/task/comments?task_id=${id_task}`);
+            await axiosData.delete(`/api/project/task/delete-comment/${idx}`);
+            const response = await axiosData.get(`/api/project/task/comments?task_id=${task.id}`);
             setComments(response.data.data);
         } catch (error) {
             console.error("Error deleting task:", error);
@@ -116,15 +114,15 @@ const Edit_Screen = ({ onCancel, onDone, ...props }) => {
                 <div className="content">
                     <div className="name">
                         <div className="taskname">
-                            <button className="task_checkbox" onClick={() => handleDone(id_task)}>
+                            <button className="task_checkbox" onClick={() => handleDone(task.id)}>
                                 <svg width="24" height="18"></svg>
                             </button>
                             <div className="content1">
                                 <div className="task_content1">
-                                    <input value={name} placeholder="Taskname" required />
+                                    <input value={task.name} placeholder="Taskname" required />
                                 </div>
                                 <div className="task_description">
-                                    <textarea value={description} placeholder="Description" required />
+                                    <textarea value={task.description} placeholder="Description" required />
                                 </div>
                             </div>
                         </div>
@@ -183,7 +181,7 @@ const Edit_Screen = ({ onCancel, onDone, ...props }) => {
                                 <div className="avatar">
                                     <div className="avatar2">
                                         <div>
-                                            <p className="user_comment">{userRedux.user_name.slice(0, 1)}</p>
+                                            <p className="user_comment">{user?.user_name.slice(0, 1)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -208,7 +206,7 @@ const Edit_Screen = ({ onCancel, onDone, ...props }) => {
                         <p>Project</p>
                         <div>
                             <img src={icon_moon} alt="" />
-                            {name_prj}
+                            {project_name}
                         </div>
                     </div>
 
@@ -216,7 +214,7 @@ const Edit_Screen = ({ onCancel, onDone, ...props }) => {
                         <p>Due date</p>
                         <div>
                             <img src={icon_calendar} alt="" />
-                            {convertDate(due_date)}
+                            {convertDate(task.due_date)}
                         </div>
                     </div>
 
@@ -230,4 +228,4 @@ const Edit_Screen = ({ onCancel, onDone, ...props }) => {
     );
 };
 
-export default memo(Edit_Screen);
+export default memo(Comment);

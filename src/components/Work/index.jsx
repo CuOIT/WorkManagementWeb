@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import "./index.css";
 import icon_exit from "../../asset/cross.png";
 import _ from "lodash";
 import { useDispatch } from "react-redux";
 import { useSelector, shallowEqual } from "react-redux";
 import { selectNameWorkspace, updateNameWorkspace } from "../../redux/reducer/nameWorkspaceReducer";
+import { axiosData } from "../../services/axiosInstance";
+import { selectAccessToken } from "../../redux/reducer/userReducer";
+
 const Work = () => {
     const { workspace_id } = useParams();
     const [listWork, setListWork] = useState([]);
@@ -19,8 +21,9 @@ const Work = () => {
     const [showSort, setShowSort] = useState(false);
     const nameWorkspace = useSelector(selectNameWorkspace);
     const dispatch = useDispatch();
+    const accessToken = useSelector(selectAccessToken);
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/work?workspace_id=${workspace_id}`).then((response) => {
+        axiosData.get(`/api/work?workspace_id=${workspace_id}`).then((response) => {
             setListWork(response.data.data);
         });
     }, []);
@@ -62,15 +65,14 @@ const Work = () => {
         setShowFormChangeWorkspace(true);
     };
     const handel_deleteWorkspace = () => {
-        axios
-            .delete(`http://localhost:8080/api/workspace/${workspace_id}`)
+        axiosData
+            .delete(`/api/workspace/${workspace_id}`)
             .then((response) => {
                 console.log(response);
             })
             .catch((error) => {
                 console.log(error);
             });
-        window.location = "http://localhost:3000/trangchu";
     };
     const handle_SaveEditWork = (event) => {
         const work_id = selectWork;
@@ -95,8 +97,8 @@ const Work = () => {
             workspace_id: workspace_id,
         };
 
-        axios
-            .put(`http://localhost:8080/api/work/${work_id}`, updateWork)
+        axiosData
+            .put(`/api/work/${work_id}`, updateWork)
             .then((response) => {
                 console.log(response);
             })
@@ -119,8 +121,8 @@ const Work = () => {
         };
         dispatch(updateNameWorkspace(name));
         setShowFormChangeWorkspace(false);
-        axios
-            .put(`http://localhost:8080/api/workspace/${workspace_id}`, updateWorkspace)
+        axiosData
+            .put(`/api/workspace/${workspace_id}`, updateWorkspace)
             .then((response) => {
                 console.log(response);
             })
@@ -131,8 +133,8 @@ const Work = () => {
     const handleAddWork = (event) => {
         event.preventDefault();
         const { name, description, dueDate } = event.target;
-        axios
-            .post("http://localhost:8080/api/work", {
+        axiosData
+            .post("/api/work", {
                 name: name.value,
                 due_date: dueDate.value,
                 workspace_id: workspace_id,
@@ -141,11 +143,8 @@ const Work = () => {
             .then((response) => {
                 console.log(response);
             });
-        // window.location.href = "http://localhost:3000/trangchu/assignment"
         const newWork = {
-            //id: Math.random(), // generate a unique ID for the new work
             name: name.value,
-
             due_date: dueDate.value,
             workspace_id: workspace_id,
             isDone: false,
@@ -169,8 +168,8 @@ const Work = () => {
         }
         setListWork(newListWork);
 
-        axios
-            .delete(`http://localhost:8080/api/work/${work_id}`)
+        axiosData
+            .delete(`/api/work/${work_id}`)
             .then((response) => {
                 setShowFormDeleteWork(false);
                 console.log(response);
@@ -223,7 +222,7 @@ const Work = () => {
             workspace_id: workspace_id,
         };
 
-        axios.put(`http://localhost:8080/api/work/${work_id}`, updateWork);
+        axiosData.put(`/api/work/${work_id}`, updateWork);
     }
     return (
         <div className="work_in_workspace_container" onClick={hideShowSort}>
