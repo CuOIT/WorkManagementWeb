@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { BsFlagFill } from "react-icons/bs";
@@ -39,17 +39,13 @@ const Todo = ({ todo, index, type }) => {
         toggleClassName();
     };
     const handleSubmitEditTodo = () => {
-        const time = new Date();
-        const id = time.getTime();
-        console.log({ editToDo });
-        dispatch(update_todo({ ...editToDo, id, edit: true }));
-        setEditToDo({ ...editToDo, id, edit: true });
+        dispatch(update_todo({ ...editToDo, edit: true }));
+        setEditToDo({ ...editToDo, edit: true });
         handleCancelEditTodo();
     };
 
     const handleDeleteTodo = () => {
         setEditToDo({ ...editToDo, deleted: true });
-        console.log({ editToDo });
 
         dispatch(delete_todo({ ...editToDo, deleted: true }));
     };
@@ -66,6 +62,7 @@ const Todo = ({ todo, index, type }) => {
                         id={`checkbox-${todo.id}`}
                         className=""
                         onClick={(event) => handleCompleted(event)}
+                        onChange={() => {}}
                         checked={todo.completed}
                     ></input>
                     <label htmlFor={`checkbox-${todo.id}`}></label>

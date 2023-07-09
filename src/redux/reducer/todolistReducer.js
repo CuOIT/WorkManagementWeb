@@ -16,8 +16,15 @@ const todolistSlice = createSlice({
         },
         update_todo(state, action) {
             const updatedTodo = action.payload;
+
             const newTodoList = state.todoList.map((item) => {
                 if (item.id === updatedTodo.id) {
+                    if (!item.id) {
+                        const time = new Date();
+                        const id = time.getTime();
+                        updatedTodo.id = id;
+                    }
+                    console.log(updatedTodo);
                     return updatedTodo;
                 } else {
                     return item;

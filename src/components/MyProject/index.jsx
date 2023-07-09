@@ -65,19 +65,12 @@ const MyProject = () => {
                 due_date: dueDate.value,
                 status: "Start",
             })
-            .then((response) => {
-                console.log(response);
+            .then((res) => {
+                const newTask = res.data.data;
+                console.log({ newTask });
+                const newListTask = [...listOfTask, newTask];
+                setlistOfTask(newListTask);
             });
-        const newTask = {
-            project_id: project_id,
-            name: name.value,
-            description: description.value,
-            assigned_to: assigned_to.value,
-            due_date: dueDate.value,
-            status: "Start",
-        };
-        const newListTask = [...listOfTask, newTask];
-        setlistOfTask(newListTask);
     };
 
     const handle_prevent_spread = (event) => {
@@ -86,7 +79,7 @@ const MyProject = () => {
     const handleDeleteProject = (choice) => {
         if (choice) {
             axiosData
-                .delete(`/api/project/${project_id}`)
+                .delete(`/api/project/delete-project/${project_id}`)
                 .then((response) => {
                     console.log(response);
                 })

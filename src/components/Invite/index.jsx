@@ -81,10 +81,7 @@ const Invite = ({ onCancel, prj_id }) => {
     };
 
     const handleDelete = async (index) => {
-        await axiosData.delete("/api/project/delete-member", {
-            project_id: prj_id,
-            member_id: index,
-        });
+        await axiosData.delete(`/api/project/delete-member?project_id=${prj_id}&member_id=${index}`);
         const fetchData = async () => {
             try {
                 const response = await axiosData.get(`/api/project/get-member?project_id=${prj_id}`);

@@ -56,6 +56,7 @@ const TodoList = () => {
             completed: false,
             date,
             user_id,
+            new: true,
             edit: false,
             deleted: false,
         };
@@ -65,13 +66,16 @@ const TodoList = () => {
     const handleSaveTodoList = async () => {
         const promiseList = [];
         if (user_id) {
+            console.log({ todoList });
+
             todoList.forEach((item) => {
+                console.log({ item });
                 if (item.deleted) {
                     const newTodoList = todoList.filter((x) => {
                         return item.id !== x.id;
                     });
                     dispatch(set_todoList(newTodoList));
-                    if (item.id) {
+                    if (!item.new) {
                         const newPromise = new Promise(async (resolve, reject) => {
                             try {
                                 await axiosData.delete(`/api/to-do/${item.id}`);
@@ -82,10 +86,10 @@ const TodoList = () => {
                         });
                         promiseList.push(newPromise);
                     }
-                } else if (!item.id && item.edit === true) {
+                } else if (item.new && item.edit === true) {
+                    item = { ...item, new: false };
                     const { name, start_time, end_time, date, level, completed, user_id } = item;
                     const newTodo = { name, start_time, end_time, date, level, completed, user_id };
-                    console.log({ newTodo });
                     const newPromise = new Promise(async (resolve, reject) => {
                         try {
                             await axiosData.post("/api/to-do", newTodo);
@@ -113,7 +117,7 @@ const TodoList = () => {
             Promise.all(promiseList);
         } else {
             todoList.forEach((item) => {
-                if (item.deleted || !(item.id && item.edit)) {
+                if (item.deleted || !(item.new && item.edit)) {
                     todoList = todoList.filter((x) => {
                         return item.id !== x.id;
                     });
@@ -145,7 +149,7 @@ const TodoList = () => {
             <div className="todolist-content">
                 <div className="todolist">
                     {todoList?.map((item, index) => {
-                        if (item !== null && !item.deleted) return <Todo todo={item} index={index} />;
+                        if (item !== null && !item.deleted) return <Todo todo={item} key={index} />;
                     })}
                 </div>
 
