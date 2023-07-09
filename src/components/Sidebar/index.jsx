@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import "./index.css";
 import { Link } from "react-router-dom";
@@ -56,7 +55,7 @@ const Sidebar = () => {
         const { name, description, start_date, end_date } = event.target;
 
         console.log(name.value);
-        axios
+        axiosData
             .post("/api/project", {
                 name: name.value,
                 description: description.value,

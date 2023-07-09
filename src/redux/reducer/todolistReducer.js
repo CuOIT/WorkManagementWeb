@@ -9,8 +9,10 @@ const todolistSlice = createSlice({
     reducers: {
         add_todo(state, action) {
             const newTodoList = state.todoList;
-            newTodoList.push(action.payload);
-            state.todoList = newTodoList;
+            if (!newTodoList.find((item) => item.id === 0)) {
+                newTodoList.push(action.payload);
+                state.todoList = newTodoList;
+            }
         },
         update_todo(state, action) {
             const updatedTodo = action.payload;
