@@ -1,16 +1,7 @@
 #navbar_container {
     height: 50px;
     background-color: #3076ef;
-    position: fixed;
-    z-index: 10;
-    width: 100vw;
-    /* display: flex;
-    flex-direction: row; */
-    /* position: relative;
-    display: inline-block;
-    z-index: 999;
-    width: 100%;
-    top: 0px; */
+    min-width: 700px;
 }
 
 .navbar_item {
@@ -43,12 +34,18 @@
     margin-left: 3rem;
 }
 
+@media (max-width: 900px) {
+    .navbar_middle p {
+        display: none;
+    }
+    .navbar_left {
+        margin-top: 1rem;
+    }
+}
 .navbar_right {
-    /* flex-basis: 45%; */
-    margin-right: 5%;
+    margin-right: 3%;
     height: 100%;
     float: right;
-    /* justify-content: right; */
 }
 
 .navbar_item:hover {
@@ -68,4 +65,11 @@
 .avatarhere p {
     color: #3498db;
     font-weight: 900;
+}
+
+#button-login {
+    border: 1px;
+    border-radius: 5px;
+    width: 60px;
+    height: 40px;
 }

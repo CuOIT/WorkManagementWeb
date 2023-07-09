@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { reset_todoList } from "../../redux/reducer/todolistReducer";
 
-const Dropdown = () => {
+const Dropdown = ({ onClick }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -19,9 +19,11 @@ const Dropdown = () => {
                 break;
             case "logout":
                 localStorage.setItem("user", null);
+
                 navigate("/");
                 break;
         }
+        onClick();
     };
 
     return (

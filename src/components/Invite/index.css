@@ -60,7 +60,7 @@
 }
 
 .form_invite .body .action button{
-    background-color: pink;
+    background-color: rgb(192, 240, 255);
     padding: 5px 15px;
     border-radius: 5px;
     box-shadow: rgba(86, 72, 99, 0.2) 0 10px 10px 0;
@@ -68,7 +68,7 @@
 
 .form_invite .body .action button:hover{
     cursor: pointer;
-    background-color: red;
+    background-color: aqua;
 }
 
 .form_invite .body .action button span{
@@ -93,14 +93,17 @@
     overflow: auto;
 }
 
-.form_invite .body .partner .avatar img{
+.form_invite .body .partner .avatar{
+    border: 2px solid rgb(160, 23, 121);
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    padding: 9px 10px;
+    margin-right: 10px;
 }
 
-.form_invite .body .partner .avatar img{
-    margin : 5px 10px 0 10px;
+.form_invite .body .partner .avatar p{
+    margin : 2px 3px 0px 3px;
+    font-weight: 900;
+    color: rgb(255, 127, 127)
 }
 
 .form_invite .body .partner .field_infor div{
@@ -165,12 +168,13 @@
 }
 
 .list_search li{
-    padding: 3px;
+    padding: 3px 10px;
     border: 1px solid wheat;
     margin-left: 10px;
     border-radius: 10px;
-    background-color: antiquewhite;
+    background-color: rgb(215, 239, 250);
     width: fit-content;
+    height: fit-content;
 }
 
 .list_search li div p{
@@ -180,3 +184,4 @@
 .list_search li:hover{
     cursor: pointer;
 }
+

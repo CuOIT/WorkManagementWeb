@@ -45,7 +45,13 @@ const Navbar = () => {
 
     return (
         <>
-            {show === SHOW_DROPDOWN && <Dropdown />}
+            {show === SHOW_DROPDOWN && (
+                <Dropdown
+                    onClick={() => {
+                        setShow(false);
+                    }}
+                />
+            )}
             <div id="navbar_container">
                 <div className="navbar_left">
                     <div className="navbar_item" onClick={toggleSideBar}>
