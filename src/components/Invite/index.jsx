@@ -31,11 +31,12 @@ const Invite = ({ onCancel, prj_id }) => {
 
     useEffect(() => {
         member.forEach((item) => {
-            if (user.user_name === item.user_name) {
+            console.log(user, item);
+            if (user.user_id === item.member_id) {
                 setRole(item.role);
             }
         });
-    }, [user.user_name, member]);
+    }, [member]);
 
     const date = new Date();
     const formattedDate = `${date.getDate()}/${

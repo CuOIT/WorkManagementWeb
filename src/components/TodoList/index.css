@@ -136,10 +136,6 @@
     display: flex;
 }
 
-.task_list:hover {
-    background-color: #c4e4f2;
-}
-
 .form_add,
 .form_edit {
     display: none;

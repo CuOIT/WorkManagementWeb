@@ -5,6 +5,7 @@ import icon_exit from "../../asset/cross.png";
 import { Link } from "react-router-dom";
 import { updateNameWorkspace } from "../../redux/reducer/nameWorkspaceReducer";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const Workspace = () => {
     const [listofWorkspace, setListWorkspace] = useState([]);
     const [listofWork, setListWork] = useState([]);
@@ -20,9 +21,10 @@ const Workspace = () => {
     const due_date_element = document.querySelector(".due_date input");
     const [formDeleteWorkspace, setFormDeleteWorkspace] = useState(false);
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const fetchData = async () => {
         const user = JSON.parse(localStorage.getItem("user"));
+        setUser(user);
         await axiosData.get(`/api/workspace?user_id=${user.user_id}`).then((response) => {
             setListWorkspace(response.data.data);
         });
@@ -31,8 +33,6 @@ const Workspace = () => {
         });
     };
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("user"));
-        setUser(user);
         fetchData();
     }, []);
     function openFormAddTask(a) {
@@ -204,14 +204,9 @@ const Workspace = () => {
             })
 
             .then((response) => {
-                console.log(response);
+                const workspace = response.data.data;
+                setListWorkspace([...listofWorkspace, workspace]);
             });
-        const new_workspace = {
-            name: name.value,
-            user_id: user.user_id,
-        };
-        const newlistOfWorkspace = [...listofWorkspace, new_workspace];
-        setListWorkspace(newlistOfWorkspace);
     };
     const handle_showDeleteWorkspace = (id) => {
         setWorkSpaceId(id);

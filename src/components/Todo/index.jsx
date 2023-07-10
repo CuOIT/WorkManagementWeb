@@ -5,7 +5,6 @@ import { BsFlagFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { add_todo, delete_todo, update_todo } from "../../redux/reducer/todolistReducer";
 const Todo = ({ todo, index, type }) => {
-    console.log({ todo });
     const [editToDo, setEditToDo] = useState({ ...todo, edit: false, deleted: false });
     const [showLevel, setShowLevel] = useState(false);
     const dispatch = useDispatch();
@@ -20,8 +19,16 @@ const Todo = ({ todo, index, type }) => {
         form_time.style.display = "none";
         form_task.style.display = "none";
         form_edit.style.display = "block";
+        toggleClassName();
     };
 
+    const toggleClassName = () => {
+        const todoList = document.querySelectorAll(".task_list");
+        console.log(todoList);
+        todoList.forEach((item) => {
+            item.classList.toggle("task_list_hover");
+        });
+    };
     const handleCancelEditTodo = () => {
         const form_task = document.getElementById(`form_task-${todo.id}`);
         const form_time = document.getElementById(`time-${todo.id}`);
@@ -29,11 +36,14 @@ const Todo = ({ todo, index, type }) => {
         form_task.style.display = "flex";
         form_time.style.display = "block";
         form_edit.style.display = "none";
+        toggleClassName();
     };
     const handleSubmitEditTodo = () => {
-        setEditToDo({ ...editToDo, edit: true });
+        const time = new Date();
+        const id = time.getTime();
         console.log({ editToDo });
-        dispatch(update_todo(editToDo));
+        dispatch(update_todo({ ...editToDo, id, edit: true }));
+        setEditToDo({ ...editToDo, id, edit: true });
         handleCancelEditTodo();
     };
 
@@ -48,7 +58,7 @@ const Todo = ({ todo, index, type }) => {
         setShowLevel(!showLevel);
     };
     return (
-        <div key={index} className="task_list" id={todo.id}>
+        <div key={index} className="task_list task_list_hover" id={todo.id}>
             <div className="form_task" id={`form_task-${todo.id}`}>
                 <div className="checkbox-container">
                     <input
@@ -116,7 +126,7 @@ const Todo = ({ todo, index, type }) => {
                             value={editToDo?.end_time}
                             onChange={(e) =>
                                 setEditToDo({
-                                    ...todo,
+                                    ...editToDo,
                                     end_time: e.target.value,
                                 })
                             }

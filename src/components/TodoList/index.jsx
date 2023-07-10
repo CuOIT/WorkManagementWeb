@@ -14,24 +14,6 @@ const TodoList = () => {
     const [date, setDate] = useState("");
     const dispatch = useDispatch();
     const fetchTodoList = async () => {
-        if (user_id) {
-            try {
-                const response = await axiosData.get(`/api/to-do?user_id=${user_id}&date=${date}`);
-                const ftodoList = response.data.data;
-                ftodoList.sort((a, b) => a.level - b.level);
-                console.log(ftodoList);
-                dispatch(set_todoList(ftodoList));
-            } catch (error) {
-                console.error("Error fetching tasks:", error);
-            }
-        } else {
-            const ftodoList = JSON.parse(localStorage.getItem("todoList"));
-            ftodoList = ftodoList ? ftodoList : [];
-            ftodoList.sort((a, b) => a.level - b.level);
-            dispatch(set_todoList(ftodoList));
-        }
-    };
-    useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"));
         const user_id = user?.user_id;
         setUser_id(user_id);
@@ -41,14 +23,33 @@ const TodoList = () => {
         const days = ("0" + today.getDate()).slice(-2);
         const todayString = year + "-" + month + "-" + days;
         const displayToday = days + "-" + month + "-" + year;
-        setDate(todayString);
         document.getElementById("today").innerHTML = displayToday;
+        setDate(todayString);
+        if (user_id) {
+            try {
+                const response = await axiosData.get(`/api/to-do?user_id=${user_id}&date=${todayString}`);
+                const ftodoList = response.data.data;
+                ftodoList.sort((a, b) => a.level - b.level);
+                console.log(ftodoList);
+                dispatch(set_todoList(ftodoList));
+            } catch (error) {
+                console.error("Error fetching tasks:", error);
+            }
+        } else {
+            let ftodoList = JSON.parse(localStorage.getItem("todoList"));
+            ftodoList = ftodoList ? ftodoList : [];
+            ftodoList.sort((a, b) => a.level - b.level);
+            dispatch(set_todoList(ftodoList));
+        }
+    };
+    useEffect(() => {
         fetchTodoList();
     }, []);
 
     const handleButtonAddTodo = () => {
         const newTodo = {
             id: 0,
+            name: "",
             start_time: "",
             end_time: "",
             level: 4,
@@ -66,9 +67,10 @@ const TodoList = () => {
         if (user_id) {
             todoList.forEach((item) => {
                 if (item.deleted) {
-                    todoList = todoList.filter((x) => {
+                    const newTodoList = todoList.filter((x) => {
                         return item.id !== x.id;
                     });
+                    dispatch(set_todoList(newTodoList));
                     if (item.id) {
                         const newPromise = new Promise(async (resolve, reject) => {
                             try {
@@ -142,7 +144,6 @@ const TodoList = () => {
             </div>
             <div className="todolist-content">
                 <div className="todolist">
-                    {console.log(todoList)}
                     {todoList?.map((item, index) => {
                         if (item !== null && !item.deleted) return <Todo todo={item} index={index} />;
                     })}

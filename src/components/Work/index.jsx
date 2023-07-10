@@ -21,7 +21,6 @@ const Work = () => {
     const [showSort, setShowSort] = useState(false);
     const nameWorkspace = useSelector(selectNameWorkspace);
     const dispatch = useDispatch();
-    const accessToken = useSelector(selectAccessToken);
     useEffect(() => {
         axiosData.get(`/api/work?workspace_id=${workspace_id}`).then((response) => {
             setListWork(response.data.data);
@@ -140,18 +139,11 @@ const Work = () => {
                 workspace_id: workspace_id,
             })
 
-            .then((response) => {
-                console.log(response);
+            .then((res) => {
+                const newWork = res.data.data;
+                const newListOfWorks = [...listWork, newWork];
+                setListWork(newListOfWorks);
             });
-        const newWork = {
-            name: name.value,
-            due_date: dueDate.value,
-            workspace_id: workspace_id,
-            isDone: false,
-        };
-
-        const newListOfWorks = [...listWork, newWork];
-        setListWork(newListOfWorks);
 
         document.querySelector(".input_name input").value = "";
         document.querySelector(".input_description input").value = "";

@@ -34,7 +34,9 @@
 .task_edit {
     text-align: left;
 }
-
+.task_list_hover:hover {
+    background-color: #c4e4f2;
+}
 .task_edit_input input {
     border: none;
     outline: none;

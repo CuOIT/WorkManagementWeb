@@ -5,8 +5,7 @@ import { PublicRouter } from "./public";
 import { PrivateRouter } from "./private";
 
 import EmptyLayout from "../layout/Empty";
-import { useSelector } from "react-redux";
-import { selectAccessToken } from "../redux/reducer/userReducer";
+import ChoicePopUp from "../components/ChoicePopUp";
 
 const Router = () => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -35,7 +34,9 @@ const Router = () => {
                             element={
                                 <Layout>
                                     <Suspense fallback={<>Loading...</>}>
-                                        <Container />
+                                        <>
+                                            <Container />
+                                        </>
                                     </Suspense>
                                 </Layout>
                             }
@@ -44,11 +45,9 @@ const Router = () => {
                 })}
                 {PrivateRouter.map((route, index) => {
                     //handleLogic accessToken
-                    if (false) {
-                        navigate("/login");
-                    }
                     const Container = route.element;
                     const Layout = checkLayout(route);
+
                     return (
                         <Route
                             path={route.path}
@@ -56,7 +55,21 @@ const Router = () => {
                             element={
                                 <Layout>
                                     <Suspense fallback={<>Loading...</>}>
-                                        <Container />
+                                        <>
+                                            <Container />
+                                            {!user && (
+                                                <ChoicePopUp
+                                                    content={"Login to use this feature!"}
+                                                    handleChoice={(choice) => {
+                                                        if (choice) {
+                                                            navigate("/login");
+                                                        } else {
+                                                            navigate("/");
+                                                        }
+                                                    }}
+                                                />
+                                            )}
+                                        </>
                                     </Suspense>
                                 </Layout>
                             }
