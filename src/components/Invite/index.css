@@ -1,0 +1,187 @@
+.form_invite{
+    height: fit-content;
+    width: 400px;
+    border: 2px solid rgb(8, 202, 198);
+    box-shadow: 0px 15px 20px rgba(44, 19, 169, 0.337);
+    padding: 10px;
+    margin: auto;
+    align-items: center;
+    border-radius: 16px;
+    background-color: white;
+}
+
+.header_invite{
+    display: flex;
+    padding: 5px;
+    border-bottom: 1px solid cadetblue;
+    position: relative;
+}
+
+.header_invite h3{
+    font-size: 16px;
+    margin-right: 18vh;
+}
+
+.header_invite button{
+    background-color: white;
+    border-bottom: white;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+.header_invite button:hover{
+    border-radius: 5px;
+    background-color: gray;
+    cursor: pointer;
+}
+
+.form_invite .body{
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.form_invite .body .action{
+    padding: 5px 0;
+    display: flex;
+}
+
+.form_invite .body .action input{
+    width: 270px;
+    border-radius: 5px;
+    border: 2px solid gray;
+    font-size: 14px;
+    padding: 5px;
+    margin-right: 1vh ;
+}
+
+.form_invite .body .action input:hover{
+    cursor: auto;
+}
+
+.form_invite .body .action button{
+    background-color: rgb(192, 240, 255);
+    padding: 5px 15px;
+    border-radius: 5px;
+    box-shadow: rgba(86, 72, 99, 0.2) 0 10px 10px 0;
+}
+
+.form_invite .body .action button:hover{
+    cursor: pointer;
+    background-color: aqua;
+}
+
+.form_invite .body .action button span{
+    color: black;
+}
+
+.form_invite .body .partner{
+    display: flex;
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px solid white;
+    position: relative;
+}
+
+.form_invite .body .partner:hover{
+    background-color: rgb(240, 240, 240);
+    cursor: default;
+}
+
+.list_partner{
+    height: 300px;
+    overflow: auto;
+}
+
+.form_invite .body .partner .avatar{
+    border: 2px solid rgb(160, 23, 121);
+    border-radius: 50%;
+    padding: 9px 10px;
+    margin-right: 10px;
+}
+
+.form_invite .body .partner .avatar p{
+    margin : 2px 3px 0px 3px;
+    font-weight: 900;
+    color: rgb(255, 127, 127)
+}
+
+.form_invite .body .partner .field_infor div{
+    font-size: 14px;
+    opacity: 0.5;
+}
+
+.form_invite .body .partner .field_infor .Name{
+    display: flex;
+}
+
+.form_invite .body .partner .field_infor .Name div{
+    opacity: 1;
+    margin-left: 5px;
+}
+
+.form_invite .body .partner button{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: none;
+    border: none;
+    background-color: rgb(240, 240, 240);
+}
+
+.form_invite .body .partner button svg{
+    margin-top: 3px;
+}
+
+.form_invite .body .partner button:hover{
+    cursor: pointer;
+    border-radius: 5px;
+    color: red;
+}
+
+.form_invite .body .partner:hover .action_project{
+    display: block;
+}
+
+.franchise div{
+    padding: 1px 2px;
+    position: absolute;
+    right: 35px;
+    background-color: rgb(240, 240, 240);
+    font-size: 18px;
+}
+
+.franchise div:hover{
+    border-radius: 5px;
+}
+
+.no-right{
+    text-align: center;
+    padding: 25px;
+    font-size: 24px;
+}
+
+.list_search{
+   display: flex;
+   width: 350px;
+   overflow: auto;
+}
+
+.list_search li{
+    padding: 3px 10px;
+    border: 1px solid wheat;
+    margin-left: 10px;
+    border-radius: 10px;
+    background-color: rgb(215, 239, 250);
+    width: fit-content;
+    height: fit-content;
+}
+
+.list_search li div p{
+    font-size: 15px
+}
+
+.list_search li:hover{
+    cursor: pointer;
+}
+

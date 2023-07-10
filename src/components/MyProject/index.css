@@ -1,0 +1,503 @@
+.blur {
+    filter: blur(2px);
+    pointer-events: none;
+}
+
+.invite-container {
+    position: absolute;
+    top: 30%;
+    max-height: 300px;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    filter: none;
+}
+
+.project_screen {
+    margin-top: 60px;
+    margin-left: 180px;
+    margin-right: 180px;
+    margin-bottom: 200px;
+    max-height: 720px;
+    overflow: auto;
+}
+
+.project_container {
+    background-color: rgb(252, 252, 253);
+    margin-top: 10px;
+}
+.project_container .project_item {
+    border-bottom: 1px solid rgb(235, 233, 233);
+    font-family: "Times New Roman", Times, serif;
+    /* box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3); */
+}
+.check_box_project {
+    margin-top: 15px;
+    margin-left: 15px;
+}
+.project_infor {
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+.project_infor .project_description p {
+    color: rgb(138, 138, 134);
+    font-size: 13px;
+}
+.project_infor .date_project p {
+    font-size: 14px;
+    color: red;
+}
+
+.project_title h2 {
+    color: rgb(255, 7, 7);
+}
+.project_header {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 20px;
+    padding-bottom: 20px;
+    border-bottom: solid 1px rgb(195, 193, 193);
+}
+
+.project_header .add_task_project button {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 8px;
+    background-color: rgb(253, 38, 38);
+    color: rgb(246, 238, 238);
+}
+
+.project_header_right {
+    margin-right: 250px;
+}
+.project_add_task_header .input_task_name {
+    margin-top: 1px;
+}
+.project_select_people {
+    margin-top: 8px;
+}
+
+.project_header_left input {
+    border-radius: 6px;
+    padding-left: 5px;
+}
+.project_add_task {
+    border-radius: 10px;
+    border: solid 1px rgb(220, 212, 212);
+}
+.project_add_task .form_container {
+    margin: 10px;
+    display: flex;
+    background-color: white;
+}
+.form_container .project_add_task_right {
+    margin-left: auto;
+}
+.project_add_task_right input {
+    width: 100%;
+    height: 30px;
+}
+.project_add_task .form_footer {
+    margin-top: 100px;
+}
+.button_add_task_project {
+    margin-left: 15px;
+    margin-top: 5px;
+    background-color: white;
+}
+.button_add_task_project:hover {
+    cursor: pointer;
+}
+.button_add_task_project:hover .icon_add {
+    background-color: rgb(254, 0, 0);
+    padding-left: 4.5px;
+    padding-right: 4.5px;
+    color: white;
+    cursor: pointer;
+}
+.button_add_task_project span {
+    margin-right: 22px;
+}
+.project_add_task_left input {
+    border: none;
+    outline: none;
+    height: 30px;
+}
+input:hover {
+    cursor: pointer;
+}
+select:hover {
+    cursor: pointer;
+}
+.project_item:hover {
+    cursor: pointer;
+    background-color: rgba(248, 247, 247, 0.675);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+.selected_task {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    /* width: 850px;
+  height: 650px; */
+
+    border-radius: 30px;
+}
+.shadown {
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền đen với mức độ trong suốt 0.5 */
+    z-index: 9999;
+    width: max-content;
+    height: max-content;
+}
+#home_page_container {
+    background-color: red;
+}
+.select_task_header {
+    display: flex;
+    justify-content: right;
+    column-gap: 20px;
+}
+.select_task_header div {
+    cursor: pointer;
+}
+.select_task_header {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: aliceblue;
+    padding-bottom: 15px;
+    border-bottom: solid 1px rgb(192, 188, 188);
+}
+.select_task_content {
+    padding-left: 20px;
+}
+
+.select_task_header img {
+    width: 18px;
+    height: 18px;
+}
+.select_task_content {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+}
+.task_checkbox_project {
+    border-radius: 100px;
+}
+.checkBoxAndName_des {
+    display: flex;
+    flex-direction: row;
+}
+
+.name_project_item p {
+    font-size: 19px;
+    font-weight: 400;
+}
+.name_description_task {
+    margin-left: 25px;
+}
+.name_description_task .nameOfTask p {
+    font-size: 18px;
+    font-weight: 500;
+}
+.name_description_task .descriptionOfTask {
+    font-size: 14px;
+}
+.all_select_task {
+    height: 100%;
+}
+.select_task_content {
+    height: 90.5%;
+}
+
+.comment_task {
+    margin-left: 50px;
+
+    margin-top: 40px;
+}
+.form_comment input {
+    width: 400px;
+    padding-left: 20px;
+    border-radius: 20px;
+    padding-top: 6px;
+    padding-bottom: 5px;
+    border: solid 1px rgb(174, 171, 171);
+}
+.comment_task .logo_user {
+    align-items: center;
+    display: flex;
+}
+.form_comment input:focus {
+    border: solid 1px rgb(148, 145, 145);
+    outline: none;
+}
+.comment_task .logo_user img {
+    border-radius: 100px;
+}
+.comment_task .input_comment {
+    display: flex;
+    column-gap: 40px;
+
+    align-items: center;
+}
+.cover_screen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.cover_comment {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.select_task_right {
+    background-color: rgb(246, 246, 245);
+    height: 100%;
+    padding-right: 20px;
+    border-bottom-right-radius: 25px;
+}
+.Label_project,
+.due_date_task,
+.member_assigned {
+    margin-left: 15px;
+}
+.checkBoxAndName_des,
+.Label_project {
+    margin-top: 10px;
+}
+.selected_task_titelProject,
+.abcde,
+.member_titel {
+    font-size: 14px;
+    color: rgb(150, 146, 146);
+    font-weight: 400;
+}
+.selected_task_nameProject {
+    display: flex;
+    margin-top: 15px;
+    font-size: 15px;
+    column-gap: 15px;
+}
+.selected_task_nameProject img {
+    width: 12px;
+    height: 12px;
+}
+.Label_project {
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgb(202, 197, 197);
+}
+.due_date_task,
+.member_assigned {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgb(202, 197, 197);
+}
+.abcde {
+    padding-bottom: 10px;
+}
+.calendar_task {
+    display: flex;
+    column-gap: 15px;
+    font-size: 14px;
+}
+.icon_add_project button:hover {
+    cursor: pointer;
+}
+.project_header_right1 {
+    display: flex;
+    column-gap: 15px;
+    align-items: center;
+}
+.project_header_edit1,
+.project_header_delete1,
+.project_header_invite {
+    display: flex;
+    font-size: 200;
+    color: rgb(83, 81, 81);
+    padding-bottom: 8px;
+}
+.hnnn {
+    margin-left: 3px;
+    display: flex;
+    align-items: center;
+}
+.hmmm {
+    display: flex;
+    align-items: center;
+}
+.project_header_edit1:hover,
+.project_header_delete1:hover,
+.project_header_invite:hover {
+    cursor: pointer;
+    color: red;
+}
+.announce_delete_project {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+
+    width: 550px;
+    border-radius: 10px;
+    z-index: inherit;
+}
+.ggg {
+    margin: 15px;
+}
+.ggg img {
+    width: 18px;
+    height: 18px;
+}
+.ggg p {
+    font-weight: 500;
+    font-size: 16px;
+
+    font-family: "Segoe UI", Roboto, Noto, Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol";
+}
+.ggg2 {
+    margin: 15px;
+    display: flex;
+    justify-content: center;
+}
+.ggg2 p {
+    color: rgb(87, 82, 82);
+    display: inline;
+    font-size: 15px;
+}
+.hhhd {
+    color: black;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.announce_delete_header {
+    display: flex;
+    justify-content: space-between;
+}
+.hghg {
+    margin-left: 200px;
+}
+.delete_project_footer {
+    display: flex;
+    margin: 15px;
+    margin-top: 45px;
+    justify-content: center;
+}
+.delete_project_footer button {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.accept_delete_project button {
+    margin-left: 10px;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    font-size: 17px;
+    font-weight: 500;
+}
+.cancel_delete_project button {
+    background-color: rgb(174, 244, 167);
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 5px;
+}
+.announce_delete_project :hover {
+    cursor: pointer;
+}
+.project_header_right1 {
+    display: flex;
+    align-items: baseline;
+    margin-top: 10px;
+    color: rgb(73, 70, 70);
+}
+.kkkk {
+    margin-left: auto;
+}
+.project_edit_task {
+    position: fixed;
+    width: 800px;
+    height: 190px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    background-color: rgb(221, 241, 248);
+    border-radius: 10px;
+}
+.cover_screen .project_add_task {
+    position: fixed;
+    width: 800px;
+    height: 190px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    background-color: white;
+    border-radius: 10px;
+}
+.project_edit_task2 {
+    background-color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 550px;
+}
+.project_edit_form_container {
+    margin-left: 20px;
+    margin-right: 30px;
+    margin-top: 20px;
+}
+.project_edit_form_container input {
+    width: 100%;
+    height: 30px;
+    margin-bottom: 20px;
+    border: solid 1px red;
+    padding-left: 10px;
+}
+.project_edit_form_container select {
+    width: 100%;
+    height: 30px;
+    padding-left: 7px;
+    border: solid 1px red;
+}
+.project_edit_form_container p {
+    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: 400;
+}
+.project_edit_form_container .form_footer {
+    margin-top: 40px;
+}
+.project_edit_form_container .form_footer button {
+    font-size: 18px;
+    font-weight: 500;
+}
+.project_add_task select {
+    height: 28px;
+}
+.project_container .task_checkbox {
+    border: solid 3px red;
+}

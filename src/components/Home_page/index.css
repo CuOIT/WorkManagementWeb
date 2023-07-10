@@ -1,8 +1,0 @@
-.homepage_sidebar_content{
-  min-height: 841px;
-  height: 100%;
-  background-color: rgba(232, 229, 203, 0.886);
-  display: grid;
-  grid-template-columns: 1fr 4.3fr;
-  margin-top: 50px;
-}
