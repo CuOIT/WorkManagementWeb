@@ -97,9 +97,11 @@ const MyProject = () => {
         }
         setShowDeleteProject(false);
     };
+
     const OpenEditProject = () => {
         setShowEditProject(true);
     };
+    
     const HideEditProject = () => {
         setShowEditProject(false);
     };

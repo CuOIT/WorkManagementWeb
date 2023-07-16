@@ -51,10 +51,6 @@
     float: right;
 }
 
-.navbar_item:hover {
-    cursor: pointer;
-}
-
 .announce_container {
     position: absolute;
     top: 50px;
@@ -87,4 +83,17 @@
 .avatarhere p {
     color: #3498db;
     font-weight: 900;
+}
+
+#button-login{
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 16px;
+    color: white;
+    font-weight: 900;
+    background: -webkit-linear-gradient(left, #977d42, #b09556, #d7b974, #f7d687);
+}
+
+#button-login:hover{
+    cursor: pointer;
 }

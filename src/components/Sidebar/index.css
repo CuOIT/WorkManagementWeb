@@ -5,7 +5,7 @@
 }
 
 .sidebar_container{
-    min-width: 200px;
+    min-width: 220px;
 }
 
 .sidebar_hidden {
@@ -57,8 +57,12 @@ a {
 
 .icon_add_project{
     margin-right: -10px;
-    padding: 0px 6px;
+    padding: 0px 7px;
     border-radius: 50%;
+}
+
+.icon_add_project button svg{
+    margin-top: 7px;
 }
 
 .icon_add_project:hover{
@@ -202,4 +206,8 @@ a {
 }
 .add_project_footer button:hover {
     cursor: pointer;
+}
+
+.project_all_title{
+    margin-top: 5px;
 }
