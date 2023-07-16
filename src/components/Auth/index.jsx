@@ -77,12 +77,15 @@ const LoginForm = () => {
             birthday: birthday.value,
         };
         console.log(payload);
-        axiosAuth.post("/api/user/signup", payload).then((res) => {
-            console.log(res);
-            if (res.code === 0) {
-            } else {
-            }
-        });
+        axiosAuth
+            .post("/api/user/signup", payload)
+            .then((res) => {
+                console.log(res);
+                toast.success("Sign up successfully");
+            })
+            .catch((error) => {
+                toast.error("Error occured");
+            });
     };
 
     return (

@@ -34,8 +34,11 @@ const todolistSlice = createSlice({
         },
         delete_todo(state, action) {
             const deletedTodo = action.payload;
-            const newTodoList = state.todoList.filter((item) => {
-                return item.id !== deletedTodo.id;
+            const newTodoList = state.todoList.map((item) => {
+                if (item.id == deletedTodo.id) {
+                    const newItem = { ...item, deleted: true };
+                    return newItem;
+                } else return item;
             });
             state.todoList = newTodoList;
         },

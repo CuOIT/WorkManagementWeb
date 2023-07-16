@@ -99,13 +99,15 @@ const MyProject = () => {
     const handleEditProject = (event) => {
         event.preventDefault();
         const { name, description, start_date, end_date } = event.target;
-        axiosData.put(`/api/project/${project_id}`, {
+        const updatedProject = {
             name: name.value,
             description: description.value,
             start_date: start_date.value,
             end_date: end_date.value,
             status: "start",
-        });
+        };
+        console.log(updatedProject);
+        axiosData.put(`/api/project/${project_id}`, updatedProject);
         setProjectName(name.value);
         dispatch(updateNameProject(name.value));
         dispatch(updateRenderSidebar(true));
