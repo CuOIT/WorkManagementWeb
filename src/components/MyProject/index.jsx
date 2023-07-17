@@ -88,6 +88,7 @@ const MyProject = () => {
                 });
             navigate("/");
         }
+        dispatch(updateRenderSidebar(true));
         setShowDeleteProject(false);
     };
     const OpenEditProject = () => {
