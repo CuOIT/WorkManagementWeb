@@ -47,7 +47,7 @@ const Todo = ({ todo, index, type }) => {
     const handleDeleteTodo = () => {
         setEditToDo({ ...editToDo, deleted: true });
 
-        dispatch(delete_todo({ ...editToDo, deleted: true }));
+        dispatch(delete_todo(todo));
     };
 
     const handleShowLevel = () => {

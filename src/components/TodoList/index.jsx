@@ -4,7 +4,7 @@ import "./index.css";
 import { axiosData } from "../../services/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { GrAdd } from "react-icons/gr";
-
+import toast, { Toaster } from "react-hot-toast";
 import Todo from "../Todo";
 import { add_todo, selectTodoList, set_todoList } from "../../redux/reducer/todolistReducer";
 
@@ -38,6 +38,7 @@ const TodoList = () => {
         } else {
             let ftodoList = JSON.parse(localStorage.getItem("todoList"));
             ftodoList = ftodoList ? ftodoList : [];
+            ftodoList = ftodoList.filter((item) => (item.date = todayString));
             ftodoList.sort((a, b) => a.level - b.level);
             dispatch(set_todoList(ftodoList));
         }
@@ -114,7 +115,13 @@ const TodoList = () => {
                     promiseList.push(newPromise);
                 }
             });
-            Promise.all(promiseList);
+            Promise.all(promiseList)
+                .then((res) => {
+                    toast.success("Save todolist successfully");
+                })
+                .catch((error) => {
+                    toast.error("Error occured");
+                });
         } else {
             todoList.forEach((item) => {
                 if (item.deleted || !(item.new && item.edit)) {
@@ -122,7 +129,7 @@ const TodoList = () => {
                         return item.id !== x.id;
                     });
                 } else if (item.edit) {
-                    item.edit = false;
+                    item = { ...item, edit: false };
                     if (!item.id) {
                         const date = new Date();
                         const now = date.getTime();
@@ -131,10 +138,12 @@ const TodoList = () => {
                 }
             });
             localStorage.setItem("todoList", JSON.stringify(todoList));
+            toast.success("Save todolist successfully");
         }
     };
     return (
         <div className="todolist-container">
+            <Toaster />
             <div className="view_header">
                 <div className="date">
                     <h2>Let's see what you need to do today!</h2>
