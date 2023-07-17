@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import "./index.css";
-import { useSelector } from "react-redux";
-import { selectAccessToken, selectUserData } from "../../redux/reducer/userReducer";
 import robot from "../../asset/robot.gif";
+import { useEffect } from "react";
 import { axiosData } from "../../services/axiosInstance";
 
 const UserProfile = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const [user, setUser] = useState([]);
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        setUser(user);
+    }, []);
     console.log(user);
+
     const [editUser, seteditUser] = useState({});
     const [showEdit, setShowEdit] = useState(false);
 
@@ -26,27 +30,25 @@ const UserProfile = () => {
     };
 
     const handleSubmit = async () => {
-        const updatedUser = {
+        console.log(user.user_id);
+        await axiosData.put(`/api/user/update/${user.user_id}`, {
             ...user,
             birthday: editUser.birthday,
             email: editUser.email,
             gender: editUser.gender,
             user_name: editUser.name,
             phone: editUser.phone,
-        };
-        await axiosData.put(`/api/user/update/${user.user_id}`, updatedUser).then((data) => {
-            localStorage.setItem("user", JSON.stringify(updatedUser));
         });
     };
 
-    const convertDate = (dueDate) => {
-        const dateParts = dueDate.split("-");
-        const year = dateParts[0];
-        const month = dateParts[1];
-        const day = dateParts[2];
-        const formattedDueDate = `${day}/${month}/${year}`;
-        return formattedDueDate;
-    };
+    // const convertDate = (dueDate) => {
+    //     const dateParts = dueDate.split("-");
+    //     const year = dateParts[0];
+    //     const month = dateParts[1];
+    //     const day = dateParts[2];
+    //     const formattedDueDate = `${day}/${month}/${year}`;
+    //     return formattedDueDate;
+    // }
 
     return (
         <div className="container_profile">
@@ -95,7 +97,7 @@ const UserProfile = () => {
                             </div>
                             <div className="profile-item">
                                 <strong>Birthday:</strong>
-                                <span>{convertDate(user.birthday)}</span>
+                                <span>{user.birthday}</span>
                             </div>
                             <div className="profile-item">
                                 <strong>Gender:</strong>
@@ -151,7 +153,6 @@ const UserProfile = () => {
                             <div className="profile-item">
                                 <strong>Gender:</strong>
                                 <select
-                                    name={editUser.gender || "Noshare"}
                                     onChange={(e) =>
                                         seteditUser({
                                             ...editUser,
@@ -159,9 +160,9 @@ const UserProfile = () => {
                                         })
                                     }
                                 >
+                                    <option value="">Noshare</option>
                                     <option value="female">Female</option>
                                     <option value="male">Male</option>
-                                    <option value="">Noshare</option>
                                 </select>
                             </div>
                             <div className="profile-item">

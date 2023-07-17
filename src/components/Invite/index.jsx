@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
+import axios from "axios";
 import { axiosData } from "../../services/axiosInstance";
 import { FiKey } from "react-icons/fi";
-import { useSelector } from "react-redux";
 
 const Invite = ({ onCancel, prj_id }) => {
     const [value, setValue] = useState("");
     const [member, setMember] = useState([]);
     const [searchList, setSearchList] = useState([]);
     const [targetID, setID] = useState("");
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState([]);
     const fetchData = async () => {
         const user = JSON.parse(localStorage.getItem("user"));
         setUser(user);
@@ -63,7 +63,7 @@ const Invite = ({ onCancel, prj_id }) => {
     };
 
     const handleLeave = async (index) => {
-        await axiosData.delete("/api/project/leave-project", {
+        await axios.delete("http://localhost:8080/api/project/leave-project", {
             project_id: prj_id,
             member_id: index,
         });

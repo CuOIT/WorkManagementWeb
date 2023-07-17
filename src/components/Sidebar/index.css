@@ -4,8 +4,8 @@
     margin-right: 25px;
 }
 
-.sidebar_container{
-    min-width: 200px;
+.sidebar_container {
+    min-width: 220px;
 }
 
 .sidebar_hidden {
@@ -55,13 +55,17 @@ a {
     display: none;
 }
 
-.icon_add_project{
+.icon_add_project {
     margin-right: -10px;
-    padding: 0px 6px;
+    padding: 0px 7px;
     border-radius: 50%;
 }
 
-.icon_add_project:hover{
+.icon_add_project button svg {
+    margin-top: 7px;
+}
+
+.icon_add_project:hover {
     background-color: white;
 }
 
@@ -203,13 +207,13 @@ a {
 .add_project_footer button:hover {
     cursor: pointer;
 }
-.add_or_show .icon_add_project button{
+.add_or_show .icon_add_project button {
     align-items: baseline;
 }
-.add_or_show .icon_show_project button{
+.add_or_show .icon_show_project button {
     align-items: center;
 }
-.add_or_show .icon_show_project{
+.add_or_show .icon_show_project {
     align-items: baseline;
     margin-top: 1px;
 }

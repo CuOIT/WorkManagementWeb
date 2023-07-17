@@ -220,7 +220,7 @@ const Workspace = () => {
     }
     return (
         <div className="container_workspace">
-            <div className="icon_add_workspace">
+            {user &&   <div className="icon_add_workspace">
                 <div className="form_add_workspace">
                     <form onSubmit={onSubmit_workspace} method="post">
                         <div className="input_name_workspace">
@@ -231,7 +231,7 @@ const Workspace = () => {
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>}
 
             <div className="workspace_screen">
                 {listofWorkspace.map((value1, key) => {

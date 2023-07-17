@@ -91,9 +91,11 @@ const MyProject = () => {
         dispatch(updateRenderSidebar(true));
         setShowDeleteProject(false);
     };
+
     const OpenEditProject = () => {
         setShowEditProject(true);
     };
+    
     const HideEditProject = () => {
         setShowEditProject(false);
     };

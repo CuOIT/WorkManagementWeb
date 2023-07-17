@@ -115,7 +115,7 @@ const Sidebar = () => {
                         </div>
                     </div>
                     <div className="add_or_show">
-                        <div className="icon_add_project" onClick={addNewProject}>
+                        {user && <div className="icon_add_project" onClick={addNewProject}>
                             <button>
                                 <svg width="13" height="13">
                                     <path
@@ -125,7 +125,7 @@ const Sidebar = () => {
                                     ></path>
                                 </svg>
                             </button>
-                        </div>
+                        </div>}
                         <div className="icon_show_project">
                             <button>
                                 <svg width="16" height="16" viewBox="0 0 16 16" className="aqv2kvH">
@@ -140,6 +140,7 @@ const Sidebar = () => {
                 </div>
                 <div className="list_of_project" style={{ display: showListProject ? "block" : "none" }}>
                     {listOfProject?.map((value, key) => {
+                        console.log(value)
                         return (
                             <Link key={key} onClick={() => show_project_selected(value.project_name)} to={`/project/${value.project_id}`}>
                                 <div className="project_item">
