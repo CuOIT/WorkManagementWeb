@@ -54,7 +54,7 @@ const Sidebar = () => {
         event.preventDefault();
         const { name, description, start_date, end_date } = event.target;
 
-        console.log(name.value);
+        
         axiosData
             .post("/api/project", {
                 name: name.value,
@@ -67,7 +67,19 @@ const Sidebar = () => {
             .then((response) => {
                 console.log(response);
             });
+            dispatch(updateRenderSidebar(true));
+        // const newProject = {
+        //     project_name: name.value,
+        //     description: description.value,
+        //     start_date: start_date.value,
+        //     end_date: end_date.value,
+        //     status: "Pending",
+        //     user_id: user.user_id,
+        // } 
+        // const newlistProject = [...listOfProject,newProject]
+        // setlistOfProject(newlistProject)   
         hideAddProject();
+       
     };
     return (
         <div className="sidebar_container">

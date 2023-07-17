@@ -203,3 +203,13 @@ a {
 .add_project_footer button:hover {
     cursor: pointer;
 }
+.add_or_show .icon_add_project button{
+    align-items: baseline;
+}
+.add_or_show .icon_show_project button{
+    align-items: center;
+}
+.add_or_show .icon_show_project{
+    align-items: baseline;
+    margin-top: 1px;
+}
